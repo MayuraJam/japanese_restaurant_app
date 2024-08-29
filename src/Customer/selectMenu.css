@@ -1,0 +1,22 @@
+.mainMenu { /*ขนาดของเนื้อหาหลักของเมนู*/
+    margin-left: 180px; /* Same as the width of the sidenav */
+    margin-top: 50px;
+    /*margin-right: 340px;*/
+    font-size: 20px; /* Increased text to enable scrolling */
+    padding: 10px 10px;
+    background-color: #FDF2E9
+    ;
+  }
+.innerbutton{
+    border: 1px solid #1A5276;
+    height:'40px';
+    margin-right: 15px;
+    margin-left: 15px;
+    border-radius: 50px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+.hoverCard:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+ 
