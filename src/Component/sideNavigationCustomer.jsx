@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Component/sideNavigation.css";
 import Navbar from "./navBar";
@@ -12,6 +12,8 @@ import historyIcon from '../image/icon/history.png';
 import logoutIcon from '../image/icon/logout.png';
 
 const SideBarCustomer = () => {
+  const location = useLocation();
+
   return (
     <div>
       <div className="sidenav">
@@ -32,28 +34,28 @@ const SideBarCustomer = () => {
         </div>
         <div className=" mt-4">
           <div className="d-flex flex-column mb-2">
-            <a href="/Customer/menupage" className="d-flex align-items-center">
+            <a href="/Customer/menupage" className={`d-flex align-items-center ${location.pathname === "/Customer/menupage" ? "active" : ""}`}>
             <img src={riceIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               เมนูอาหาร
             </a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="/Customer/order">
+            <a href="/Customer/order" className={`d-flex align-items-center ${location.pathname === "/Customer/order" ? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
             รายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/> 
               ชำระเงิน</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={historyIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               ประวัติการสั่ง</a>

@@ -18,9 +18,9 @@
     display: block;
   }
   
-  .sidenav a:hover {
+  .sidenav a:hover{
     color: #1A5276;
-    background-color: #F9E79F;
+    background-color: white;
     border-radius: 15px;
   }
 
@@ -28,3 +28,10 @@
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
   }
+  .active{
+    color: #1A5276 !important;
+    background-color: white;
+    border-radius: 15px;
+  }
+
+ 

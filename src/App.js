@@ -12,7 +12,10 @@ import CustomerLogin from './Customer/loginPageCustomer.jsx';
 import OrderConfirmPage from './Customer/orderPage.jsx';
 import TablePage from './Admin/tablePage.jsx';
 import ReviewPage from './Customer/reviewPage.jsx';
-import LoginPage from './Original/loginPage.jsx';
+import LoginStaftPage from './Original/loginPage.jsx';
+import AuthenModel from './Original/authenModel.jsx';
+import AddMenuPage from './Admin/addMenuPage.jsx';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -25,18 +28,23 @@ function App() {
         </div>
       </div>*/}
     <Routes>
-      <Route path="/" element={<Test/>} />
+      {/*<Route path="/" element={<Test/>} />*/}
       {/*ฝั่งลูกค้า*/}
-      <Route path="/Opentable" element={<CustomerLogin/>} />
+      <Route path="/" element={<CustomerLogin/>} />
      {/*<Route path="/mainPage" element={<MainPage/>} />*/}
      <Route path="/Customer" element={<SideBarCustomer/>} />
      <Route path="/Customer/menupage" element={<MenuPage/>} />   
      <Route path="/Customer/order" element={<OrderConfirmPage/>} />   
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
         {/*ฝั่งพนักงาน*/}
-     <Route path="/Admin/table" element={<TablePage/>} />   
+     <Route path="/Admin/table/:staftID" element={<TablePage/>} />   
+     <Route path="/Admin/Addmenu" element={<AddMenuPage/>} />   
         {/*หน้าทั่วไป ใช่ร่วมกัน*/}
-        <Route path="/LoginPage" element={<LoginPage/>} />   
+        <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
+        
+         {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
+        <Route path="/AuthenModalPage" element={<AuthenModel/>} />  
+        
      </Routes>
     </Router>
   );

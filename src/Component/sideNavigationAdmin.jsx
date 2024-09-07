@@ -11,13 +11,16 @@ import addIcon from '../image/icon/add.png';
 import reportIcon from '../image/icon/report.png';
 import faqIcon from '../image/icon/question.png';
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation} from "react-router-dom";
 
 const SideBarAdmin = () => {
+  //นำไอดีพนักงานมาพักไว้ที่นี้ แล้วทำการแจกจ่ายไปในแต่ละปุ่ม
   const navigate = useNavigate();
   const toPage=(path) =>{
     navigate(path);
   } 
+
+  const location = useLocation();
   const handleLogout=()=>{
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -37,7 +40,7 @@ const SideBarAdmin = () => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          toPage('/LoginPage');
+          toPage('/LoginStaftPage');
           swalWithBootstrapButtons
             .fire({
               title: "ออกจากระบบสำเร็จ",
@@ -77,7 +80,7 @@ const SideBarAdmin = () => {
         </div>
         <div className="border border-info mt-4">
           <div className="d-flex flex-column border border-info">
-            <a href="/Admin/table" className="d-flex align-items-center">
+            <a href="/Admin/table/#" className={`d-flex align-items-center ${location.pathname === "/Admin/table/#" ? "active" : ""}`}>
             <img src={tableIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               โต๊ะ
             </a>
@@ -91,7 +94,6 @@ const SideBarAdmin = () => {
           <div className="d-flex flex-column border border-info">
             <a href="#">
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column border border-info">
@@ -101,25 +103,31 @@ const SideBarAdmin = () => {
               ชำระเงิน</a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
-            <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
-              FAQ</a>
-          </div>
-          <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="/Admin/Addmenu" className={`d-flex align-items-center ${location.pathname === "/Admin/Addmenu" ? "active" : ""}`}>
             <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               เพิ่มรายการเมนู</a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+              
+              จัดการรายการเมนู</a>
+          </div>
+          <div className="d-flex flex-column border border-info">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+              
+              FAQ</a>
+          </div>
+          <div className="d-flex flex-column border border-info">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
       
               รายงาน</a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               คู่มือ</a>

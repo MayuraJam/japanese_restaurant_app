@@ -5,8 +5,10 @@ import "../Customer/selectMenu.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
 import { Nav, Navbar, NavDropdown, Container, Row, Col,Card } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { useParams } from "react-router-dom";
 
 const TablePage = () => {
+  const { staftID } = useParams();
   return (
     <div>
       <SideBarAdmin />
@@ -15,7 +17,7 @@ const TablePage = () => {
         className="mainMenu border border-info "
         style={{ height: "calc(100vh - 50px)" }}
       >
-        <h4 className="my-3">รายการโต๊ะ</h4>
+        <h4 className="my-3">รายการโต๊ะ id: {staftID}</h4>
         <div
           style={{
             display: "grid",

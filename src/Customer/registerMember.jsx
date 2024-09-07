@@ -5,11 +5,11 @@ import Swal from "sweetalert2";
 import Picture2 from "../image/restuarant.jpg";
 import { Row, Col, Form } from "react-bootstrap";
 
-function RegisterMember() {
+function RegisterMember({isOpen}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => setShow(isOpen); //isOpen = true
 
   const [inputFields, setInputFields] = useState({
     fname: "",
@@ -62,12 +62,11 @@ function RegisterMember() {
         error.phone = "กรุณากรอกเบอร์โทรศัพท์";
         isValid = false;
       }
-      else if (inputFields.phone < 10 || inputFields.phone > 10) {
-        error.phone = "กรุณากรอกเบอร์โทรให้ครบ 10 ตัว";
-        isValid = false;
-      }
+      
     setErrors(error);
+    console.log("error : ", inputFields);
     return isValid;
+
   };
 
   const handleChange = (e) => {
@@ -78,10 +77,10 @@ function RegisterMember() {
     });
   };
   const handleSelect = (e) => {
-    const { value } = e.target;
+    const { name,value } = e.target;
     setInputFields((prevFormData) => ({
-      ...prevFormData,
-      roleName: value,
+      ...inputFields,
+      [name]: value,
     }));
   };
 
@@ -90,6 +89,7 @@ function RegisterMember() {
     if (validateValues()) {
       console.log("Input data : ", inputFields);
       setSubmitting(true);
+      handleClose();
       Swal.fire({
         text: "คุณกรอกข้อมูลเรียบร้อย",
         icon: "success",
@@ -129,7 +129,7 @@ function RegisterMember() {
       </Button>
 
       <Modal show={show} onHide={handleClose} size="lg">
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>ลงทะเบียน</Modal.Title>
         </Modal.Header>
         <Modal.Body
@@ -154,7 +154,7 @@ function RegisterMember() {
               <div className="d-flex flex-row justify-content-center align-items-center">
                 <Form.Group
                   className="mb-2 me-2"
-                  controlId="exampleForm.ControlInput1"
+                 
                 >
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     ชื่อ*
@@ -180,7 +180,7 @@ function RegisterMember() {
                 </Form.Group>
                 <Form.Group
                   className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                 
                 >
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     นามสกุล*
@@ -207,7 +207,7 @@ function RegisterMember() {
               </div>
               <Form.Group
                 className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
+               
               >
                 <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                   เลือกบทบาท
@@ -217,7 +217,7 @@ function RegisterMember() {
                   style={{ width: "350px" }}
                   name="roleName"
                   value={inputFields.roleName}
-                  onChange={handleSelect}
+                  onChange={handleChange}
                 >
                   <option>เลือกบทบาท</option>
                   {role?.map((item) => (
@@ -240,7 +240,7 @@ function RegisterMember() {
               <div className="d-flex flex-column justify-content-center align-items-center">
                 <Form.Group
                   className="mb-2 me-2"
-                  controlId="exampleForm.ControlInput1"
+                 
                 >
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     อีเมลล์ ต้องเพิ่ม @*
@@ -266,7 +266,7 @@ function RegisterMember() {
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
+                 
                 >
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     รหัสผ่าน*
@@ -292,7 +292,7 @@ function RegisterMember() {
                 </Form.Group>
                 <Form.Group
                   className="mb-2"
-                  controlId="exampleForm.ControlInput1"
+                  
                 >
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     เบอร์โทรศัพท์
@@ -301,16 +301,18 @@ function RegisterMember() {
                     type="text"
                     placeholder="กรอกเบอร์โทรศัพท์ ..."
                     autoFocus
-                    className={`${errors.email ? "is-invalid" : ""}`}
+                    className={`${errors.phone ? "is-invalid" : ""}`}
                     style={{ width: "350px" }}
                     name="phone"
+                    value={inputFields.phone}
+                    onChange={handleChange}
                   />
-                  {errors.email && (
+                  {errors.phone && (
                     <div
                       className="error"
                       style={{ fontSize: "0.8rem", color: "red" }}
                     >
-                      {errors.email}
+                      {errors.phone}
                     </div>
                   )}
                 </Form.Group>

@@ -7,13 +7,28 @@ import Picture2 from '../image/restuarant.jpg'
 import {Row,Col} from 'react-bootstrap';
 import RegisterMember from './registerMember';
 
-function LoginMember() {
+function LoginMember({isOpen,openRegister}) {
+  //console.log('isRegisterOpen:',openRegister); //register
   const [show, setShow] = useState(false);
-  const [show2, setShow2] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const handleShow2 = () => setShow2(true);
+  const handleShow = () => setShow(isOpen); //isOpen = true
+
+    const [loginOpen,setloginOpen] = useState(false); 
+    const [registerOpen,setregisterOpen] = useState(false); 
+    
+    const openModal = (modalName)=>{
+         if(modalName==="login"){
+            setloginOpen(true);
+            setregisterOpen(false);
+         }else if(modalName=== "register"){
+            setloginOpen(false);
+            setregisterOpen(true);
+         }
+    console.log('loginOpen :' , loginOpen);
+    console.log('registerOpen :' , registerOpen);
+    };
+
   
   const [inputFields,setInputFields] = useState({
     email:'',
@@ -38,6 +53,8 @@ function LoginMember() {
     } 
     setErrors(error);
     return isValid;
+
+
  };
 
 
@@ -60,6 +77,7 @@ function LoginMember() {
      });
      handleClear();
     }else{
+     console.log(validateValues());
    }
  };
  const finishSubmit=()=>{
@@ -87,7 +105,10 @@ function LoginMember() {
         ระบบสะสมแต้ม
       </Button>
 
-      <Modal show={show} onHide={handleClose} size='lg'>
+      <Modal show={show} 
+      
+      onHide={handleClose} 
+      size='lg'>
         <Modal.Header closeButton>
           <Modal.Title>เข้าสู่ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
@@ -135,6 +156,9 @@ function LoginMember() {
                 placeholder="กรอกอีเมลล์ ..."
                 autoFocus
                 className={`${errors.email ? "is-invalid" : ""}`} style={{width:'350px'}}
+                name='email'
+                onChange={handleChange}
+                value={inputFields.email}
               />
               {errors.email && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.email}</div>}
             </Form.Group>
@@ -147,8 +171,10 @@ function LoginMember() {
                 type="password"
                 placeholder="กรอกรหัสผ่าน ..."
                 autoFocus
-                className={`${errors.email ? "is-invalid" : ""}`} style={{width:'350px'}}
-
+                className={`${errors.password ? "is-invalid" : ""}`} style={{width:'350px'}}
+                name='password'
+                onChange={handleChange}
+                value={inputFields.password}
               />
               {errors.password && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.password}</div>}
             </Form.Group>
@@ -157,10 +183,16 @@ function LoginMember() {
         </Row>
         </Modal.Body>
         <Modal.Footer>
-      <RegisterMember/>
+         <RegisterMember isOpen={openRegister}
+          onClick={() => openModal(openRegister)} //register
+         />
+          {/*
+            openRegister == true
+          เข้าสู่หน้าการลงทะเบียน */}
           <Button variant="primary" onClick={handleSubmit}>
             เข้าสู่ระบบ
           </Button>
+          {/*เข้าสู่หน้าสะสมแต้ม*/}
         </Modal.Footer>
       </Modal>
     </>
