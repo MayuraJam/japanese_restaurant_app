@@ -21,7 +21,6 @@
   .sidenav a:hover{
     color: #1A5276;
     background-color: white;
-    border-radius: 15px;
   }
 
   @media screen and (max-height: 450px) {
@@ -31,7 +30,6 @@
   .active{
     color: #1A5276 !important;
     background-color: white;
-    border-radius: 15px;
   }
 
  

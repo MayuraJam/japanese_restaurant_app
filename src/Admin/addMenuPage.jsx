@@ -20,6 +20,7 @@ import {
 } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import photoDefault from "../image/default-product-img.jpg";
+import ManageMenu from "./manageMenuPage";
 import AddOptionComponent from "../Component/addOptionComponent";
 import { forwardRef } from "react";
 
@@ -453,6 +454,7 @@ const AddMenuPage = () => {
               </div>
             </Form>
           </div>*/}
+          <ManageMenu/>
         </div>
       </div>
     </>
