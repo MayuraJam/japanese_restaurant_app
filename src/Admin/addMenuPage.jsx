@@ -454,8 +454,8 @@ const AddMenuPage = () => {
               </div>
             </Form>
           </div>*/}
-          <ManageMenu/>
         </div>
+          <ManageMenu/>
       </div>
     </>
   );

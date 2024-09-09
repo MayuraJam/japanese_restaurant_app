@@ -39,6 +39,7 @@ function App() {
         {/*ฝั่งพนักงาน*/}
      <Route path="/Admin/table/:staftID" element={<TablePage/>} />   
      <Route path="/Admin/Addmenu" element={<AddMenuPage/>} />   
+
         {/*หน้าทั่วไป ใช่ร่วมกัน*/}
         <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
         

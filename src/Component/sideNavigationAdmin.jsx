@@ -108,12 +108,12 @@ const SideBarAdmin = () => {
               
               เพิ่มรายการเมนู</a>
           </div>
-          <div className="d-flex flex-column border border-info">
+          {/*<div className="d-flex flex-column border border-info">
             <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               จัดการรายการเมนู</a>
-          </div>
+          </div>*/}
           <div className="d-flex flex-column border border-info">
             <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
