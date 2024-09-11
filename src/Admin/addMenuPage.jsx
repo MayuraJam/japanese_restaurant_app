@@ -21,8 +21,8 @@ import {
 import "bootstrap-icons/font/bootstrap-icons.css";
 import photoDefault from "../image/default-product-img.jpg";
 import ManageMenu from "./manageMenuPage";
-import AddOptionComponent from "../Component/addOptionComponent";
-import { forwardRef } from "react";
+import AddOptionComponent from "../Admin/addOptionComponent";
+import Menucategory from "../Component/componentData";
 
 const AddMenuPage = () => {
   const [key, setKey] = useState("เพิ่มเมนู");
@@ -39,7 +39,8 @@ const AddMenuPage = () => {
     unitPrice: 0.0,
     imageName : "",
     imagefile:null,
-    photoSrc : photoDefault
+    photoSrc : photoDefault,
+    quantity : 1
   });
   const [errors,setError] = useState({});
   const [submitted,setSubmit] = useState(false);
@@ -134,6 +135,18 @@ const AddMenuPage = () => {
       error.categoryName = "กรุณาเลือกประเภทอาหารด้วย"
       isValid = false;
     }
+    if(formvalue.quantity == 0){
+      error.quantity = "กรุณากรอกจำนวนอาหารด้วย"
+      isValid = false;
+    }
+    else if(formvalue.quantity < 0){
+      error.quantity = "จำนวนอาหารไม่ติดลบ";
+      isValid = false;
+    }
+    else if(formvalue.quantity > 100){
+      error.quantity = "จำนวนอาหารในคลังไม่เพียงพอ";
+      isValid = false;
+    }
       setError(error);
       return isValid;
   };
@@ -151,6 +164,8 @@ const AddMenuPage = () => {
       formData.append("optionID", formvalue.optionID);
       formData.append("imageName", formvalue.imageName);
       formData.append("imageFile", formvalue.imagefile);
+      formData.append("quantity", formvalue.quantity);
+
       try {
         const response = await axios.post(
           `https://localhost:7202/api/Admin/AddMenu`,formData,
@@ -193,7 +208,8 @@ const AddMenuPage = () => {
       unitPrice: 0,
       imageName:"",
       imagefile: null,
-      photoSrc:photoDefault
+      photoSrc:photoDefault,
+      quantity : 1
      });
      setDescription("");
      setError({});
@@ -201,41 +217,6 @@ const AddMenuPage = () => {
      //setPhoto(photoDefault);
      
    };
-  //ชุดข้อมูลประเภท อาหาร
-  const menucategory = [
-    {
-      categoryID: "C01",
-      categoryName: "เมนูข้าว",
-    },
-    {
-      categoryID: "C02",
-      categoryName: "เมนูเส้น",
-    },
-    {
-      categoryID: "C03",
-      categoryName: "เมนูอาหารทะเล",
-    },
-    {
-      categoryID: "C04",
-      categoryName: "เมนูทานเล่น",
-    },
-    {
-      categoryID: "C05",
-      categoryName: "เมนูของหวาน",
-    },
-    {
-      categoryID: "C06",
-      categoryName: "ครื่องดื่มทั่วไป",
-    },
-    {
-      categoryID: "C07",
-      categoryName: "ครื่องดื่มแอลกอฮอร์",
-    },
-    {
-      categoryID: "C08",
-      categoryName: "เครื่องดื่มชา",
-    },
-  ]
   return (
     <>
       <SideBarAdmin />
@@ -336,7 +317,7 @@ const AddMenuPage = () => {
                     className={`${errors.categoryName ? "is-invalid" : ""}`}
                     >
                       <option>เลือกประเภทอาหาร</option>
-                      {menucategory?.map((item)=>(
+                      {Menucategory?.map((item)=>(
                       <option key={item.categoryID} value={item.categoryName}>{item.categoryName}</option>
                       ))}
                     {errors.categoryName && (<div className="error" style={{fontSize:"0.8rem",color:"red"}}>{errors.categoryName}</div>)}
@@ -356,8 +337,9 @@ const AddMenuPage = () => {
                       onChange={handleChangeSizeBox}
                     ></Form.Control>
                   </Form.Group>
-            
-                  <Form.Group className="mb-2">
+                  <div className="d-flex flex-row">
+
+                  <Form.Group className="mb-2 me-3">
                     <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                       ราคา :
                     </Form.Label>
@@ -376,6 +358,23 @@ const AddMenuPage = () => {
                       <p> บาท</p>
                     </div>
                   </Form.Group>
+                  <Form.Group className="mb-2">
+                    <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
+                      จำนวน :
+                    </Form.Label>
+                      <Form.Control
+                        type="number"
+                        placeholder="กรอกจำนวนอาหาร..."
+                        style={{ width: "300px", marginRight: "10px" }}
+                        name="quantity"
+                        value={formvalue.quantity}
+                        onChange={handleChange}
+                      className={`${errors.quantity? "is-invalid" : ""}`}
+
+                      />
+                    {errors.quantity && (<div className="error" style={{fontSize:"0.8rem",color:"red"}}>{errors.quantity}</div>)}
+                  </Form.Group>
+                  </div>
                   {/*<Form.Group>
                   <Form.Label>เวลาที่ใช้ในการประกอบอาหาร : </Form.Label>
                   <DatePicker

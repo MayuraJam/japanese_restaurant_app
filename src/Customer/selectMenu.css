@@ -15,8 +15,53 @@
     border-radius: 50px;
     font-size: 15px;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
 }
 .hoverCard:hover{
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
- 
+.addButtomMenu{
+  width: 120px;
+  font-size: 1rem;
+  padding: 5px;
+  background-color: #1A5276;
+  color: #F9E79F;
+  border-radius: 15px;
+  border: none;
+}
+.addButtomMenu:hover{
+  background-color: #F9E79F;
+  color: #1A5276;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.number-input{
+  width: 100px;
+  height: 35px;
+  font-size: 1rem;
+  background-color: #F9E79F;
+  border: 1px solid #1A5276;
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-right: 10px;
+}
+ .btnNumumber{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+ }
+ .btnNumumber:hover{
+   background-color: gray;
+   color: white;
+ }

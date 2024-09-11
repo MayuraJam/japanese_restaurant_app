@@ -6,6 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 const NavbarCustomer = () => {
+  const tableID = "T001";
   return (
     <div>
       <Container style={{ marginLeft: "180px", position: "fixed", top: 0 }}>
@@ -44,7 +45,7 @@ const NavbarCustomer = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <button className="btn btn-outline-warning">
-                      โต๊ะที่ : xxxx
+                      โต๊ะที่ : {tableID}
                     </button>
                     {/* <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>

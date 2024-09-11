@@ -7,7 +7,7 @@ import Test from './page/TestPage.jsx'
 import MenuPage from './Customer/selectMenuPage.jsx'
 import MainPage from './Customer/mainPage.jsx'
 import SideBarCustomer from './Component/sideNavigationCustomer.jsx';
-import NavbarMenu from './Component/navBar.jsx';
+import NavbarMenu from './Component/navBarCustomer.jsx';
 import CustomerLogin from './Customer/loginPageCustomer.jsx';
 import OrderConfirmPage from './Customer/orderPage.jsx';
 import TablePage from './Admin/tablePage.jsx';

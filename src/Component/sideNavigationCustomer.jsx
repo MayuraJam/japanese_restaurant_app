@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../Component/sideNavigation.css";
-import Navbar from "./navBar";
+import Navbar from "./navBarCustomer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import riceIcon from '../image/icon/rice.png';
 import orderlistIcon from '../image/icon/check-list.png';

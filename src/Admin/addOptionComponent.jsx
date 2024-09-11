@@ -223,7 +223,7 @@ const AddOptionComponent = () => {
         </Button>
       </div>
       </div>
-      <div style={{width:"600px"}} className="border border-info m-3">
+      <div style={{width:"600px"}} className="border border-info m-3 mt-0">
       {/*ตัวอย่างการกรอก*/}
       <Alert variant="success">
         <Alert.Heading className="fs-5">ตัวอย่างตัวเลือกเพิ่มเติม</Alert.Heading>
@@ -231,9 +231,9 @@ const AddOptionComponent = () => {
         <h4>เมนู : ซาซิมิ</h4>
         <p>- ขนาดของชิ้นปลา</p>
         <ul>
-          <li>หนา</li>
-          <li>ปานกลาง</li>
-          <li>บาง</li>
+          <li>ปลาชิ้นหนา</li>
+          <li>ปลาชิ้นปานกลาง</li>
+          <li>ปลาชิ้นบาง</li>
         </ul>
         <hr/>
         <p style={{fontSize:"0.8rem"}}> หมายเหตุ : เป็นส่วนของการเพิ่มตัวเลือกให้กับลูกค้าเพิ่มเติม มีตั้งแต่การเลือกขนาดของชิ้น ความเข้มข้นของซุป ระดับความเผ็ดของแกง เพื่อให้เหมาะสมกับความชอบของแต่ละคน</p>

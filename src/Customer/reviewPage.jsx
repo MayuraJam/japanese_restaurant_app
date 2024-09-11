@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
-import NavbarCustomer from "../Component/navBar";
+import NavbarCustomer from "../Component/navBarCustomer";
 import {
   Nav,
   Navbar,

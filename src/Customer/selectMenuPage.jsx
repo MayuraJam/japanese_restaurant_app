@@ -1,22 +1,135 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
-import NavbarCustomer from "../Component/navBar";
+import NavbarCustomer from "../Component/navBarCustomer";
 import {
-  Nav,
-  Navbar,
-  NavDropdown,
-  Container,
-  Button,
   Row,
   Col,
   Card,
 } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
+import axios from "axios";
+import "../Component/stepperInputDesign.css";
+import Menucategory from "../Component/componentData";
+import Mycart from "../Component/cart";
+import Swal from "sweetalert2";
 
-const MenuPage = () => {
+const MenuPage = ({tableID}) => {
+  tableID = "T001"
+  const [inputOrder, setInputOrder] = useState({
+    //เดียวมีเพิ่มอีก
+    //numberOfPlate: 1,
+    option:"",
+    tableID : "",
+    menuID : "",
+  });
+
+  const [menuData, setMenuData] = useState([]);
+  const [originalmenuData, setOriginalMenuData] = useState([]);
+  const [menuSelect, setMenuSelect] = useState([]);
+  //ดึงข้อมูลเมนูทั้งหมด
+  const fetchingFulldata = async () => {
+    try {
+      const response = await axios.get(
+        "https://localhost:7202/api/Admin/GetMenu2"
+      );
+      console.log("response :", response.data.menuList);
+      setMenuData(response.data.menuList);
+      setOriginalMenuData(response.data.menuList);
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้");
+    }
+  };
+  useEffect(() => {
+    fetchingFulldata();
+  }, []);
+  //ปุ้มเพิ่มจำนวน
+  const handleIncrease = (menuID) => {
+    /*if (inputOrder.numberOfPlate < 5) {
+      setInputOrder((prevState) => ({
+        ...prevState,
+        numberOfPlate: prevState.numberOfPlate + 1,
+      }));
+
+    }*/
+    setInputOrder((prevState)=>({
+      ...prevState,numberOfPlate : {
+          [menuID] : (prevState.numberOfPlate[menuID]||1)<5? (prevState.numberOfPlate[menuID] || 1)+1 : prevState.numberOfPlate[menuID]
+      }
+    }))
+  };
+
+  const handleDecrease = (menuID) => {
+   /* if (inputOrder.numberOfPlate > 1) {
+      setInputOrder((prevState) => ({
+        ...prevState,
+        numberOfPlate: prevState.numberOfPlate- 1,
+      }));
+    }*/
+      setInputOrder((prevState)=>({
+        ...prevState,numberOfPlate : {
+            [menuID] : (prevState.numberOfPlate[menuID]||1)>1? (prevState.numberOfPlate[menuID] || 1)-1 : prevState.numberOfPlate[menuID]
+        }
+      }))
+  };
+  //filter
+  const filterItem = (categoryName) => {
+    console.log("category input:", categoryName);
+
+    // ใช้ originalMenuData ในการกรองเสมอ
+    if (categoryName === "all") {
+      // แสดงเมนูทั้งหมดเมื่อเลือก "all"
+      setMenuData(originalmenuData);
+    } else {
+      // กรองข้อมูลตาม categoryName
+      const newItem = originalmenuData.filter(
+        (newval) => newval.categoryName.trim() === categoryName.trim()
+      );
+      console.log("Filtered item:", newItem);
+      setMenuData(newItem);
+    }
+  };
+  //การแบ่งจาก string => array item
+  const SlitStringToArray = (txt) => {
+    if (!txt) return;
+    const arrayTXT = txt.split(",");
+    return arrayTXT;
+  };
+
+  const handelSelectMenu = async (menuSelectID) => {
+    try {
+      console.log("menuSelectID :", menuSelectID);
+      const response = await axios.post(
+        `https://localhost:7202/api/Admin/GetMenuByID/${menuSelectID}`
+      );
+      console.log("response :", response.data.menuitem);
+      setMenuSelect(response.data.menuitem);
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้ เนื่องจาก :", error);
+    }
+  };
+
+  const handleAddCart=async(menuIDSelect)=>{
+    try {
+      const response = await axios.post("https://localhost:7202/api/Customer/AddCart",{
+       menuID:menuIDSelect,
+       tableID:tableID,
+       option:inputOrder.option
+      })
+      console.log("Add option value: ",inputOrder.option);
+      console.log("Add cart response: ",response.data);
+    } catch (error) {
+      console.log("เกิดข้อผิดผลาดในการดึงข้อมูล",error)
+    }
+
+    Swal.fire({
+      text:"เพิ่มรายการสำเร็จ",
+      icon:"success",
+      confirmButtonText:"OK"
+    });
+  }
   return (
     <div>
       <SideBarCustomer />
@@ -30,25 +143,41 @@ const MenuPage = () => {
               className="mb-2 p-1 d-flex justify-content-start align-items-center"
               style={{ height: "110px", maxWidth: "1300px", overflowX: "auto" }}
             >
-              <button className="p-2 innerbutton hoverCard">ทั้งหมด</button>
-              <button className="p-2 innerbutton hoverCard">เมนูข้าว</button>
-              <button className="p-2 innerbutton hoverCard">เมนูเส้น</button>
-              <button className="p-2 innerbutton hoverCard">เมนูอาหารทะเล</button>
-              <button className="p-2 innerbutton hoverCard">เมนูทานเล่น</button>
-              <button className="p-2 innerbutton hoverCard">เมนูของหวาน</button>
-              <button className="p-2 innerbutton hoverCard">
-                <i class="fas fa-glass-whiskey me-2"></i>เครื่องดื่มทั่วไป
+              <button
+                className="p-2 innerbutton hoverCard"
+                value="ทั้งหมด"
+                onClick={() => {
+                  filterItem("all");
+                }}
+              >
+                ทั้งหมด
               </button>
-              <button className="p-2 innerbutton hoverCard">
-                <i className="fas fa-beer me-2"></i>เครื่องดื่มแอลกอฮอร์
-              </button>
-              <button className="p-2 innerbutton hoverCard">เครื่องดื่มชา</button>
+              {Menucategory.map((item) => (
+                <button
+                  className="p-2 innerbutton hoverCard"
+                  onClick={() => {
+                    filterItem(item.categoryName);
+                  }}
+                >
+                  {/*<img
+                    src={item.icon}
+                    alt={item.categoryName}
+                    className="img-fluid rounded-circle me-2"
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      objectFit: "cover",
+                    }}
+                  />*/}
+                  {item.categoryName}
+                </button>
+              ))}
             </div>
             <div>
               <Row>
-                <Col xs={8}>
+                <Col xs={7}>
                   <div
-                    className="border border-black border-2 p-3 rounded-3 bg-white"
+                    className="border border-black p-3 rounded-3 bg-white"
                     style={{ maxHeight: "410px" }}
                   >
                     <div className="d-flex justify-content-end">
@@ -82,147 +211,184 @@ const MenuPage = () => {
                         marginTop: "10px",
                       }}
                     >
-                      <p>เมนูทั้งหมด</p>
-                      <div
+                      <p>เมนูอาหาร</p>
+                      <div 
                         style={{
                           display: "grid",
                           gridTemplateColumns:
                             "repeat(auto-fill, minmax(16rem, 1fr))",
                           gap: "10px",
-                          marginLeft:'10px'
+                          marginLeft: "10px",
                         }}
-                        className="mb-3"
+                        className="mb-3 border border-info"
                       >
-                        <Card style={{ width: "16rem" ,cursor:'pointer',transition: "border-color 0.3s"}} onClick={'#'} className="hoverCard">
-                          <Card.Img variant="top" src={Picture2} style={{width:'16rem',height:'130px',backgroundSize:'cover'}}/>
+                        {menuData.map((item) => (
+                          <Card
+                            style={{
+                              width: "16rem",
+                              height:"auto",
+                              cursor: "pointer",
+                              transition: "border-color 0.3s",
+                            }}
+                            className="hoverCard"
+                          >
+                            <Card.Img
+                              variant="top"
+                              src={item.imageSrc}
+                              style={{
+                                width: "16rem",
+                                height: "130px",
+                                backgroundSize: "cover",
+                              }}
+                            />
+                            <Card.Body>
+                              <div className="d-flex flex-row justify-content-between">
+                                <Card.Title>{item.menuName}</Card.Title>
+                                <p
+                                  style={{ fontSize: "0.7rem" }}
+                                  className="border p-2 rounded-5 bg-warning fw-bold"
+                                >
+                                  {item.categoryName}
+                                </p>
+                              </div>
+                              <div className="d-flex flex-row justify-content-between">
+                                <Card.Text style={{ fontSize: "1rem" }}>
+                                  {item.unitPrice} บาท
+                                </Card.Text>
+                                <p style={{ fontSize: "0.7rem" }}>
+                                  rating : {item.rating}
+                                </p>
+                              </div>
+                              <hr className="text-secondary" />
+                              <p style={{ fontSize: "1rem" }}>
+                                {item.optionName}
+                              </p>
+                              {SlitStringToArray(item.value) &&
+                                Array.isArray(SlitStringToArray(item.value)) &&
+                                SlitStringToArray(item.value).map(
+                                  (optionValue, index) => (
+                                    <ul key={index}>
+                                      <input type="radio" name="optionValue" value={inputOrder.option}/>
+                                      <label style={{ fontSize: "1rem" }} for="html">{optionValue} </label><br/>
+                                    </ul>
+                                  )
+                                )}
+                              <hr className="text-secondary" />
+                              <div className="button-area">
+
+                                {/*ปุ่มเพื่อจำนวนจาน*/}
+                                <div className=" d-flex justify-content-between">
+                             {/* <div className=" d-flex flex-row">
+                                <div className="number-input">
+                                  <button
+                                    type="button"
+                                    className="btnNumumber"
+                                    onClick={()=>{handleDecrease(item.menuID)}}
+                                  >
+                                    -
+                                  </button>
+                                  <div className="value">
+                                    {inputOrder.numberOfPlate}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="btnNumumber"
+                                    onClick={()=>{handleIncrease(item.menuID)}}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                              </div>*/}
+                              <div>
+                                  <button
+                                    type="button"
+                                    className="addButtomMenu"
+                                    onClick={()=>{handleAddCart(item.menuID)}}
+                                  >
+                                    <i class="bi bi-patch-plus me-2"></i>
+                                    เพิ่มรายการ
+                                  </button>
+                                </div>
+                                </div>
+                              </div>
+                            </Card.Body>
+                          </Card>
+                        ))}
+                        <Card
+                          style={{
+                            width: "16rem",
+                            cursor: "pointer",
+                            transition: "border-color 0.3s",
+                          }}
+                          className="hoverCard"
+                        >
+                          <Card.Img
+                            variant="top"
+                            src={Picture2}
+                            style={{
+                              width: "16rem",
+                              height: "130px",
+                              backgroundSize: "cover",
+                            }}
+                          />
                           <Card.Body>
                             <div className="d-flex flex-row justify-content-between">
-                            <Card.Title>ชื่อเมนู</Card.Title>
-                            <p style={{fontSize:'0.7rem'}} className="border p-2 rounded-5 bg-warning fw-bold">ประเภทเมนู</p>
+                              <Card.Title>ชื่อเมนู</Card.Title>
+                              <p
+                                style={{ fontSize: "0.7rem" }}
+                                className="border p-2 rounded-5 bg-warning fw-bold"
+                              >
+                                เมนูข้าว
+                              </p>
                             </div>
                             <div className="d-flex flex-row justify-content-between">
-                            <Card.Text style={{fontSize:'1rem'}}>
-                              ราคาอาหาร บาท
-                            </Card.Text>
-                            <p style={{fontSize:'0.7rem'}}>rating</p>
-                              
+                              <Card.Text style={{ fontSize: "1rem" }}>
+                                ราคาอาหาร บาท
+                              </Card.Text>
+                              <p style={{ fontSize: "0.7rem" }}>rating</p>
                             </div>
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                           
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                       
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                            
-                          </Card.Body>
-                        </Card>
-                      </div>
-                      <p>เมนูข้าว</p>
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns:
-                            "repeat(auto-fill, minmax(16rem, 1fr))",
-                          gap: "10px",
-                          marginLeft:'10px'
-                        }}
-                        className="mb-3"
-                      >
-                        <Card style={{ width: "16rem",height:'320px' ,cursor:'pointer',transition: "border-color 0.3s"}} onClick={'#'} className="hoverCard">
-                          <Card.Img variant="top" src={Picture2} style={{width:'16rem',height:'130px',backgroundSize:'cover'}}/>
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                           
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                       
-                          </Card.Body>
-                        </Card>
-                        <Card style={{ width: "16rem" }}>
-                          <Card.Img variant="top" src="holder.js/100px180" />
-                          <Card.Body>
-                            <Card.Title>Card Title</Card.Title>
-                            <Card.Text>
-                              Some quick example text to build on the card title
-                              and make up the bulk of the card's content.
-                            </Card.Text>
-                            
+                            <hr className="text-secondary" />
+                            <div className="button-area">
+                              {/*ปุ่มเพื่อจำนวนจาน*/}
+                              <div className=" d-flex flex-row">
+                                <div className="number-input">
+                                  <button
+                                    type="button"
+                                    className="btnNumumber"
+                                    onClick={handleDecrease}
+                                  >
+                                    -
+                                  </button>
+                                  <div className="value">
+                                    {inputOrder.numberOfPlate}
+                                  </div>
+                                  <button
+                                    type="button"
+                                    className="btnNumumber"
+                                    onClick={handleIncrease}
+                                  >
+                                    +
+                                  </button>
+                                </div>
+                                <div>
+                                  <button
+                                    type="button"
+                                    className="addButtomMenu"
+                                  >
+                                    <i class="bi bi-patch-plus me-2"></i>
+                                    เพิ่มรายการ
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </Card.Body>
                         </Card>
                       </div>
                     </div>
                   </div>
                 </Col>
-                <Col xs={4}>
-                  <div
-                    className="border border-black border-2 p-3 rounded-3 bg-white"
-                    style={{ maxHeight: "410px", overflowY: "auto" }}
-                  >
-                   <center><h4 className="mb-4">ส่วนรายละเอียดเมนู</h4>
-                    <Card.Img variant="top" src={Picture2} style={{width:'16rem',height:'130px',backgroundSize:'cover',borderRadius:'10px'}} className="mb-4"/>
-                    <p>
-                      Some text to enable scrolling.. Lorem ipsum dolor sit
-                      amet, illum definitiones no quo, maluisset concludaturque
-                      et eum, altera fabulas ut quo. Atqui causae gloriatur ius
-                      te, id agam omnis evertitur eum. Affert laboramus
-                      repudiandae nec et. Inciderint efficiantur his ad. Eum no
-                      molestiae voluptatibus.
-                    </p>
-                    <hr className = "text-secondary"/>
-                    <p>เพิ่มเติม</p>
-                    <hr className = "text-secondary"/>
-                    <h3 style={{color:'red'}}>ราคา บาท</h3>
-                    <button className="p-2 innerbutton hoverCard mt-4"><i class="bi bi-egg-fried me-2"></i>เพิ่มรายการอาหาร</button>
-                    </center>
-                  </div>
+                <Col xs={5}>
+                  <Mycart/>  {/*เก็บพวกรายละเอียดของตะกร้าส่งไปยัง component Mycart */}
                 </Col>
               </Row>
             </div>

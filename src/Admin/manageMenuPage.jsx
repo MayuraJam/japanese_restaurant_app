@@ -2,24 +2,16 @@ import React, { useState, useRef, useEffect } from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
+import "../Component/dataTeble.css"
 import NavbarAdmin from "../Component/NavBarAdmin";
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import Swal from "sweetalert2";
 import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Tab,
-  Tabs,
   Button,
-  Spinner,
-  Form,
 } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import simpleImage from "../image/food.jpg";
 const ManageMenu = () => {
   const [menuData, setMenuData] = useState([]);
   //ดึงข้อมูลเมนูทั้งหมด
@@ -38,9 +30,17 @@ const ManageMenu = () => {
     fetchingFulldata();
   }, []);
   return (
-
     <div>
-      <table className="table table-striped border border-dark" aria-labelledby="tableLabel" style={{marginTop:"35px"}}>
+      <div className="border border-success border-2 p-3 mt-5">
+       <div>
+      <p> <i class="bi bi-table me-2"></i> ตารางแสดงรายการเมนูอาหาร</p>
+       </div>
+       <div className="table-wrapper">
+      <table
+        className="table table-striped border border-dark"
+        aria-labelledby="tableLabel"
+        style={{ marginTop: "35px"}}
+      >
         <thead>
           <tr>
             <th>ภาพ</th>
@@ -53,7 +53,7 @@ const ManageMenu = () => {
           </tr>
         </thead>
         <tbody>
-          {menuData.map((item) => (
+         {/* {menuData.map((item) => (
             <tr key={menuData.menuID}>
               <th>
                 <img
@@ -79,9 +79,203 @@ const ManageMenu = () => {
               <Button variant="danger">ลบ</Button>
               </th>
             </tr>
-          ))}
+          ))}*/}
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          <tr>
+              <th>
+                <img
+                  src={simpleImage}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 rounded-2"
+                  style={{
+                    width: "50px",
+                    //width:"100%",
+                    height: "50px",
+                    objectFit: "cover",
+                    alt: "MenuImage",
+                  }}
+                />
+              </th>
+              <th>ชื่อเมนู1</th>
+              <th>ประเภทอาหาร1</th>
+              <th>ราคา1</th>
+              <th>ชื่อตัวเลือกพิเศษ1</th>
+              <th>ตัวเลือก1</th>
+              <th>
+                <Button variant="warning" className="me-2">
+                  แก้ไข
+                </Button>
+                <Button variant="danger">ลบ</Button>
+              </th>
+          </tr>
+          
         </tbody>
       </table>
+
+       </div>
+
+      </div>
     </div>
   );
 };

@@ -7,7 +7,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const NavbarMain=()=>{
     return(
      <>
-      <Container style={{ position: "fixed", top: 0 }}>
+      <Container style={{ position: "fixed", top: 0,zIndex:1 }}>
         <Row>
           <Col xs={10} style={{ padding: 0}}>
             <Navbar className="" style={{ backgroundColor: "#000000" ,height:'50px'}}>

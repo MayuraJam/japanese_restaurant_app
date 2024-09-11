@@ -8,7 +8,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 const NavbarAdmin = () => {
   return (
     <div>
-      <Container style={{ marginLeft: "180px", position: "fixed", top: 0 }}>
+      <Container style={{ marginLeft: "180px", position: "fixed", top: 0,zIndex:1 }}>
         <Row>
           <Col xs={9} style={{ padding: 0 }}>
             <Navbar className="" style={{ backgroundColor: "#EB5B00" }}>

@@ -1,0 +1,16 @@
+table{
+    font-size: 1rem;
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-wrapper{
+    height: 500px;
+    overflow-y:auto;
+}
+thead{
+    position: sticky;
+    top:0;
+}
+th{
+  font-weight: lighter;
+}

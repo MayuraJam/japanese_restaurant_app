@@ -1,0 +1,21 @@
+
+.stepper-input label{
+  color: #8487A6;
+}
+.stepper-input__inner {
+  height: 36px;
+  margin: 0 8px;
+  padding: 0;
+  width: 25px;
+  text-align: center;
+  border: 1px solid #8487A6;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.stepper-input__button {
+  color: #8487A6;
+  padding: 6px 10px;
+  border: 1px solid #8487A6;
+  border-radius: 20px;
+  background-color: transparent;
+}
