@@ -4,7 +4,7 @@ table{
     border-collapse: collapse;
 }
 .table-wrapper{
-    height: 500px;
+    height: 440px;
     overflow-y:auto;
 }
 thead{

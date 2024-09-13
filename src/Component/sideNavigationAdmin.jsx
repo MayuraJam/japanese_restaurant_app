@@ -86,18 +86,18 @@ const SideBarAdmin = () => {
             </a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="/Admin/orderManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/orderManagement" ? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               รายการสั่ง</a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="/Admin/orderStatusManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/orderStatusManagement" ? "active" : ""}`}>
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column border border-info">
-            <a href="#">
+            <a href="/Admin/paymentManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/paymentManagement" ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               ชำระเงิน</a>
@@ -108,12 +108,6 @@ const SideBarAdmin = () => {
               
               เพิ่มรายการเมนู</a>
           </div>
-          {/*<div className="d-flex flex-column border border-info">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
-            <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
-              จัดการรายการเมนู</a>
-          </div>*/}
           <div className="d-flex flex-column border border-info">
             <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
@@ -125,12 +119,6 @@ const SideBarAdmin = () => {
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
       
               รายงาน</a>
-          </div>
-          <div className="d-flex flex-column border border-info">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
-            <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
-              คู่มือ</a>
           </div>
           <hr className = "text-secondary mt-2"/>
           <div className="d-flex flex-column">

@@ -19,8 +19,6 @@ import Swal from "sweetalert2";
 const MenuPage = ({tableID}) => {
   tableID = "T001"
   const [inputOrder, setInputOrder] = useState({
-    //เดียวมีเพิ่มอีก
-    //numberOfPlate: 1,
     option:"",
     tableID : "",
     menuID : "",
@@ -33,7 +31,7 @@ const MenuPage = ({tableID}) => {
   const fetchingFulldata = async () => {
     try {
       const response = await axios.get(
-        "https://localhost:7202/api/Admin/GetMenu2"
+        "https://localhost:7202/api/Admin/GetMenu"
       );
       console.log("response :", response.data.menuList);
       setMenuData(response.data.menuList);
@@ -111,24 +109,31 @@ const MenuPage = ({tableID}) => {
     }
   };
 
-  const handleAddCart=async(menuIDSelect)=>{
+  const handleAddCart=async(menuIDSelect,optionValue)=>{
+    
+    console.log("Add option value: ",optionValue,typeof optionValue);
     try {
       const response = await axios.post("https://localhost:7202/api/Customer/AddCart",{
        menuID:menuIDSelect,
        tableID:tableID,
-       option:inputOrder.option
+       optionValue:optionValue
       })
-      console.log("Add option value: ",inputOrder.option);
       console.log("Add cart response: ",response.data);
+      setInputOrder({
+        option:"",
+        tableID : "",
+        menuID : "",
+      })
+      Swal.fire({
+        text:"เพิ่มรายการสำเร็จ",
+        icon:"success",
+        confirmButtonText:"OK"
+      });
     } catch (error) {
       console.log("เกิดข้อผิดผลาดในการดึงข้อมูล",error)
     }
 
-    Swal.fire({
-      text:"เพิ่มรายการสำเร็จ",
-      icon:"success",
-      confirmButtonText:"OK"
-    });
+    
   }
   return (
     <div>
@@ -175,7 +180,9 @@ const MenuPage = ({tableID}) => {
             </div>
             <div>
               <Row>
-                <Col xs={7}>
+                <Col 
+                //</Row>xs={7}
+                >
                   <div
                     className="border border-black p-3 rounded-3 bg-white"
                     style={{ maxHeight: "410px" }}
@@ -268,8 +275,9 @@ const MenuPage = ({tableID}) => {
                                 SlitStringToArray(item.value).map(
                                   (optionValue, index) => (
                                     <ul key={index}>
-                                      <input type="radio" name="optionValue" value={inputOrder.option}/>
-                                      <label style={{ fontSize: "1rem" }} for="html">{optionValue} </label><br/>
+                                      <input type="radio" name="optionValue"  checked={inputOrder.option === optionValue} value={optionValue} onChange={(e)=>setInputOrder({...inputOrder,option:e.target.value})}/>
+                                      
+                                      <label style={{ fontSize: "1rem" }} htmlFor={`option-${index}`}><span>{optionValue}</span></label><br/>
                                     </ul>
                                   )
                                 )}
@@ -303,7 +311,7 @@ const MenuPage = ({tableID}) => {
                                   <button
                                     type="button"
                                     className="addButtomMenu"
-                                    onClick={()=>{handleAddCart(item.menuID)}}
+                                    onClick={()=>{handleAddCart(item.menuID,inputOrder.option)}}
                                   >
                                     <i class="bi bi-patch-plus me-2"></i>
                                     เพิ่มรายการ
@@ -387,9 +395,9 @@ const MenuPage = ({tableID}) => {
                     </div>
                   </div>
                 </Col>
-                <Col xs={5}>
-                  <Mycart/>  {/*เก็บพวกรายละเอียดของตะกร้าส่งไปยัง component Mycart */}
-                </Col>
+                {/*<Col xs={5}>
+                  <Mycart/> 
+                </Col>*/}
               </Row>
             </div>
           </Col>

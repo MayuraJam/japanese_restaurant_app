@@ -222,11 +222,11 @@ const AddMenuPage = () => {
       <SideBarAdmin />
       <NavbarAdmin />
       <div
-        className="mainMenu border border-info "
+        className="mainMenu "
         style={{ height: "calc(100vh - 50px)" }}
       >
         <h4 className="my-3">การเพิ่มรายการ</h4>
-        <div className="border border-danger d-flex flex-row justify-content-center">
+        <div className=" d-flex flex-row justify-content-center">
           <div
             className="border border-dark rounded-4 me-3"
             style={{

@@ -9,15 +9,19 @@ import MainPage from './Customer/mainPage.jsx'
 import SideBarCustomer from './Component/sideNavigationCustomer.jsx';
 import NavbarMenu from './Component/navBarCustomer.jsx';
 import CustomerLogin from './Customer/loginPageCustomer.jsx';
-import OrderConfirmPage from './Customer/orderPage.jsx';
+import OrderPage from './Customer/orderPage.jsx';
 import TablePage from './Admin/tablePage.jsx';
 import ReviewPage from './Customer/reviewPage.jsx';
 import LoginStaftPage from './Original/loginPage.jsx';
 import AuthenModel from './Original/authenModel.jsx';
 import AddMenuPage from './Admin/addMenuPage.jsx';
-
+import HistoryPage from './Customer/historyOrder.jsx';
+import PaymentPage from './Customer/paymentPage.jsx';
+import OrderManagementPage from './Admin/orderManagement.jsx';
+import OrderStatusManagementPage from './Admin/orderStatusManagement.jsx';
+import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
+import Mycart from './Component/cart.jsx';
 function App() {
   return (
     <Router>
@@ -34,11 +38,19 @@ function App() {
      {/*<Route path="/mainPage" element={<MainPage/>} />*/}
      <Route path="/Customer" element={<SideBarCustomer/>} />
      <Route path="/Customer/menupage" element={<MenuPage/>} />   
-     <Route path="/Customer/order" element={<OrderConfirmPage/>} />   
+     <Route path="/Customer/cartMenu" element={<Mycart/>} />        
+     <Route path="/Customer/order" element={<OrderPage/>} />   
+     <Route path="/Customer/payment" element={<PaymentPage/>} />   
+     <Route path="/Customer/history" element={<HistoryPage/>} />   
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
+
         {/*ฝั่งพนักงาน*/}
      <Route path="/Admin/table/:staftID" element={<TablePage/>} />   
-     <Route path="/Admin/Addmenu" element={<AddMenuPage/>} />   
+     <Route path="/Admin/addmenu" element={<AddMenuPage/>} />   
+     <Route path="/Admin/orderManagement" element={<OrderManagementPage/>} />   
+     <Route path="/Admin/orderStatusManagement" element={<OrderStatusManagementPage/>} />   
+     <Route path="/Admin/paymentManagement" element={<PaymentManagementPage/>} />   
+
 
         {/*หน้าทั่วไป ใช่ร่วมกัน*/}
         <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   

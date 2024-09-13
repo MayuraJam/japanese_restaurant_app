@@ -141,9 +141,9 @@ const AddOptionComponent = () => {
     setNewOption("");
   }
   return (
-    <Form onSubmit={handleSubmit} className="border border-info">
+    <Form onSubmit={handleSubmit}>
     <div className="d-flex flex-row ">
-      <div className="border border-danger">
+      <div>
         <Form.Group className="mb-4">
           <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
             ชื่อตัวเลือก :
@@ -223,7 +223,7 @@ const AddOptionComponent = () => {
         </Button>
       </div>
       </div>
-      <div style={{width:"600px"}} className="border border-info m-3 mt-0">
+      <div style={{width:"600px"}} className=" m-3 mt-0">
       {/*ตัวอย่างการกรอก*/}
       <Alert variant="success">
         <Alert.Heading className="fs-5">ตัวอย่างตัวเลือกเพิ่มเติม</Alert.Heading>

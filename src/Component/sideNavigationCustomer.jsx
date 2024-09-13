@@ -39,23 +39,23 @@ const SideBarCustomer = () => {
               เมนูอาหาร
             </a>
           </div>
-          <div className="d-flex flex-column mb-2">
-            <a href="/Customer/order" className={`d-flex align-items-center ${location.pathname === "/Customer/order" ? "active" : ""}`}>
+           <div className="d-flex flex-column mb-2">
+            <a href="/Customer/cartMenu" className={`d-flex align-items-center ${location.pathname === "/Customer/cartMenu" ? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
             รายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <a href="/Customer/order" className={`d-flex align-items-center ${location.pathname === "/Customer/order" ? "active" : ""}`}>
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <a href="/Customer/payment" className={`d-flex align-items-center ${location.pathname === "/Customer/payment" ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/> 
               ชำระเงิน</a>
           </div>
           <div className="d-flex flex-column mb-2">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <a href="/Customer/history" className={`d-flex align-items-center ${location.pathname === "/Customer/history" ? "active" : ""}`}>
             <img src={historyIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               ประวัติการสั่ง</a>

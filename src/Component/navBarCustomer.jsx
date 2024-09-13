@@ -1,9 +1,8 @@
 import React from "react";
-import { Nav, Navbar, NavDropdown, Container, Row, Col } from "react-bootstrap";
+import { Nav, Navbar, Container, Row, Col, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 const NavbarCustomer = () => {
   const tableID = "T001";
@@ -17,9 +16,13 @@ const NavbarCustomer = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
-                    <button className="btn btn-outline-dark">
+                    <button className="btn btn-outline-dark me-4">
                       <i class="bi bi-pencil-square"> </i>ส่งคำถาม
                     </button>
+                    <button className="btn btn-outline-dark me-4">
+                      <i class="bi bi-question-circle me-2"></i>คำถามที่พบบ่อย
+                    </button>
+                    
                     {/* <Nav.Link href="#home">Home</Nav.Link>
             <Nav.Link href="#link">Link</Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
@@ -71,5 +74,3 @@ const NavbarCustomer = () => {
   );
 };
 export default NavbarCustomer;
-
-
