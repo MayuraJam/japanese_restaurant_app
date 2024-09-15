@@ -7,8 +7,13 @@ import DessertIcon from "../image/categoryIcon/ice-cream.png";
 import BeverateIcon from "../image/categoryIcon/cocktail.png";
 import AlIcon from "../image/categoryIcon/beer.png";
 import TeaIcon from "../image/categoryIcon/tea.png";
+import BentoIcon from "../image/icon/bento.png";
 
 const Menucategory = [
+        {
+          categoryID: "C00",
+          categoryName: "เมนูเซต",
+          icon : BentoIcon},
         {
           categoryID: "C01",
           categoryName: "เมนูข้าว",

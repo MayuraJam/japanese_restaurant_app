@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.mainMenu { /*ขนาดของเนื้อหาหลักของเมนู*/
+  margin-left: 180px; /* Same as the width of the sidenav */
+  margin-top: 50px;
+  /*margin-right: 340px;*/
+  font-size: 20px; /* Increased text to enable scrolling */
+  padding: 10px 10px;
+  background-color: #FDF2E9
+  ;
+}

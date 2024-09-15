@@ -6,10 +6,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import "../Component/stepperInputDesign.css";
 import Swal from "sweetalert2";
-import SideBarCustomer from "../Component/sideNavigationCustomer";
+import SideBarCustomer from "./sideNavigationCustomer";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
-import NavbarCustomer from "../Component/navBarCustomer";
+import "../Component/dataTeble.css"
+import NavbarCustomer from "./navBarCustomer";
 
 const Mycart = () => {
   const tableID = "T001";
@@ -51,11 +52,16 @@ const Mycart = () => {
       );
       console.log("response :", response.data.cartList);
       const sum = response.data.cartList.reduce(
-        (totalPrice, currentItem) => totalPrice + (currentItem.unitPrice*currentItem.quantity),
+        (totalPrice, currentItem) => totalPrice + currentItem.netprice,
+        0
+      );
+      const totalQuantity = response.data.cartList.reduce(
+        (totalQuant, currentItem) => totalQuant + currentItem.quantity,
         0
       );
       setCartList(response.data.cartList);
       setTotal(sum);
+      setQuantity(totalQuantity);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้ รายการภายในตะกร้าได้");
     }
@@ -90,30 +96,29 @@ const Mycart = () => {
           : item
       )
     );
-    //quantity: item.quantity - 1 < 1 ? 1 : item.quantity + 1
-    /* if (inputOrder.numberOfPlate > 1) {
-      setInputOrder((prevState) => ({
-        ...prevState,
-        numberOfPlate: prevState.numberOfPlate- 1,
-      }));
-    }*/
-      /*setInputOrder((prevState)=>({
-        ...prevState,numberOfPlate : {
-            [menuID] : (prevState.numberOfPlate[menuID]||1)>1? (prevState.numberOfPlate[menuID] || 1)-1 : prevState.numberOfPlate[menuID]
+  };
+  const handleEditCart=async (cartID,quantity)=>{
+    if(!cartID || !quantity) return;
+    try {
+      const response = await axios.put(
+        `https://localhost:7202/api/Customer/UpdateCart`,{
+          cartID:cartID,
+          quantity : quantity
         }
-      }))*/
-  };
-  //filter
-  const Calculate = (quantity, price) => {
-    if (!quantity || !price) {
-      console.log("ตัวแปรมีค่าเป็น null หรือ undefined");
-      return;
+      );
+      console.log("response :", response.data.cartList);
+      setCartList(response.data.cartList);
+      fetchingdata();
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้ รายการภายในตะกร้าได้");
     }
-    //function คำนวณ ราคารวม
-    const ans = (quantity * price);
+  }
+  //filter
 
-    return ans;
-  };
+  const CalculateTax = (price)=>{
+       if(!price) return;
+       const ans = price*0.07
+  }
   return (
     <>
       <SideBarCustomer />
@@ -132,14 +137,29 @@ const Mycart = () => {
               </center>
             </div>
           ) : (
-            <div style={{ height: "500px" }}>
+            <div 
+           // style={{ height: "500px" }}
+            >
               <p>ตารางรายการสั่ง</p>
               <hr variant="secondary" />
-              <div style={{ maxHeight: "360px", overflowY: "auto" }}>
+              <div 
+              //style={{ maxHeight: "295px", overflowY: "auto" }}
+              >
+                <table className="table table-striped border border-dark"> 
+                 <thead>
+                  <tr>
+                    <th>ภาพเมนู</th>
+                    <th>ชื่อเมนู</th>
+                    <th>จำนวน</th>
+                    <th>ราคา</th>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
                 {cartList.map((item) => (
-                  <div className="border rounded-3 p-1 mb-2" key={item.cartID}>
-                    <div className="d-flex flex-row justify-content-around align-items-center">
-                      <img
+                  <tr key={item.cartID}>
+                    <th>
+                    <img
                         src={item.imageSrc}
                         //alt={user.firstName}
                         className="img-fluid border border-dark mb-3 rounded-2"
@@ -151,13 +171,16 @@ const Mycart = () => {
                           alt: "MenuImage",
                         }}
                       />
-                      <div className="d-flex flex-column align-items-center">
+                    </th>
+                    <th><div className="d-flex flex-column align-items-center">
                         <p style={{ fontSize: "0.9rem" }}>{item.menuName}</p>
                         <p style={{ fontSize: "0.8rem", color: "gray" }}>
                           {item.optionValue}
                         </p>
                       </div>
-                      <div className="number-input">
+                    </th>
+                    <th>
+                    <div className="number-input">
                         <button
                           type="button"
                           className="btnNumumber"
@@ -174,15 +197,16 @@ const Mycart = () => {
                           +
                         </button>
                       </div>
-                      <p
-                        className="text-wrap border border-info"
-                        style={{ fontSize: "0.9rem", fontWeight: "bold" }}
-                      >
-                        {Calculate(item.quantity,item.unitPrice)} บาท
-                      </p>
-                      <Button
+                    </th>
+                    <th>
+                      <div style={{ fontSize: "0.9rem" }}>
+                      {item.netprice} บาท
+                      </div>
+                    </th>
+                    <th>
+                    <Button
                         variant="outline-warning" 
-                        onClick={() => handleDeleteCart(item.cartID)}
+                        onClick={() => handleEditCart(item.cartID,item.quantity)}
                         className="me-3"
                       >
                        <i class="bi bi-arrow-clockwise"></i>
@@ -193,18 +217,81 @@ const Mycart = () => {
                       >
                         <i class="bi bi-x-circle"></i>
                       </Button>
-                      
-                    </div>
-                  </div>
-                ))}
+                    </th>
+                  </tr>
+                ))} 
+                {/* <div className="border rounded-3 p-1 mb-2" key={item.cartID}>
+                   <div className="d-flex flex-row justify-content-around align-items-center">
+                     <img
+                       src={item.imageSrc}
+                       //alt={user.firstName}
+                       className="img-fluid border border-dark mb-3 rounded-2"
+                       style={{
+                         width: "50px",
+                         //width:"100%",
+                         height: "50px",
+                         objectFit: "cover",
+                         alt: "MenuImage",
+                       }}
+                     />
+                     <div className="d-flex flex-column align-items-center">
+                       <p style={{ fontSize: "0.9rem" }}>{item.menuName}</p>
+                       <p style={{ fontSize: "0.8rem", color: "gray" }}>
+                         {item.optionValue}
+                       </p>
+                     </div>
+                     <div className="number-input">
+                       <button
+                         type="button"
+                         className="btnNumumber"
+                         onClick={()=>handleDecrease(item.cartID)}
+                       >
+                         -
+                       </button>
+                       <div className="value">{item.quantity}</div>
+                       <button
+                         type="button"
+                         className="btnNumumber"
+                         onClick={()=>handleIncrease(item.cartID)}
+                       >
+                         +
+                       </button>
+                     </div>
+                     <p
+                       className="text-wrap border border-info"
+                       style={{ fontSize: "0.9rem", fontWeight: "bold" }}
+                     >
+                       {Calculate(item.quantity,item.unitPrice)} บาท
+                     </p>
+                     <Button
+                       variant="outline-warning" 
+                       onClick={() => handleEditCart(item.cartID,item.quantity)}
+                       className="me-3"
+                     >
+                      <i class="bi bi-arrow-clockwise"></i>
+                     </Button>
+                     <Button
+                       variant="outline-danger"
+                       onClick={() => handleDeleteCart(item.cartID)}
+                     >
+                       <i class="bi bi-x-circle"></i>
+                     </Button>
+                     
+                   </div>
+                 </div>*/}
+                  </tbody>  
+                </table>
               </div>
               <hr className="text-secondary" />
               <div className="d-flex flex-row justify-content-around">
                 <h3>ราคารวม :</h3>
-                <p>({cartList.length}) รายการ</p>
+                <p>({quantity}) รายการ</p>
                 <h3 style={{ color: "red" }} className="me-3">
                   {total} บาท
                 </h3>
+              </div>
+              <hr className="text-secondary" />
+              <div className="d-flex justify-content-end">
                 <Button variant="outline-primary">ยืนยันรายการ</Button>{" "}
               </div>
             </div>

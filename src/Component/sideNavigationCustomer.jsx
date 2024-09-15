@@ -10,6 +10,7 @@ import orderTimeIcon from '../image/icon/file.png';
 import cashIcon from '../image/icon/wallet.png';
 import historyIcon from '../image/icon/history.png';
 import logoutIcon from '../image/icon/logout.png';
+import Mainlogo from '../image/phapirun_logo2.jpg'
 
 const SideBarCustomer = () => {
   const location = useLocation();
@@ -17,16 +18,16 @@ const SideBarCustomer = () => {
   return (
     <div>
       <div className="sidenav">
-        <div className="border border-info">
+        <div>
           <center>
             <img
-              //src=''
+              src={Mainlogo}
               //alt={user.firstName}
               className="img-fluid rounded-circle"
               style={{
                 width: "50px",
                 height: "50px",
-                objectFit: "cover",
+                objectFit: "contain ",
                 backgroundColor: "#ffff",
               }}
             />

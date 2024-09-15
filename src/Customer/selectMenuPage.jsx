@@ -1,27 +1,22 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
 import NavbarCustomer from "../Component/navBarCustomer";
-import {
-  Row,
-  Col,
-  Card,
-} from "react-bootstrap";
+import { Row, Col, Card } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
 import "../Component/stepperInputDesign.css";
-import Menucategory from "../Component/componentData";
-import Mycart from "../Component/cart";
+import Menucategory from "../Component/MenucagoryData";
 import Swal from "sweetalert2";
 
-const MenuPage = ({tableID}) => {
-  tableID = "T001"
+const MenuPage = ({ tableID }) => {
+  tableID = "T001";
   const [inputOrder, setInputOrder] = useState({
-    option:"",
-    tableID : "",
-    menuID : "",
+    option: "",
+    tableID: "",
+    menuID: "",
   });
 
   const [menuData, setMenuData] = useState([]);
@@ -44,34 +39,6 @@ const MenuPage = ({tableID}) => {
     fetchingFulldata();
   }, []);
   //ปุ้มเพิ่มจำนวน
-  const handleIncrease = (menuID) => {
-    /*if (inputOrder.numberOfPlate < 5) {
-      setInputOrder((prevState) => ({
-        ...prevState,
-        numberOfPlate: prevState.numberOfPlate + 1,
-      }));
-
-    }*/
-    setInputOrder((prevState)=>({
-      ...prevState,numberOfPlate : {
-          [menuID] : (prevState.numberOfPlate[menuID]||1)<5? (prevState.numberOfPlate[menuID] || 1)+1 : prevState.numberOfPlate[menuID]
-      }
-    }))
-  };
-
-  const handleDecrease = (menuID) => {
-   /* if (inputOrder.numberOfPlate > 1) {
-      setInputOrder((prevState) => ({
-        ...prevState,
-        numberOfPlate: prevState.numberOfPlate- 1,
-      }));
-    }*/
-      setInputOrder((prevState)=>({
-        ...prevState,numberOfPlate : {
-            [menuID] : (prevState.numberOfPlate[menuID]||1)>1? (prevState.numberOfPlate[menuID] || 1)-1 : prevState.numberOfPlate[menuID]
-        }
-      }))
-  };
   //filter
   const filterItem = (categoryName) => {
     console.log("category input:", categoryName);
@@ -109,36 +76,41 @@ const MenuPage = ({tableID}) => {
     }
   };
 
-  const handleAddCart=async(menuIDSelect,optionValue)=>{
-    
-    console.log("Add option value: ",optionValue,typeof optionValue);
+  const handleAddCart = async (menuIDSelect, optionValue) => {
+    console.log("Add option value: ", optionValue, typeof optionValue);
     try {
-      const response = await axios.post("https://localhost:7202/api/Customer/AddCart",{
-       menuID:menuIDSelect,
-       tableID:tableID,
-       optionValue:optionValue
-      })
-      console.log("Add cart response: ",response.data);
-      setInputOrder({
-        option:"",
-        tableID : "",
-        menuID : "",
-      })
+      const response = await axios.post(
+        "https://localhost:7202/api/Customer/AddCart",
+        {
+          menuID: menuIDSelect,
+          tableID: tableID,
+          optionValue: optionValue,
+        }
+      );
+      console.log("Add cart response: ", response.data);
+      clearmenuData();
       Swal.fire({
-        text:"เพิ่มรายการสำเร็จ",
-        icon:"success",
-        confirmButtonText:"OK"
+        text: "เพิ่มรายการสำเร็จ",
+        icon: "success",
+        confirmButtonText: "OK",
       });
     } catch (error) {
-      console.log("เกิดข้อผิดผลาดในการดึงข้อมูล",error)
+      console.log("เกิดข้อผิดผลาดในการดึงข้อมูล", error);
     }
+  };
 
-    
-  }
+  const clearmenuData = () => {
+    setInputOrder({
+      option: "",
+      tableID: "",
+      menuID: "",
+    });
+  };
   return (
     <div>
       <SideBarCustomer />
       <NavbarCustomer />
+
       <div>
         <div className="mainMenu">
           {" "}
@@ -149,7 +121,7 @@ const MenuPage = ({tableID}) => {
               style={{ height: "110px", maxWidth: "1300px", overflowX: "auto" }}
             >
               <button
-                className="p-2 innerbutton hoverCard"
+                className="innerbutton hoverCard"
                 value="ทั้งหมด"
                 onClick={() => {
                   filterItem("all");
@@ -157,14 +129,15 @@ const MenuPage = ({tableID}) => {
               >
                 ทั้งหมด
               </button>
+
               {Menucategory.map((item) => (
                 <button
-                  className="p-2 innerbutton hoverCard"
+                  className="innerbutton hoverCard" 
                   onClick={() => {
                     filterItem(item.categoryName);
                   }}
-                >
-                  {/*<img
+                  type="button">
+                  <img
                     src={item.icon}
                     alt={item.categoryName}
                     className="img-fluid rounded-circle me-2"
@@ -173,14 +146,15 @@ const MenuPage = ({tableID}) => {
                       height: "20px",
                       objectFit: "cover",
                     }}
-                  />*/}
+                  />
                   {item.categoryName}
                 </button>
               ))}
             </div>
+       
             <div>
               <Row>
-                <Col 
+                <Col
                 //</Row>xs={7}
                 >
                   <div
@@ -219,7 +193,7 @@ const MenuPage = ({tableID}) => {
                       }}
                     >
                       <p>เมนูอาหาร</p>
-                      <div 
+                      <div
                         style={{
                           display: "grid",
                           gridTemplateColumns:
@@ -227,13 +201,13 @@ const MenuPage = ({tableID}) => {
                           gap: "10px",
                           marginLeft: "10px",
                         }}
-                        className="mb-3 border border-info"
+                        className="mb-3"
                       >
                         {menuData.map((item) => (
                           <Card
                             style={{
                               width: "16rem",
-                              height:"auto",
+                              height: "auto",
                               cursor: "pointer",
                               transition: "border-color 0.3s",
                             }}
@@ -275,48 +249,50 @@ const MenuPage = ({tableID}) => {
                                 SlitStringToArray(item.value).map(
                                   (optionValue, index) => (
                                     <ul key={index}>
-                                      <input type="radio" name="optionValue"  checked={inputOrder.option === optionValue} value={optionValue} onChange={(e)=>setInputOrder({...inputOrder,option:e.target.value})}/>
-                                      
-                                      <label style={{ fontSize: "1rem" }} htmlFor={`option-${index}`}><span>{optionValue}</span></label><br/>
+                                      <input
+                                        type="radio"
+                                        name="optionValue"
+                                        checked={
+                                          inputOrder.option === optionValue
+                                        }
+                                        value={optionValue}
+                                        onChange={(e) =>
+                                          setInputOrder({
+                                            ...inputOrder,
+                                            option: e.target.value,
+                                          })
+                                        }
+                                      />
+
+                                      <label
+                                        style={{ fontSize: "1rem" }}
+                                        htmlFor={`option-${index}`}
+                                      >
+                                        <span>{optionValue}</span>
+                                      </label>
+                                      <br />
                                     </ul>
                                   )
                                 )}
                               <hr className="text-secondary" />
                               <div className="button-area">
-
                                 {/*ปุ่มเพื่อจำนวนจาน*/}
                                 <div className=" d-flex justify-content-between">
-                             {/* <div className=" d-flex flex-row">
-                                <div className="number-input">
-                                  <button
-                                    type="button"
-                                    className="btnNumumber"
-                                    onClick={()=>{handleDecrease(item.menuID)}}
-                                  >
-                                    -
-                                  </button>
-                                  <div className="value">
-                                    {inputOrder.numberOfPlate}
+                                  <div>
+                                    <button
+                                      type="button"
+                                      className="addButtomMenu"
+                                      onClick={() => {
+                                        handleAddCart(
+                                          item.menuID,
+                                          inputOrder.option
+                                        );
+                                      }}
+                                    >
+                                      <i class="bi bi-patch-plus me-2"></i>
+                                      เพิ่มรายการ
+                                    </button>
                                   </div>
-                                  <button
-                                    type="button"
-                                    className="btnNumumber"
-                                    onClick={()=>{handleIncrease(item.menuID)}}
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                              </div>*/}
-                              <div>
-                                  <button
-                                    type="button"
-                                    className="addButtomMenu"
-                                    onClick={()=>{handleAddCart(item.menuID,inputOrder.option)}}
-                                  >
-                                    <i class="bi bi-patch-plus me-2"></i>
-                                    เพิ่มรายการ
-                                  </button>
-                                </div>
                                 </div>
                               </div>
                             </Card.Body>
@@ -346,7 +322,7 @@ const MenuPage = ({tableID}) => {
                                 style={{ fontSize: "0.7rem" }}
                                 className="border p-2 rounded-5 bg-warning fw-bold"
                               >
-                                เมนูข้าว
+                                ประเภทเมนู
                               </p>
                             </div>
                             <div className="d-flex flex-row justify-content-between">
@@ -359,25 +335,6 @@ const MenuPage = ({tableID}) => {
                             <div className="button-area">
                               {/*ปุ่มเพื่อจำนวนจาน*/}
                               <div className=" d-flex flex-row">
-                                <div className="number-input">
-                                  <button
-                                    type="button"
-                                    className="btnNumumber"
-                                    onClick={handleDecrease}
-                                  >
-                                    -
-                                  </button>
-                                  <div className="value">
-                                    {inputOrder.numberOfPlate}
-                                  </div>
-                                  <button
-                                    type="button"
-                                    className="btnNumumber"
-                                    onClick={handleIncrease}
-                                  >
-                                    +
-                                  </button>
-                                </div>
                                 <div>
                                   <button
                                     type="button"
@@ -395,9 +352,6 @@ const MenuPage = ({tableID}) => {
                     </div>
                   </div>
                 </Col>
-                {/*<Col xs={5}>
-                  <Mycart/> 
-                </Col>*/}
               </Row>
             </div>
           </Col>

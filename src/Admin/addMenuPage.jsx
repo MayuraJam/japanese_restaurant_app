@@ -8,10 +8,6 @@ import NavbarAdmin from "../Component/NavBarAdmin";
 import axios from "axios";
 import Swal from "sweetalert2";
 import {
-  Container,
-  Row,
-  Col,
-  Card,
   Tab,
   Tabs,
   Button,
@@ -22,14 +18,12 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import photoDefault from "../image/default-product-img.jpg";
 import ManageMenu from "./manageMenuPage";
 import AddOptionComponent from "../Admin/addOptionComponent";
-import Menucategory from "../Component/componentData";
+import Menucategory from "../Component/MenucagoryData";
 
 const AddMenuPage = () => {
   const [key, setKey] = useState("เพิ่มเมนู");
-  const [errorFile, setErrorFile] = useState("");
   const photoUploadRef = useRef();
   const [loading, setLoading] = useState(false);
-  //const [photo, setPhoto] = useState(photoDefault);
   const [formvalue, setformValue] = useState({
     manuName: "",
     //menuDescription:"",
@@ -52,11 +46,8 @@ const AddMenuPage = () => {
         const response = await axios.get(
           `https://localhost:7202/api/Admin/OptionGet`
         );
-        //setLoading(false);
         console.log(response.data.optionList);
         setOption(response.data.optionList);
-        //console.log(curse);
-        //console.log(resturant);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -150,11 +141,10 @@ const AddMenuPage = () => {
       setError(error);
       return isValid;
   };
+
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if (validateValues()) {
-      console.log("Input data : ", formvalue);
-      console.log("Description data : ",menuDescription);
 
       const formData = new FormData();
       formData.append("menuName", formvalue.manuName);
@@ -165,7 +155,6 @@ const AddMenuPage = () => {
       formData.append("imageName", formvalue.imageName);
       formData.append("imageFile", formvalue.imagefile);
       formData.append("quantity", formvalue.quantity);
-
       try {
         const response = await axios.post(
           `https://localhost:7202/api/Admin/AddMenu`,formData,
@@ -202,7 +191,7 @@ const AddMenuPage = () => {
    const handleClear=()=>{
      setformValue({
       manuName: "",
-      //menuDescription:"",
+      menuDescription:"",
       categoryName: "",
       optionID: "",
       unitPrice: 0,
@@ -214,7 +203,6 @@ const AddMenuPage = () => {
      setDescription("");
      setError({});
      setSubmit(false);
-     //setPhoto(photoDefault);
      
    };
   return (
@@ -352,7 +340,6 @@ const AddMenuPage = () => {
                         value={formvalue.unitPrice}
                         onChange={handleChange}
                       className={`${errors.unitPrice? "is-invalid" : ""}`}
-
                       />
                     {errors.unitPrice && (<div className="error" style={{fontSize:"0.8rem",color:"red"}}>{errors.unitPrice}</div>)}
                       <p> บาท</p>
@@ -420,39 +407,6 @@ const AddMenuPage = () => {
               </Tab>
             </Tabs>
           </div>
-         {/* <div
-            className="border border-dark rounded-4"
-            style={{
-              height: "300px",
-              width: "360px",
-              backgroundColor: "white",
-            }}
-          >
-            <center>
-              <p className="p-3">เพิ่มประเภทเมนู</p>
-            </center>
-            <hr className="text-secondary" />
-            <Form className="p-3">
-              <Form.Group className="mb-5">
-                <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
-                  ชื่อประเภทเมนู :
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="กรอกชื่อประเภทเมนู..."
-                  name="categoryName"
-                  value={categoryName}
-                  onChange={(e)=>e.target.value}
-                ></Form.Control>
-              </Form.Group>
-              <div className="d-flex flex-row justify-content-end">
-                <Button variant="secondary" className="me-3">
-                  ยกเลิก
-                </Button>
-                <Button variant="primary">บันทึกข้อมูล</Button>
-              </div>
-            </Form>
-          </div>*/}
         </div>
           <ManageMenu/>
       </div>

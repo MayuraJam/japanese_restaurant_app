@@ -27,7 +27,7 @@ const NavbarMain=()=>{
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <button className="btn btn-outline-warning">
-                      โต๊ะที่ : xxxx
+                      โต๊ะที่ : T001
                     </button>
                   </Nav>
                 </Navbar.Collapse>

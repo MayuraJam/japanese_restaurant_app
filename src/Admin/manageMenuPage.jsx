@@ -114,7 +114,6 @@ const ManageMenu = () => {
               <th>{item.quantity}</th>
               <th>{getCurrentDate(item.createDate)}</th>
               <th>
-              <Button variant="warning" className="me-2">แก้ไข</Button>
               <Button variant="danger" onClick={()=>handleDeleteItem(item.menuID)}>ลบ</Button>
               </th>
             </tr>

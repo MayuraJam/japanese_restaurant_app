@@ -21,7 +21,7 @@ import OrderManagementPage from './Admin/orderManagement.jsx';
 import OrderStatusManagementPage from './Admin/orderStatusManagement.jsx';
 import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Mycart from './Component/cart.jsx';
+import Mycart from './Component/cartPage.jsx';
 function App() {
   return (
     <Router>
@@ -45,16 +45,14 @@ function App() {
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
 
         {/*ฝั่งพนักงาน*/}
-     <Route path="/Admin/table/:staftID" element={<TablePage/>} />   
+     <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : b511a88f-6b00-4c47-a17d-8816266e14b5 */}
      <Route path="/Admin/addmenu" element={<AddMenuPage/>} />   
      <Route path="/Admin/orderManagement" element={<OrderManagementPage/>} />   
      <Route path="/Admin/orderStatusManagement" element={<OrderStatusManagementPage/>} />   
      <Route path="/Admin/paymentManagement" element={<PaymentManagementPage/>} />   
 
-
         {/*หน้าทั่วไป ใช่ร่วมกัน*/}
         <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
-        
          {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
         <Route path="/AuthenModalPage" element={<AuthenModel/>} />  
         
