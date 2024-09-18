@@ -17,6 +17,7 @@ const MenuPage = ({ tableID }) => {
     option: "",
     tableID: "",
     menuID: "",
+    unitPrice : 0.0
   });
 
   const [menuData, setMenuData] = useState([]);
@@ -76,7 +77,7 @@ const MenuPage = ({ tableID }) => {
     }
   };
 
-  const handleAddCart = async (menuIDSelect, optionValue) => {
+  const handleAddCart = async (menuIDSelect, optionValue,unitPrice) => {
     console.log("Add option value: ", optionValue, typeof optionValue);
     try {
       const response = await axios.post(
@@ -85,6 +86,7 @@ const MenuPage = ({ tableID }) => {
           menuID: menuIDSelect,
           tableID: tableID,
           optionValue: optionValue,
+          unitPrice : unitPrice
         }
       );
       console.log("Add cart response: ", response.data);
@@ -285,7 +287,8 @@ const MenuPage = ({ tableID }) => {
                                       onClick={() => {
                                         handleAddCart(
                                           item.menuID,
-                                          inputOrder.option
+                                          inputOrder.option,
+                                          item.unitPrice
                                         );
                                       }}
                                     >

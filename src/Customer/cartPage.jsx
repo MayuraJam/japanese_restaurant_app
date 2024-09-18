@@ -6,11 +6,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import "../Component/stepperInputDesign.css";
 import Swal from "sweetalert2";
-import SideBarCustomer from "./sideNavigationCustomer";
+import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
 import "../Component/dataTeble.css"
-import NavbarCustomer from "./navBarCustomer";
+import NavbarCustomer from "../Component/navBarCustomer";
 
 const Mycart = () => {
   const tableID = "T001";
@@ -97,13 +97,14 @@ const Mycart = () => {
       )
     );
   };
-  const handleEditCart=async (cartID,quantity)=>{
-    if(!cartID || !quantity) return;
+  const handleEditCart=async (cartID,quantity,unitprice)=>{
+    if(!cartID || !quantity || !unitprice) return;
     try {
       const response = await axios.put(
         `https://localhost:7202/api/Customer/UpdateCart`,{
           cartID:cartID,
-          quantity : quantity
+          quantity : quantity,
+          unitPrice : unitprice
         }
       );
       console.log("response :", response.data.cartList);
@@ -206,7 +207,7 @@ const Mycart = () => {
                     <th>
                     <Button
                         variant="outline-warning" 
-                        onClick={() => handleEditCart(item.cartID,item.quantity)}
+                        onClick={() => handleEditCart(item.cartID,item.quantity,item.unitPrice)}
                         className="me-3"
                       >
                        <i class="bi bi-arrow-clockwise"></i>

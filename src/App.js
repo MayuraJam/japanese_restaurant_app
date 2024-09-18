@@ -21,7 +21,7 @@ import OrderManagementPage from './Admin/orderManagement.jsx';
 import OrderStatusManagementPage from './Admin/orderStatusManagement.jsx';
 import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Mycart from './Component/cartPage.jsx';
+import Mycart from './Customer/cartPage.jsx';
 function App() {
   return (
     <Router>
