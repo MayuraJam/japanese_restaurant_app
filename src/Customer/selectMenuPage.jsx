@@ -23,22 +23,25 @@ const MenuPage = ({ tableID }) => {
   const [menuData, setMenuData] = useState([]);
   const [originalmenuData, setOriginalMenuData] = useState([]);
   const [menuSelect, setMenuSelect] = useState([]);
+  const [search,setSearch] = useState("");
   //ดึงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
     try {
-      const response = await axios.get(
-        "https://localhost:7202/api/Admin/GetMenu"
+      const response = await axios.post(
+        `https://localhost:7202/api/Admin/GetMenu`,{
+          menuName : search
+        }
       );
       console.log("response :", response.data.menuList);
       setMenuData(response.data.menuList);
       setOriginalMenuData(response.data.menuList);
     } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้");
+      console.log("ไม่สามารถดึงข้อมูลได้",error);
     }
   };
   useEffect(() => {
     fetchingFulldata();
-  }, []);
+  }, [search]);
   //ปุ้มเพิ่มจำนวน
   //filter
   const filterItem = (categoryName) => {
@@ -64,18 +67,6 @@ const MenuPage = ({ tableID }) => {
     return arrayTXT;
   };
 
-  const handelSelectMenu = async (menuSelectID) => {
-    try {
-      console.log("menuSelectID :", menuSelectID);
-      const response = await axios.post(
-        `https://localhost:7202/api/Admin/GetMenuByID/${menuSelectID}`
-      );
-      console.log("response :", response.data.menuitem);
-      setMenuSelect(response.data.menuitem);
-    } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้ เนื่องจาก :", error);
-    }
-  };
 
   const handleAddCart = async (menuIDSelect, optionValue,unitPrice) => {
     console.log("Add option value: ", optionValue, typeof optionValue);
@@ -108,6 +99,7 @@ const MenuPage = ({ tableID }) => {
       menuID: "",
     });
   };
+
   return (
     <div>
       <SideBarCustomer />
@@ -175,12 +167,11 @@ const MenuPage = ({ tableID }) => {
                             placeholder="ค้นหาเมนูอาหาร..."
                             name="search"
                             className="form-control "
-                            /*value={"search"}
-                            onChange={handleInputChange}
-                            onKeyDown={handleSearch}*/
+                            value={search}
+                            onChange={(e)=>{setSearch(e.target.value)}}
                           />
                           <div className="input-group-append">
-                            <span className="input-group-text bg-white border-0">
+                            <span className="input-group-text bg-white border-0" >
                               <i className="bi bi-search"></i>
                             </span>
                           </div>
@@ -209,7 +200,7 @@ const MenuPage = ({ tableID }) => {
                           <Card
                             style={{
                               width: "16rem",
-                              height: "auto",
+                              minHeight: "20rem",
                               cursor: "pointer",
                               transition: "border-color 0.3s",
                             }}

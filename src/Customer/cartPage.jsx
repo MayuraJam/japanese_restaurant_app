@@ -11,8 +11,14 @@ import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
 import "../Component/dataTeble.css"
 import NavbarCustomer from "../Component/navBarCustomer";
+import { useNavigate } from "react-router-dom";
 
 const Mycart = () => {
+
+  const nevigate = useNavigate();
+  const ToPage = (path) => {
+    nevigate(path);
+  };
   const tableID = "T001";
   const [cartList, setCartList] = useState([]);
   const [total, setTotal] = useState(0);
@@ -120,6 +126,23 @@ const Mycart = () => {
        if(!price) return;
        const ans = price*0.07
   }
+  const handleCheckOut = async(totalPriceInput)=>{
+    try{
+      const response = await axios.post("https://localhost:7202/api/Customer/AddOrder",{
+        tableID:tableID,
+        totalPrice : totalPriceInput,
+      })
+      Swal.fire({
+        text: "ยืนยันรายการสำเร็จ โปรดรอการอนุมัติรายการซักครู่",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+      ToPage("/Customer/order");
+    }catch(error){
+      console.log(error);
+    }
+ }
+
   return (
     <>
       <SideBarCustomer />
@@ -127,7 +150,7 @@ const Mycart = () => {
       <div className="mainMenu border border-info">
         <div
           className="border border-black p-3 rounded-3 bg-white"
-          style={{ Height: "525px" }}
+          style={{ minHeight: "525px" }}
         >
           {cartList.length === 0 ? (
             <div style={{ height: "500px" }}>
@@ -293,7 +316,7 @@ const Mycart = () => {
               </div>
               <hr className="text-secondary" />
               <div className="d-flex justify-content-end">
-                <Button variant="outline-primary">ยืนยันรายการ</Button>{" "}
+                <Button variant="outline-primary" onClick={()=>handleCheckOut(total)}>ยืนยันรายการ</Button>{" "}
               </div>
             </div>
           )}

@@ -1,4 +1,4 @@
-import React from "react";
+import {React,useEffect,useState} from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
 import "../Component/sideNavigation.css";
 import "../Customer/selectMenu.css";
@@ -6,8 +6,34 @@ import NavbarAdmin from "../Component/NavBarAdmin";
 import { Row, Col, Alert, Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import OrderConfirmCard from "../Component/orderDetailConfirm";
+import Picture2 from "../image/restuarant.jpg";
+import axios from "axios";
 
 const OrderManagementPage = () => {
+  const [orderData,setOrderData] = useState([]);
+  const [sentID,setSentID] = useState("");
+//ดึงข้อมูล order ทั้งหมด
+const fetchingFulldata = async () => {
+  try {
+    const response = await axios.get(
+      `https://localhost:7202/api/Admin/GetOrder`
+    );
+    console.log("response :", response.data.orders);
+    setOrderData(response.data.orders);
+    
+  } catch (error) {
+    console.log("ไม่สามารถดึงข้อมูลได้");
+  }
+};
+useEffect(() => {
+  fetchingFulldata();
+}, []);
+
+const handleClick=(orderID)=>{
+  if(!orderID) return;
+   setSentID(orderID);
+} 
+
   return (
     <div>
       <SideBarAdmin />
@@ -56,25 +82,27 @@ const OrderManagementPage = () => {
               </div>
             </div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(12rem,17rem)",gap:"10px"}}>
+              {orderData.map((item)=>(
             <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
                 <Card.Header style={{fontSize:'1rem'}}>
                 
-                     รหัสการสั่งอาหาร : xxx
+                     รหัสการสั่งอาหาร : {item.orderID}
                 
                 </Card.Header>
                 <Card.Body>
                   <div className="d-flex flex-row justify-content-between">
-                  <Card.Title style={{fontSize:'1rem',lineHeight: "10px",}}>รหัสโต๊ะ : xxx</Card.Title>
+                  <Card.Title style={{fontSize:'1rem',lineHeight: "10px",}}>รหัสโต๊ะ : {item.tableID}</Card.Title>
                   <p className="bg-danger text-warning p-1 border rounded-3" style={{fontSize:"0.7rem"}}>NEW !</p>
                   </div>
                   <Card.Text style={{fontSize:'0.8rem',lineHeight: "8px"}} >
-                  จำนวนรายการ : รายการ
+                  จำนวนรายการ : {item.orderDetailList.reduce((totalQuant, currentItem) => totalQuant + currentItem.quantity, 0)}
                   </Card.Text>
-                  <Button variant="outline-primary">
+                  <Button variant="outline-primary" onClick={()=>{handleClick(item.orderID)}}>
                     กดดูรายระเอียดเพื่อทำการยืนยัน
                     </Button>
                 </Card.Body>
               </Card>
+              ))}
               <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
                 <Card.Header style={{fontSize:'1rem'}}>รหัสการสั่งอาหาร : xxx</Card.Header>
                 <Card.Body>
@@ -142,7 +170,7 @@ const OrderManagementPage = () => {
               overflowY: "auto",
             }}
           >
-            <OrderConfirmCard />
+            <OrderConfirmCard orderID={sentID}/>
           </Col>
         </Row>
       </div>

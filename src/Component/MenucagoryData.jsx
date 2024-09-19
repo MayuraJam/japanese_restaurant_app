@@ -13,7 +13,8 @@ const Menucategory = [
         {
           categoryID: "C00",
           categoryName: "เมนูเซต",
-          icon : BentoIcon},
+          icon : BentoIcon
+        },
         {
           categoryID: "C01",
           categoryName: "เมนูข้าว",
