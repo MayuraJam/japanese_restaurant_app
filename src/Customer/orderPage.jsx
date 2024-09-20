@@ -15,7 +15,7 @@ const OrderConfirmPage = () => {
   const tableID = "T001";
 
   const [orderData,setOrderData] = useState([]);
-  const [quantity,setQuantity] = useState(0);
+
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {
@@ -72,9 +72,6 @@ const OrderConfirmPage = () => {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   }
-  //console.log("วันที่ :"+formatedate+" เวลา :"+timeOrder(orderData.orderDate));
- 
-
   return (
     <div>
       <SideBarCustomer />
@@ -172,9 +169,9 @@ const OrderConfirmPage = () => {
                     {itemList.orderDetailStatus}
                     </p>
                     )}
-                     {itemList.orderDetailStatus === "เมนูนี้ถูกยกเลิก"&&(
+                     {itemList.orderDetailStatus === "เมนูนี้ถูกยกเลิกโดยพนักงานเนื่องจาก มีบางอย่างผิดปกติ"&&(
                     <p
-                      style={{ fontSize: "0.9rem" }}
+                      style={{ fontSize: "0.6rem" }}
                       className="bg-danger text-warning p-2 border rounded-3 d-flex justify-content-center"
                     >
                     {itemList.orderDetailStatus}
@@ -225,7 +222,7 @@ const OrderConfirmPage = () => {
             </div>
             <hr variant="secondary" />
             <div className="d-flex justify-content-end">
-              <Button variant="outline-primary">
+              <Button variant="outline-primary"  className ={`${item.confirmOrder ==="ยกเลิกรายการสั่งนี้"?"disabled":""}`}>
                 <i class="bi bi-coin me-2"></i>ชำระเงิน
               </Button>
             </div>
@@ -373,10 +370,10 @@ const OrderConfirmPage = () => {
                   </th>
                   <th>
                     <p
-                      style={{ fontSize: "0.9rem" }}
+                      style={{ fontSize: "0.6rem" }}
                       className="p-2 bg-danger text-warning border rounded-3 d-flex justify-content-center"
                     >
-                      เมนูนี้ถูกยกเลิก
+                      เมนูนี้ถูกยกเลิกโดยพนักงานเนื่องจาก มีบางอย่างผิดปกติ
                     </p>
                   </th>
                   <th>

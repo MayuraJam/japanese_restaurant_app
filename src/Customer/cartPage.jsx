@@ -152,7 +152,7 @@ const Mycart = () => {
           className="border border-black p-3 rounded-3 bg-white"
           style={{ minHeight: "525px" }}
         >
-          {cartList.length === 0 ? (
+          {cartList?.length === 0 ? (
             <div style={{ height: "500px" }}>
               <p>ตารางรายการสั่ง</p>
               <hr variant="secondary" />
@@ -180,7 +180,7 @@ const Mycart = () => {
                   </tr>
                   </thead>
                   <tbody>
-                {cartList.map((item) => (
+                {cartList?.map((item) => (
                   <tr key={item.cartID}>
                     <th>
                     <img

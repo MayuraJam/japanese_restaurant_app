@@ -11,7 +11,8 @@ import axios from "axios";
 
 const OrderManagementPage = () => {
   const [orderData,setOrderData] = useState([]);
-  const [sentID,setSentID] = useState("");
+  const [sentID,setSentID] = useState(null);
+  const [sentData,setSentData] = useState([]);
 //ดึงข้อมูล order ทั้งหมด
 const fetchingFulldata = async () => {
   try {
@@ -19,6 +20,9 @@ const fetchingFulldata = async () => {
       `https://localhost:7202/api/Admin/GetOrder`
     );
     console.log("response :", response.data.orders);
+    if(response.data.orders.confirmOrder === "ยกเลิกรายการสั่งนี้"){
+      setOrderData(null);
+    }
     setOrderData(response.data.orders);
     
   } catch (error) {
@@ -29,16 +33,18 @@ useEffect(() => {
   fetchingFulldata();
 }, []);
 
-const handleClick=(orderID)=>{
-  if(!orderID) return;
+const handleClick=async(orderID)=>{
    setSentID(orderID);
 } 
+const refrestPage = ()=>{
+  fetchingFulldata();
+}
 
   return (
     <div>
       <SideBarAdmin />
       <NavbarAdmin />
-      <div className="mainMenu border border-info">
+      <div className="mainMenu ">
         <p
           className="my-3 border border-dark bg-white p-2 rounded-5 d-flex justify-content-center"
           style={{ maxWidth: "220px" }}
@@ -57,9 +63,10 @@ const handleClick=(orderID)=>{
             className="border border-dark rounded-2 me-3 p-2 bg-white"
             style={{ minHeight: "440px" }}
           >
-            <div className="d-flex justify-content-end  mb-3">
+            <div className="d-flex justify-content-between  mb-3">
+              <Button variant="outline-dark" onClick={refrestPage}><i class="bi bi-arrow-clockwise"></i></Button>
               <div
-                className="search-container-box shadow-sm"
+                className="search-container-box shadow-sm  "
                 style={{ width: 300 }}
               >
                 <div className="input-group ">
@@ -92,13 +99,20 @@ const handleClick=(orderID)=>{
                 <Card.Body>
                   <div className="d-flex flex-row justify-content-between">
                   <Card.Title style={{fontSize:'1rem',lineHeight: "10px",}}>รหัสโต๊ะ : {item.tableID}</Card.Title>
+                  {item.confirmOrder === "ยังไม่อนุมัติ"?(
                   <p className="bg-danger text-warning p-1 border rounded-3" style={{fontSize:"0.7rem"}}>NEW !</p>
+                  ):(
+                    <div>
+                      <hr variant="secondary"/>
+                      <p className="mb-4">{" "}</p>
+                    </div>
+                  )}
                   </div>
                   <Card.Text style={{fontSize:'0.8rem',lineHeight: "8px"}} >
                   จำนวนรายการ : {item.orderDetailList.reduce((totalQuant, currentItem) => totalQuant + currentItem.quantity, 0)}
                   </Card.Text>
                   <Button variant="outline-primary" onClick={()=>{handleClick(item.orderID)}}>
-                    กดดูรายระเอียดเพื่อทำการยืนยัน
+                    กดดูรายละเอียดเพื่อทำการยืนยัน
                     </Button>
                 </Card.Body>
               </Card>
@@ -170,7 +184,9 @@ const handleClick=(orderID)=>{
               overflowY: "auto",
             }}
           >
-            <OrderConfirmCard orderID={sentID}/>
+            {sentID&& 
+             <OrderConfirmCard orderID={sentID}/>
+            }
           </Col>
         </Row>
       </div>
