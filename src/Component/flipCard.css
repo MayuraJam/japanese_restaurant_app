@@ -1,0 +1,13 @@
+#front{
+    transform: translate(-50%,-50%);
+}
+#card{
+    transform-style: preserve-3d;
+    transition: .5s ease;
+    backface-visibility: hidden;
+}
+#back{
+    backface-visibility: hidden;
+   transform: rotateY(180deg);
+   z-index:999;
+}

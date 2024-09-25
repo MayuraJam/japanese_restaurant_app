@@ -8,28 +8,55 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import "../Customer/PaymentOption.css";
 import Swal from "sweetalert2";
+import PaymentByQR from "../Component/paymentByQR.jsx";
+import qrCode from "../image/icon/qr.png";
+import point from "../image/icon/coin.png";
+import money from "../image/icon/money.png";
+import LoginMember from "../Customer/loginMember";
+
 const PaymentPage = () => {
   const [optionPay, setOptionPay] = useState("");
+  const [loginOpen, setloginOpen] = useState(false);
+  const [registerOpen, setregisterOpen] = useState(false);
 
-  const handleOpenBill = ()=>{
+  const openModal = (modalName)=>{
+    if(modalName==="login"){
+       setloginOpen(true);
+       setregisterOpen(false);
+    }else if(modalName=== "register"){
+       setloginOpen(false);
+       setregisterOpen(true);
+    }
+console.log('loginOpen :' , loginOpen);
+console.log('registerOpen :' , registerOpen);
+
+};
+
+  const handleOpenBill = () => {
     Swal.fire({
       title: "เข้าสู่ระบบการสะสมคะแนนหรือไม่?",
       icon: "warning",
       showCancelButton: true,
       cancelButtonColor: "#d33",
       confirmButtonColor: "#3085d6",
-      cancelButtonText:"ไม่ต้องการเข้าสู่หน้าสะสมคะแนน",
+      cancelButtonText: "ไม่ต้องการเข้าสู่หน้าสะสมคะแนน",
       confirmButtonText: "เข้าสู่ระบบ",
     }).then((result) => {
       if (result.isConfirmed) {
         //ไปที่ conponent เข้าสู่ระบบ
-
-      }else if(result.dismiss){
+        // toMenuPage()
+        <LoginMember 
+         isOpen={!loginOpen}
+         //setOPen == true
+         openRegister = {"register"}
+         onClick={() => openModal("login")}
+         //onClose={()=> closeModal("login")}
+       /> 
+      } else if (result.dismiss) {
         //ไปที่หน้า component บิล
       }
-
     });
-  }
+  };
 
   const handleClick = (value) => {
     setOptionPay(value);
@@ -211,9 +238,9 @@ const PaymentPage = () => {
                 onClick={() => handleClick("QR")}
               >
                 <img
-                  src={Picture2}
-                  alt="ภาพเมนูอาหาร"
-                  className="img-fluid border border-dark rounded-2 "
+                  src={qrCode}
+                  alt="QR code payment"
+                  className="img-fluid "
                   style={{
                     width: "50px",
                     height: "50px",
@@ -230,9 +257,9 @@ const PaymentPage = () => {
                 onClick={() => handleClick("Money")}
               >
                 <img
-                  src={Picture2}
-                  alt="ภาพเมนูอาหาร"
-                  className="img-fluid border border-dark rounded-2 "
+                  src={money}
+                  alt="money payment"
+                  className="img-fluid"
                   style={{
                     width: "50px",
                     height: "50px",
@@ -249,9 +276,9 @@ const PaymentPage = () => {
                 onClick={() => handleClick("Point")}
               >
                 <img
-                  src={Picture2}
-                  alt="ภาพเมนูอาหาร"
-                  className="img-fluid border border-dark rounded-2 "
+                  src={point}
+                  alt="point payment"
+                  className="img-fluid  "
                   style={{
                     width: "50px",
                     height: "50px",
@@ -277,10 +304,7 @@ const PaymentPage = () => {
               )}
               {optionPay === "QR" && (
                 <div>
-                  <p>การชำระเงินด้วย QR code</p>
-                  <div className="d-flex justify-content-end">
-                    <Button variant="outline-primary">ยืนยันการชำระเงิน</Button>
-                  </div>
+                  <PaymentByQR />
                 </div>
               )}
               {optionPay === "Money" && (
@@ -291,7 +315,9 @@ const PaymentPage = () => {
             </div>
             <hr variant="secondary" />
             <div className="d-flex justify-content-end">
-              <Button variant="outline-primary" onClick={handleOpenBill}>เปิดดูบิล</Button>
+              <Button variant="outline-primary" onClick={handleOpenBill}>
+                เปิดดูบิล
+              </Button>
             </div>
           </Col>
         </Row>

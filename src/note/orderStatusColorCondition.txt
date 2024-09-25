@@ -1,0 +1,50 @@
+                        {itemList.orderDetailStatus === "กำลังรอการอนุมัติ" && (
+                          <p
+                            style={{ fontSize: "0.9rem" }}
+                            className="bg-secondary text-white p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}
+                        {itemList.orderDetailStatus === "กำลังปรุง" && (
+                          <p
+                            style={{ fontSize: "0.9rem" }}
+                            className="bg-warning p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}
+                        {itemList.orderDetailStatus === "ปรุงสำเร็จ" && (
+                          <p
+                            style={{ fontSize: "0.9rem" }}
+                            className="bg-info p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}
+                        {itemList.orderDetailStatus === "กำลังเสริฟ" && (
+                          <p
+                            style={{ fontSize: "0.9rem" }}
+                            className="bg-success p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}
+                        {(itemList.orderDetailStatus ===
+                          "เมนูนี้ถูกยกเลิกโดยพนักงานเนื่องจาก มีบางอย่างผิดปกติ" ||
+                          itemList.orderDetailStatus === "รายการถูกยกเลิก") && (
+                          <p
+                            style={{ fontSize: "0.6rem" }}
+                            className="bg-danger text-warning p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}
+                        {itemList.orderDetailStatus === "เสริฟแล้ว" && (
+                          <p
+                            style={{ fontSize: "0.9rem" }}
+                            className="bg-primary p-2 border rounded-3 d-flex justify-content-center"
+                          >
+                            {itemList.orderDetailStatus}
+                          </p>
+                        )}

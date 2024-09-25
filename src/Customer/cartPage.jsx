@@ -244,65 +244,6 @@ const Mycart = () => {
                     </th>
                   </tr>
                 ))} 
-                {/* <div className="border rounded-3 p-1 mb-2" key={item.cartID}>
-                   <div className="d-flex flex-row justify-content-around align-items-center">
-                     <img
-                       src={item.imageSrc}
-                       //alt={user.firstName}
-                       className="img-fluid border border-dark mb-3 rounded-2"
-                       style={{
-                         width: "50px",
-                         //width:"100%",
-                         height: "50px",
-                         objectFit: "cover",
-                         alt: "MenuImage",
-                       }}
-                     />
-                     <div className="d-flex flex-column align-items-center">
-                       <p style={{ fontSize: "0.9rem" }}>{item.menuName}</p>
-                       <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                         {item.optionValue}
-                       </p>
-                     </div>
-                     <div className="number-input">
-                       <button
-                         type="button"
-                         className="btnNumumber"
-                         onClick={()=>handleDecrease(item.cartID)}
-                       >
-                         -
-                       </button>
-                       <div className="value">{item.quantity}</div>
-                       <button
-                         type="button"
-                         className="btnNumumber"
-                         onClick={()=>handleIncrease(item.cartID)}
-                       >
-                         +
-                       </button>
-                     </div>
-                     <p
-                       className="text-wrap border border-info"
-                       style={{ fontSize: "0.9rem", fontWeight: "bold" }}
-                     >
-                       {Calculate(item.quantity,item.unitPrice)} บาท
-                     </p>
-                     <Button
-                       variant="outline-warning" 
-                       onClick={() => handleEditCart(item.cartID,item.quantity)}
-                       className="me-3"
-                     >
-                      <i class="bi bi-arrow-clockwise"></i>
-                     </Button>
-                     <Button
-                       variant="outline-danger"
-                       onClick={() => handleDeleteCart(item.cartID)}
-                     >
-                       <i class="bi bi-x-circle"></i>
-                     </Button>
-                     
-                   </div>
-                 </div>*/}
                   </tbody>  
                 </table>
               </div>

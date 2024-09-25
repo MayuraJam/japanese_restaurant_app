@@ -81,6 +81,7 @@ const LoginStaftPage = () => {
       });
      }else{
        setSubmitting(true);
+       //ไปยังหน้าแรกของโปรแกรมฝั่งพนักงาน โดยมีการแนป ID ไปด้วย
        toPage(logindata.account.staftID);
        console.log("ID : ",logindata.account.staftID);
        Swal.fire({

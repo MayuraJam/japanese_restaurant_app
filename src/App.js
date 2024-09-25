@@ -22,6 +22,7 @@ import OrderStatusManagementPage from './Admin/orderStatusManagement.jsx';
 import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Mycart from './Customer/cartPage.jsx';
+import LoginMember from './Customer/loginMember.jsx';
 function App() {
   return (
     <Router>
@@ -43,9 +44,10 @@ function App() {
      <Route path="/Customer/payment" element={<PaymentPage/>} />   
      <Route path="/Customer/history" element={<HistoryPage/>} />   
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
+     <Route path="/Customer/loginTopoint" element={<LoginMember/>} />   
 
         {/*ฝั่งพนักงาน*/}
-     <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : b511a88f-6b00-4c47-a17d-8816266e14b5 */}
+     <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : STAFT00001 */}
      <Route path="/Admin/addmenu" element={<AddMenuPage/>} />   
      <Route path="/Admin/orderManagement" element={<OrderManagementPage/>} />   
      <Route path="/Admin/orderStatusManagement" element={<OrderStatusManagementPage/>} />   

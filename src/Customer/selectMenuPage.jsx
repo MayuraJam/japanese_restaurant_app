@@ -270,7 +270,7 @@ const MenuPage = ({ tableID }) => {
                               <hr className="text-secondary" />
                               <div className="button-area">
                                 {/*ปุ่มเพื่อจำนวนจาน*/}
-                                <div className=" d-flex justify-content-between">
+                                <div className=" d-flex justify-content-end">
                                   <div>
                                     <button
                                       type="button"

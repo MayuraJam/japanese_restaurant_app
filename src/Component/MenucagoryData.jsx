@@ -52,7 +52,7 @@ const Menucategory = [
         },
         {
           categoryID: "C07",
-          categoryName: "ครื่องดื่มแอลกอฮอร์",
+          categoryName: "เครื่องดื่มแอลกอฮอร์",
           icon : AlIcon
 
         },

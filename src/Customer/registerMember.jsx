@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import Swal from "sweetalert2";
 import Picture2 from "../image/restuarant.jpg";
 import { Row, Col, Form } from "react-bootstrap";
+import axios from "axios";
 
 function RegisterMember({isOpen}) {
   const [show, setShow] = useState(false);
@@ -18,6 +19,7 @@ function RegisterMember({isOpen}) {
     email: "",
     password: "",
     phone: "",
+    jobType :""
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -31,6 +33,17 @@ function RegisterMember({isOpen}) {
       roleID: 2,
       roleName: "พนักงาน",
     },
+  ];
+  const TypeJob = [
+    {
+      jobTID: 1,
+      jobTypeName: "ประจำ",
+    },
+    {
+      jobTID: 2,
+      jobTypeName: "ชั่วคร่าว",
+    },
+   
   ];
   const validateValues = () => {
     let isValid = true;
@@ -84,11 +97,27 @@ function RegisterMember({isOpen}) {
     }));
   };
 
-  function handleSubmit(e) {
+  const handleSubmit=async(e)=> {
     e.preventDefault();
     if (validateValues()) {
       console.log("Input data : ", inputFields);
       setSubmitting(true);
+      try {
+        const response = await axios.post(
+          `https://localhost:7202/api/Auth/Register`,{
+           firstName: inputFields.fname,
+           lastName: inputFields.lname,
+           phone: inputFields.phone,
+           email: inputFields.email,
+           password: inputFields.password,
+           roleName: inputFields.roleName,
+           jobType: inputFields.jobType
+          }
+        );
+        console.log("response :", response.data);
+      } catch (error) {
+        console.log("ไม่สามารถดึงข้อมูลได้");
+      }
       handleClose();
       Swal.fire({
         text: "คุณกรอกข้อมูลเรียบร้อย",
@@ -118,6 +147,7 @@ function RegisterMember({isOpen}) {
         email: "",
         password: "",
         phone: "",
+        jobType :""
     });
     setErrors({});
     setSubmitting(false);
@@ -205,8 +235,9 @@ function RegisterMember({isOpen}) {
                   )}
                 </Form.Group>
               </div>
+              <div className="d-flex flex-row ">
               <Form.Group
-                className="mb-3"
+                className="mb-3 me-3"
                
               >
                 <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
@@ -235,6 +266,30 @@ function RegisterMember({isOpen}) {
                   )}
                 </Form.Select>
               </Form.Group>
+              <Form.Group
+                className="mb-3"
+              >
+                <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
+                  เลือกรูปแบบงาน (สำหรับพนักงาน)
+                </Form.Label>
+                <Form.Select
+                  
+                  style={{ width: "350px" }}
+                  name="jobType"
+                  value={inputFields.jobType}
+                  onChange={handleChange}
+                >
+                  <option>เลือกประเภทงานที่สมัครไว้</option>
+                  {TypeJob?.map((item) => (
+                    <option key={item.jobTID} value={item.jobTypeName}>
+                      {item.jobTypeName}
+                    </option>
+                  ))}
+                  
+                </Form.Select>
+              </Form.Group>
+
+              </div>
 
               <strong>ติดต่อ</strong>
               <div className="d-flex flex-column justify-content-center align-items-center">
