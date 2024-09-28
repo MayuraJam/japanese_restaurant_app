@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
 import { Button, Card, Form } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -182,8 +182,8 @@ const OrderStatusManagementPage = () => {
                   <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
                     <option value="กำลังปรุง">กำลังปรุง</option>
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
-                    <option value="กำลังเสริฟ">กำลังเสริฟ</option>
-                    <option value="เสริฟแล้ว">เสริฟแล้ว</option>
+                    {/*<option value="กำลังเสริฟ">กำลังเสริฟ</option>
+                    <option value="เสริฟแล้ว">เสริฟแล้ว</option>*/}
                   </Form.Select>
                 </div>
               ))}
@@ -234,7 +234,7 @@ const OrderStatusManagementPage = () => {
                   <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
-                    <option value="เสริฟแล้ว">เสริฟแล้ว</option>
+                   {/*} <option value="เสริฟแล้ว">เสริฟแล้ว</option>*/}
                   </Form.Select>
                 </div>
               ))}

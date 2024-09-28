@@ -23,6 +23,8 @@ import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Mycart from './Customer/cartPage.jsx';
 import LoginMember from './Customer/loginMember.jsx';
+import PointPage from './Customer/pointPage.jsx';
+import FAQModal from './Component/question.jsx';
 function App() {
   return (
     <Router>
@@ -40,11 +42,15 @@ function App() {
      <Route path="/Customer" element={<SideBarCustomer/>} />
      <Route path="/Customer/menupage" element={<MenuPage/>} />   
      <Route path="/Customer/cartMenu" element={<Mycart/>} />        
-     <Route path="/Customer/order" element={<OrderPage/>} />   
-     <Route path="/Customer/payment" element={<PaymentPage/>} />   
+     <Route path="/Customer/order" element={<OrderPage/>} />    
+     <Route path="/Customer/payment/:orderID" element={<PaymentPage/>} />   {/*หน้า payment แบบมีรหัสลูกค้า */}  
      <Route path="/Customer/history" element={<HistoryPage/>} />   
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
      <Route path="/Customer/loginTopoint" element={<LoginMember/>} />   
+     <Route path="/Customer/pointPage" element={<PointPage/>} />   
+     <Route path="/Customer/FAQPage" element={<FAQModal/>} />   
+
+
 
         {/*ฝั่งพนักงาน*/}
      <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : STAFT00001 */}

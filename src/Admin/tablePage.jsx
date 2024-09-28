@@ -1,7 +1,7 @@
 import {React,useEffect,useState} from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
 import { Nav, Navbar, NavDropdown, Container, Row, Col,Card } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -92,37 +92,18 @@ const TablePage = () => {
               }}
             >
               {freeTable.map((item)=>(
-            <Card border="primary" bg='secondary' text='warning' style={{ width: "12rem",height:"10rem" }}>
+            <Card border="primary" bg='secondary' text='warning' style={{ width: "12rem",height:"12rem" }}>
                 <Card.Header style={{fontSize:'1rem'}}>รหัสโต๊ะ : {item.tableID}</Card.Header>
                 <Card.Body>
                   <Card.Title>สถานะ : {item.tableStatus}</Card.Title>
                   <hr className="text-warning" />
-                  <Card.Text style={{fontSize:'1rem'}}>
-                  จำนวนที่นั่ง : {item.seat} ที่นั่ง
+                  <Card.Text style={{fontSize:'0.8rem'}}>
+                 <p >จำนวนที่นั่ง : {item.seat} ที่นั่ง</p>
+                 <p>รูปแบบที่นั่ง : {item.seatType}</p>
                   </Card.Text>
                 </Card.Body>
               </Card>
             ))}
-              <Card border="primary" bg='secondary' text='warning' style={{ width: "12rem",height:"10rem" }}>
-                <Card.Header style={{fontSize:'1rem'}}>รหัสโต๊ะ</Card.Header>
-                <Card.Body>
-                  <Card.Title>สถานะของโต๊ะ</Card.Title>
-                  <hr className="text-warning" />
-                  <Card.Text style={{fontSize:'1rem'}}>
-                  รายละเอียดโต๊ะ
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              <Card border="primary" bg='secondary' text='warning' style={{ width: "12rem" ,height:"10rem"}}>
-                <Card.Header style={{fontSize:'1rem'}}>รหัสโต๊ะ</Card.Header>
-                <Card.Body>
-                  <Card.Title>สถานะของโต๊ะ</Card.Title>
-                  <hr className="text-warning" />
-                  <Card.Text style={{fontSize:'1rem'}}>
-                  รายละเอียดโต๊ะ
-                  </Card.Text>
-                </Card.Body>
-              </Card>
             </div>
           </div>
 
@@ -165,13 +146,14 @@ const TablePage = () => {
               }}
             > 
               {reservedTable.map((item)=>(
-            <Card border="primary" bg='warning' style={{ width: "12rem" ,height:"10rem"}}>
+            <Card border="primary" bg='warning' style={{ width: "12rem" ,height:"12rem"}}>
                 <Card.Header style={{fontSize:'1rem'}}>รหัสโต๊ะ : {item.tableID}</Card.Header>
                 <Card.Body>
                   <Card.Title>สถานะ : {item.tableStatus}</Card.Title>
                   <hr className="text-secondary" />
-                  <Card.Text style={{fontSize:'1rem'}}>
-                  จำนวนที่นั่ง : {item.seat} ที่นั่ง
+                  <Card.Text style={{fontSize:'0.8rem'}}>
+                 <p >จำนวนที่นั่ง : {item.seat} ที่นั่ง</p>
+                 <p>รูปแบบที่นั่ง : {item.seatType}</p>
                   </Card.Text>
                 </Card.Body>
               </Card>

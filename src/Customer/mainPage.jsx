@@ -1,7 +1,7 @@
 import React from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer.jsx";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarCustomer from "../Component/navBarCustomer.jsx";
 import MenuPage from './selectMenuPage.jsx';
 import { Nav, Navbar, NavDropdown, Container, Row, Col } from "react-bootstrap";

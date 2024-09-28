@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarCustomer from "../Component/navBarCustomer";
 import { Row, Col, Card } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
-import "../Component/stepperInputDesign.css";
+import "../CSS_file/stepperInputDesign.css";
 import Menucategory from "../Component/MenucagoryData";
 import Swal from "sweetalert2";
 

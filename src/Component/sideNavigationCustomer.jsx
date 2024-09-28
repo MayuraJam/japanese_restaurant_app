@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Component/sideNavigation.css";
+import "../CSS_file/sideNavigation.css";
 import Navbar from "./navBarCustomer";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import riceIcon from '../image/icon/rice.png';
@@ -11,8 +11,10 @@ import cashIcon from '../image/icon/wallet.png';
 import historyIcon from '../image/icon/history.png';
 import logoutIcon from '../image/icon/logout.png';
 import Mainlogo from '../image/phapirun_logo2.jpg'
-
+import { useParams } from "react-router-dom";
 const SideBarCustomer = () => {
+  const {orderID} = useParams();
+  const {staftID} = useParams();
   const location = useLocation();
 
   return (
@@ -51,9 +53,23 @@ const SideBarCustomer = () => {
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
+         {/*} {!orderID&&(
             <a href="/Customer/payment" className={`d-flex align-items-center ${location.pathname === "/Customer/payment" ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/> 
               ชำระเงิน</a>
+          )}*/}
+          {orderID && (
+        <a 
+          href={`/Customer/payment/${orderID}`} 
+          className={`d-flex align-items-center ${location.pathname.includes(`/Customer/payment/${orderID}`) ? "active" : ""}`}
+        >
+          <img 
+            src={cashIcon} 
+            style={{width:'20px', height:'20px', backgroundSize:'cover', marginRight:'10px'}}
+          /> 
+          ชำระเงิน
+        </a>
+      )}
           </div>
           <div className="d-flex flex-column mb-2">
             <a href="/Customer/history" className={`d-flex align-items-center ${location.pathname === "/Customer/history" ? "active" : ""}`}>

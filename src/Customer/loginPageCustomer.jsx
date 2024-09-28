@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Component/sideNavigation.css";
+import "../CSS_file/sideNavigation.css";
 import { React, useState } from "react";
 import NavbarMain from "../Component/navBarMain";
 import {Row,Col} from 'react-bootstrap';
-import "../Customer/selectMenu.css";
+import "../CSS_file/selectMenu.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import backgroundPicture from '../image/circle.jpg'
 import Picture1 from '../image/food.jpg'

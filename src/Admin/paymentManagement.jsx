@@ -1,7 +1,7 @@
 import React from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
 import { Nav, Navbar, NavDropdown, Container, Row, Col } from "react-bootstrap";
 import 'bootstrap-icons/font/bootstrap-icons.css';

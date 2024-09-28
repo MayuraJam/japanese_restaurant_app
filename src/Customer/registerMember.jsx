@@ -41,7 +41,7 @@ function RegisterMember({isOpen}) {
     },
     {
       jobTID: 2,
-      jobTypeName: "ชั่วคร่าว",
+      jobTypeName: "ชั่วคราว",
     },
    
   ];

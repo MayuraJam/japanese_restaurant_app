@@ -1,18 +1,23 @@
 import { React, useEffect, useState } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarMenu from "../Component/navBarCustomer";
-import "../Component/dataTeble.css";
+import "../CSS_file/dataTeble.css";
 import { Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const OrderConfirmPage = () => {
+  const navigate = useNavigate();
+  const toPage = (orderID) => {
+    navigate("/Customer/payment/" + orderID);
+  };
   const tableID = "T001";
-
+  const vat = 0.07;
   const [orderData, setOrderData] = useState([]);
 
   //ดึงข้อมูล order ทั้งหมด
@@ -32,7 +37,7 @@ const OrderConfirmPage = () => {
   }, []);
 
   const CalculateTax = (totalPrice) => {
-    var tax = (totalPrice * 0.07).toFixed(0);
+    var tax = (totalPrice * vat).toFixed(0);
     return tax;
   };
 
@@ -116,7 +121,7 @@ const OrderConfirmPage = () => {
           style={{ fontSize: "0.9rem" }}
           className="bg-secondary text-white p-2 border rounded-3 d-flex justify-content-center"
         >
-         {orderStatus}
+          {orderStatus}
         </p>
       );
     } else if (orderStatus === "กำลังปรุง") {
@@ -125,7 +130,7 @@ const OrderConfirmPage = () => {
           style={{ fontSize: "0.9rem" }}
           className="bg-warning p-2 border rounded-3 d-flex justify-content-center"
         >
-        {orderStatus}
+          {orderStatus}
         </p>
       );
     } else if (orderStatus === "ปรุงสำเร็จ") {
@@ -134,16 +139,16 @@ const OrderConfirmPage = () => {
           style={{ fontSize: "0.9rem" }}
           className="bg-info p-2 border rounded-3 d-flex justify-content-center"
         >
-         {orderStatus}
+          {orderStatus}
         </p>
       );
     } else if (orderStatus === "กำลังเสริฟ") {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-success p-2 border rounded-3 d-flex justify-content-center"
+          className="bg-success p-2 border rounded-3 d-flex justify-content-center text-white"
         >
-         {orderStatus}
+          {orderStatus}
         </p>
       );
     } else if (
@@ -155,193 +160,203 @@ const OrderConfirmPage = () => {
           style={{ fontSize: "0.6rem" }}
           className="bg-danger text-warning p-2 border rounded-3 d-flex justify-content-center"
         >
-         {orderStatus}
+          {orderStatus}
         </p>
       );
     } else if (orderStatus === "เสริฟแล้ว") {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-primary p-2 border rounded-3 d-flex justify-content-center"
+          className="bg-primary p-2 border rounded-3 d-flex justify-content-center text-white"
         >
-        {orderStatus}
+          {orderStatus}
         </p>
       );
     }
   };
 
- 
+  const GotoPayPage = (orderID, orderStatus) => {
+    console.log("orderID :", orderID, "orderStatus : " + orderStatus);
+    if (!orderID && orderStatus) return;
+    if (orderStatus === "ไม่สำเร็จ") {
+      Swal.fire({
+        icon: "error",
+        title: "อาหารยังมาเสริฟไม่ครบ จึงไม่สามารถทำการชำระเงินได้",
+      });
+    } else {
+      toPage(orderID);
+    }
+  };
+  
   return (
     <div>
       <SideBarCustomer />
       <NavbarMenu />
       <div className="mainMenu border border-info">
         <p className="my-3 p-2 fs-3">ติดตามรายการอาหาร</p>
-        {orderData?.map((item) => (
+        {orderData.length === 0 ? (
           <div
-            className="border border-black p-3 rounded-3 bg-white mb-4 "
-            style={{ Height: "525px" }}
+            className="border border-black p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center "
+            style={{ height: "425px" }}
           >
-            <div>
-              <div className="d-flex flex-row justify-content-between ">
-                <div className="d-flex flex-column m-0 ">
-                  <p style={{ fontSize: "1rem" }}>
-                    รหัสการสั่งอาหาร : {item.orderID}
-                  </p>
-                  <div className="d-flex flex-row justify-content-around">
+            <p style={{ textAlign: "center" }}>ไม่พบรายการสั่ง</p>
+          </div>
+        ) : (
+          orderData?.map((item) => (
+            <div
+              className="border border-black p-3 rounded-3 bg-white mb-4 "
+              style={{ Height: "525px" }}
+            >
+              <div>
+                <div className="d-flex flex-row justify-content-between ">
+                  <div className="d-flex flex-column m-0 ">
+                    <p style={{ fontSize: "1rem" }}>
+                      รหัสการสั่งอาหาร : {item.orderID}
+                    </p>
+                    <div className="d-flex flex-row justify-content-around">
+                      <p
+                        style={{ fontSize: "0.8rem", color: "gray" }}
+                        className="me-3"
+                      >
+                        {dateOrder(item.orderDate)}
+                      </p>
+
+                      <p style={{ fontSize: "0.8rem", color: "gray" }}>
+                        {timeOrder(item.orderDate)} น.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="d-flex flex-column align-items-center">
                     <p
                       style={{ fontSize: "0.8rem", color: "gray" }}
                       className="me-3"
                     >
-                      {dateOrder(item.orderDate)}
+                      สถานะของรายการ : {item.orderStatus}
                     </p>
-
                     <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                      {timeOrder(item.orderDate)} น.
+                      สถานะการยืนยันรายการ : {item.confirmOrder}
                     </p>
                   </div>
                 </div>
-
-                <div className="d-flex flex-column align-items-center">
-                  <p
-                    style={{ fontSize: "0.8rem", color: "gray" }}
-                    className="me-3"
+                <hr variant="secondary" />
+                <table className="table table-striped border border-dark">
+                  <thead>
+                    <tr>
+                      <th>ภาพเมนู</th>
+                      <th>ชื่อเมนู</th>
+                      <th>จำนวน</th>
+                      <th>ราคา</th>
+                      <th>สถานะ</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {item.orderDetailList?.map((itemList) => (
+                      <tr>
+                        <th>
+                          <img
+                            src={itemList.imageSrc}
+                            alt={itemList.imageSrc}
+                            className="img-fluid border border-dark rounded-2"
+                            style={{
+                              width: "50px",
+                              //width:"100%",
+                              height: "50px",
+                              objectFit: "cover",
+                              alt: "MenuImage",
+                            }}
+                          />
+                        </th>
+                        <th>
+                          <div className="d-flex flex-column m-0">
+                            <p style={{ fontSize: "0.9rem" }}>
+                              {itemList.menuName}
+                            </p>
+                            <p style={{ fontSize: "0.8rem", color: "gray" }}>
+                              {itemList.optionValue}
+                            </p>
+                          </div>
+                        </th>
+                        <th>{itemList.quantity}</th>
+                        <th>
+                          <div style={{ fontSize: "0.9rem" }}>
+                            {itemList.netprice} บาท
+                          </div>
+                        </th>
+                        <th>{selectColorStatus(itemList.orderDetailStatus)}</th>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                <hr variant="secondary" />
+                <div className="d-flex justify-content-end">
+                  <Card border="secondary" style={{ width: "25rem" }}>
+                    <Card.Header>รายละเอียด</Card.Header>
+                    <Card.Body>
+                      {/*<Card.Title>ราคารวม</Card.Title>*/}
+                      <Card.Text>
+                        <div className="d-flex flex-row justify-content-between">
+                          <p style={{ fontSize: "1rem" }}>
+                            จำนวน (
+                            {item.orderDetailList.reduce(
+                              (totalQuant, currentItem) =>
+                                totalQuant + currentItem.quantity,
+                              0
+                            )}
+                            ) รายการ
+                          </p>
+                          <p>{item.totalPrice} บาท</p>
+                        </div>
+                        <div className="d-flex flex-row justify-content-between">
+                          <p style={{ fontSize: "1rem" }}>
+                            ภาษีมุลค่าเพิ่ม (7%)
+                          </p>
+                          <p style={{ fontSize: "1rem" }}>
+                            {CalculateTax(item.totalPrice)} บาท
+                          </p>
+                        </div>
+                        <hr variant="secondary" />
+                        <div className="d-flex flex-row justify-content-between">
+                          <p style={{ fontSize: "1.3rem" }}>ราคาสุทธิ </p>
+                          <p style={{ fontSize: "1.3rem" }}>
+                            {CalculateNetPrice(
+                              item.totalPrice,
+                              item.totalPrice * vat
+                            ).toFixed(0)}{" "}
+                            บาท
+                          </p>
+                        </div>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </div>
+                <hr variant="secondary" />
+                <div className="d-flex justify-content-end">
+                  <Button
+                    variant="outline-danger"
+                    className={`${
+                      item.confirmOrder !== "ยังไม่อนุมัติ" ||
+                      item.orderDetailList.orderDetailStatus ===
+                        "กำลังรอการอนุมัติ"
+                        ? "disabled"
+                        : ""
+                    } me-3`}
+                    onClick={() => handleCancelOrder(item.orderID)}
                   >
-                    สถานะของรายการ : {item.orderStatus}
-                  </p>
-                  <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                    สถานะการยืนยันรายการ : {item.confirmOrder}
-                  </p>
+                    <i class="bi bi-coin me-2"></i>ยกเลิกรายการสั่งนี้ทั้งหมด
+                  </Button>
+
+                  <Button
+                    variant="outline-primary"
+                    onClick={() => GotoPayPage(item.orderID, item.orderStatus)}
+                    disabled={item.confirmOrder === "ยกเลิกรายการสั่งนี้"}>
+                    <i class="bi bi-coin me-2"></i>ชำระเงิน
+                  </Button>
                 </div>
               </div>
-              <hr variant="secondary" />
-              <table className="table table-striped border border-dark">
-                <thead>
-                  <tr>
-                    <th>ภาพเมนู</th>
-                    <th>ชื่อเมนู</th>
-                    <th>จำนวน</th>
-                    <th>ราคา</th>
-                    <th>สถานะ</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {item.orderDetailList?.map((itemList) => (
-                    <tr>
-                      <th>
-                        <img
-                          src={itemList.imageSrc}
-                          alt={itemList.imageSrc}
-                          className="img-fluid border border-dark rounded-2"
-                          style={{
-                            width: "50px",
-                            //width:"100%",
-                            height: "50px",
-                            objectFit: "cover",
-                            alt: "MenuImage",
-                          }}
-                        />
-                      </th>
-                      <th>
-                        <div className="d-flex flex-column m-0">
-                          <p style={{ fontSize: "0.9rem" }}>
-                            {itemList.menuName}
-                          </p>
-                          <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                            {itemList.optionValue}
-                          </p>
-                        </div>
-                      </th>
-                      <th>{itemList.quantity}</th>
-                      <th>
-                        <div style={{ fontSize: "0.9rem" }}>
-                          {itemList.netprice} บาท
-                        </div>
-                      </th>
-                      <th>
-                        {selectColorStatus(itemList.orderDetailStatus)} 
-                      </th>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <hr variant="secondary" />
-              <div className="d-flex justify-content-end">
-                <Card border="secondary" style={{ width: "25rem" }}>
-                  <Card.Header>รายละเอียด</Card.Header>
-                  <Card.Body>
-                    {/*<Card.Title>ราคารวม</Card.Title>*/}
-                    <Card.Text>
-                      <div className="d-flex flex-row justify-content-between">
-                        <p style={{ fontSize: "1rem" }}>
-                          จำนวน (
-                          {item.orderDetailList.reduce(
-                            (totalQuant, currentItem) =>
-                              totalQuant + currentItem.quantity,
-                            0
-                          )}
-                          ) รายการ
-                        </p>
-                        <p>{item.totalPrice} บาท</p>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between">
-                        <p style={{ fontSize: "1rem" }}>ภาษีมุลค่าเพิ่ม (7%)</p>
-                        <p style={{ fontSize: "1rem" }}>
-                          {CalculateTax(item.totalPrice)} บาท
-                        </p>
-                      </div>
-                      <hr variant="secondary" />
-                      <div className="d-flex flex-row justify-content-between">
-                        <p style={{ fontSize: "1.3rem" }}>ราคาสุทธิ </p>
-                        <p style={{ fontSize: "1.3rem" }}>
-                          {CalculateNetPrice(
-                            item.totalPrice,
-                            item.totalPrice * 0.07
-                          ).toFixed(0)}{" "}
-                          บาท
-                        </p>
-                      </div>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </div>
-              <hr variant="secondary" />
-              <div className="d-flex justify-content-end">
-                <Button
-                  variant="outline-danger"
-                  className={`${
-                    item.confirmOrder !== "ยังไม่อนุมัติ" ||
-                    item.orderDetailList.orderDetailStatus ===
-                      "กำลังรอการอนุมัติ"
-                      ? "disabled"
-                      : ""
-                  } me-3`}
-                  onClick={() => handleCancelOrder(item.orderID)}
-                >
-                  <i class="bi bi-coin me-2"></i>ยกเลิกรายการสั่งนี้ทั้งหมด
-                </Button>
-
-                <Button
-                  variant="outline-primary"
-                  className={`${
-                    item.confirmOrder === "ยกเลิกรายการสั่งนี้"
-                      ? "disabled"
-                      : ""
-                  }`}
-                >
-                  <i class="bi bi-coin me-2"></i>ชำระเงิน
-                </Button>
-              </div>
             </div>
-          </div>
-        ))}
-        <div
-          className="border border-black p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center "
-          style={{ height: "425px" }}
-        >
-          <p style={{ textAlign: "center" }}>ไม่พบรายการสั่ง</p>
-        </div>
-       
+          ))
+        )}
       </div>
     </div>
   );

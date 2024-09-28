@@ -1,11 +1,11 @@
 import React from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarMenu from "../Component/navBarCustomer";
 import { Nav,  Button,Card} from "react-bootstrap";
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import "../Component/dataTeble.css"
+import "../CSS_file/dataTeble.css"
 import Picture2 from "../image/restuarant.jpg";
 
 const HistoryPage=()=>{

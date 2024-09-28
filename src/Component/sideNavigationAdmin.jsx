@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Component/sideNavigation.css";
+import "../CSS_file/sideNavigation.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import orderlistIcon from '../image/icon/check-list.png';
 import orderTimeIcon from '../image/icon/file.png';
@@ -110,12 +110,12 @@ const SideBarAdmin = () => {
               
               เพิ่มรายการเมนู</a>
           </div>
-          <div className="d-flex flex-column ">
+          {/*<div className="d-flex flex-column ">
             <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               FAQ</a>
-          </div>
+          </div>*/}
           <div className="d-flex flex-column ">
             <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>

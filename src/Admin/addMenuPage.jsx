@@ -1,7 +1,7 @@
 import React, { useState, useRef,useEffect } from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";

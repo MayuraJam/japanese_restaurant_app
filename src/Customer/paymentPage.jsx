@@ -1,24 +1,29 @@
 import { React, useEffect, useState } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
-import "../Component/sideNavigation.css";
-import "../Customer/selectMenu.css";
+import "../CSS_file/sideNavigation.css";
+import "../CSS_file/selectMenu.css";
 import NavbarMenu from "../Component/navBarCustomer";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
-import "../Customer/PaymentOption.css";
+import "../CSS_file/PaymentOption.css";
 import Swal from "sweetalert2";
 import PaymentByQR from "../Component/paymentByQR.jsx";
+import PaymentByPoint from "../Component/paymentByPoint.jsx";
 import qrCode from "../image/icon/qr.png";
 import point from "../image/icon/coin.png";
 import money from "../image/icon/money.png";
 import LoginMember from "../Customer/loginMember";
-
+import axios from "axios";
+import Receipt from "../Component/billPaper.jsx";
+import { useParams } from "react-router-dom";
 const PaymentPage = () => {
+  const {orderID} = useParams();
+  const vat = 0.07;
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);
-
+  const [orderData, setOrderData] = useState([]);
   const openModal = (modalName)=>{
     if(modalName==="login"){
        setloginOpen(true);
@@ -52,8 +57,13 @@ console.log('registerOpen :' , registerOpen);
          onClick={() => openModal("login")}
          //onClose={()=> closeModal("login")}
        /> 
-      } else if (result.dismiss) {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
         //ไปที่หน้า component บิล
+        return(
+          <>
+            <Receipt/>
+          </>
+        );
       }
     });
   };
@@ -61,13 +71,48 @@ console.log('registerOpen :' , registerOpen);
   const handleClick = (value) => {
     setOptionPay(value);
   };
+
+  const fetchingFulldata =async(orderID) => {
+    try {
+      const response = await axios.get(
+        `https://localhost:7202/api/Admin/GetOrderByID/${orderID}`
+      );
+      console.log("response :", response.data.orderItem);
+      setOrderData(response.data.orderItem);
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้",error);
+    }
+  };
+  useEffect(() => {
+    fetchingFulldata(orderID);
+  }, [orderID]);
+
+  const CalculateTax = (totalPrice) => {
+    var tax = (totalPrice * vat).toFixed(0);
+    return tax;
+  };
+
+  const CalculateNetPrice = (totalPrice, taxPrice) => {
+    var net = totalPrice + taxPrice;
+
+    return net;
+  };
+
   return (
     <div>
       <SideBarCustomer />
       <NavbarMenu />
       <div className="mainMenu border border-info">
         <p className="my-3 p-2 fs-3">การชำระเงิน</p>
-        <p style={{ fontSize: "1rem" }}>รหัสการสั่งอาหาร : xxx</p>
+        <div className="d-flex flex-row">
+        <p style={{ fontSize: "1rem" ,marginRight:"150px"}}>รหัสการสั่งอาหาร : {orderData.orderID}</p>
+        {orderData.paymentStatus === "ยังไม่ได้ชำระ" &&(
+          <p style={{ fontSize: "1rem" }} className="border border-danger rounded-3 p-2 text-danger">สถานะการชำระเงิน : {orderData.paymentStatus}</p>
+        )}
+        {orderData.paymentStatus === "ชำระเงินสำเร็จ" &&(
+          <p style={{ fontSize: "1rem" }} className="border border-success rounded-3 p-2 text-success">สถานะการชำระเงิน : {orderData.paymentStatus}</p>
+        )}
+        </div>
         <Row
           className=" d-flex justify-content-start"
           style={{ marginLeft: "8px" }}
@@ -89,10 +134,11 @@ console.log('registerOpen :' , registerOpen);
                 </tr>
               </thead>
               <tbody>
+                  {orderData.orderDetailList?.map((itemList)=>(
                 <tr>
                   <th>
                     <img
-                      src={Picture2}
+                     src={itemList.imageSrc}
                       alt="ภาพเมนูอาหาร"
                       className="img-fluid border border-dark rounded-2 "
                       style={{
@@ -104,87 +150,17 @@ console.log('registerOpen :' , registerOpen);
                   </th>
                   <th>
                     <div className="d-flex flex-column">
-                      <p style={{ fontSize: "0.9rem" }}>ชื่อเมนู</p>
+                      <p style={{ fontSize: "0.9rem" }}>{itemList.menuName}</p>
                       <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                        optionName
+                        {itemList.optionValue}
                       </p>
                     </div>
                   </th>
-                  <th>จำนวน ชื้น</th>
-                  <th>ราคา</th>
+                  <th>{itemList.quantity} ชิ้น</th>
+                  <th>{itemList.netprice} บาท</th>
                 </tr>
-                <tr>
-                  <th>
-                    <img
-                      src={Picture2}
-                      alt="ภาพเมนูอาหาร"
-                      className="img-fluid border border-dark rounded-2 "
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </th>
-                  <th>
-                    <div className="d-flex flex-column">
-                      <p style={{ fontSize: "0.9rem" }}>ชื่อเมนู</p>
-                      <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                        optionName
-                      </p>
-                    </div>
-                  </th>
-                  <th>จำนวน ชื้น</th>
-                  <th>ราคา</th>
-                </tr>
-                <tr>
-                  <th>
-                    <img
-                      src={Picture2}
-                      alt="ภาพเมนูอาหาร"
-                      className="img-fluid border border-dark rounded-2 "
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </th>
-                  <th>
-                    <div className="d-flex flex-column">
-                      <p style={{ fontSize: "0.9rem" }}>ชื่อเมนู</p>
-                      <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                        optionName
-                      </p>
-                    </div>
-                  </th>
-                  <th>จำนวน ชื้น</th>
-                  <th>ราคา</th>
-                </tr>
-                <tr>
-                  <th>
-                    <img
-                      src={Picture2}
-                      alt="ภาพเมนูอาหาร"
-                      className="img-fluid border border-dark rounded-2 "
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </th>
-                  <th>
-                    <div className="d-flex flex-column">
-                      <p style={{ fontSize: "0.9rem" }}>ชื่อเมนู</p>
-                      <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                        optionName
-                      </p>
-                    </div>
-                  </th>
-                  <th>จำนวน ชื้น</th>
-                  <th>ราคา</th>
-                </tr>
+                    
+                  ))}
               </tbody>
             </table>
             <Card border="secondary" style={{ width: "35rem" }}>
@@ -193,14 +169,18 @@ console.log('registerOpen :' , registerOpen);
                 {/*<Card.Title>ราคารวม</Card.Title>*/}
                 <Card.Text>
                   <div className="d-flex flex-row justify-content-between">
-                    <p style={{ fontSize: "0.8rem" }}>จำนวน () รายการ</p>
+                    <p style={{ fontSize: "0.8rem" }}>จำนวน ({orderData.orderDetailList?.reduce(
+                            (totalQuant, currentItem) =>
+                              totalQuant + currentItem.quantity,
+                            0
+                          )}) รายการ</p>
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
-                      ราคาสินค้า บาท
+                      {orderData.totalPrice} บาท
                     </p>
                   </div>
                   <div className="d-flex flex-row justify-content-between">
                     <p style={{ fontSize: "0.8rem" }}>ภาษีมุลค่าเพิ่ม (7%)</p>
-                    <p style={{ fontSize: "0.8rem" }}>ภาษี บาท</p>
+                    <p style={{ fontSize: "0.8rem" }}>{CalculateTax(orderData.totalPrice)} บาท</p>
                   </div>
                   <hr variant="secondary" />
                   <div className="d-flex flex-row justify-content-between">
@@ -208,7 +188,7 @@ console.log('registerOpen :' , registerOpen);
                       ราคาสุทธิ
                     </p>
                     <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      ราคาสุทธิ บาท
+                      {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} บาท
                     </p>
                   </div>
                 </Card.Text>
@@ -231,7 +211,7 @@ console.log('registerOpen :' , registerOpen);
             <p>รูปแบบการชำระเงิน</p>
             <div className="d-flex flex-row justify-content-center">
               <Button
-                className={`border border-dark rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
+                className={`rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
                   ${optionPay === "QR" ? "active" : " "}`}
                 variant="outline-warning"
                 style={{ height: "100px" }}
@@ -250,7 +230,7 @@ console.log('registerOpen :' , registerOpen);
                 <p style={{ fontSize: "1rem" }}>QR code</p>
               </Button>
               <Button
-                className={`border border-dark rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
+                className={`rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
                   ${optionPay === "Money" ? "active" : " "}`}
                 variant="outline-warning"
                 style={{ height: "100px" }}
@@ -269,7 +249,7 @@ console.log('registerOpen :' , registerOpen);
                 <p style={{ fontSize: "1rem" }}>เงินสด</p>
               </Button>
               <Button
-                className={`border border-dark rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
+                className={`rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
                   ${optionPay === "Point" ? "active" : " "}`}
                 variant="outline-warning"
                 style={{ height: "100px" }}
@@ -299,12 +279,12 @@ console.log('registerOpen :' , registerOpen);
               )}
               {optionPay === "Point" && (
                 <div>
-                  <p>การชำระเงินด้วย point</p>
+                  <PaymentByPoint tableID={orderData.tableID} totalAmount={orderData.totalPrice} totalTax = {CalculateTax(orderData.totalPrice)} orderID = {orderData.orderID }netTotalAmount = {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} paymentStatus={orderData.paymentStatus}/>
                 </div>
               )}
               {optionPay === "QR" && (
                 <div>
-                  <PaymentByQR />
+                  <PaymentByQR tableID={orderData.tableID} totalAmount={orderData.totalPrice} totalTax = {CalculateTax(orderData.totalPrice)} orderID = {orderData.orderID }netTotalAmount = {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} paymentStatus={orderData.paymentStatus}/>
                 </div>
               )}
               {optionPay === "Money" && (

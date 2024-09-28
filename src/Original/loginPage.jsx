@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../Component/sideNavigation.css";
+import "../CSS_file/sideNavigation.css";
 import { React, useState, useEffect } from "react";
 import { Row, Col, Button } from "react-bootstrap";
-import "../Customer/selectMenu.css";
+import "../CSS_file/selectMenu.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import backgroundPicture from "../image/circle.jpg";
 import Picture1 from "../image/food.jpg";

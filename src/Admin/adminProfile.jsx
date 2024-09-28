@@ -162,7 +162,7 @@ const handleSwitchToModal2 = () => {
             </center>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="outline-primary" onClick={handleSwitchToModal2}>แก้ไขประวัติส่วนตัว</Button>
+            <Button variant="outline-primary" onClick={handleSwitchToModal2}><i class="bi bi-pen-fill me-2"></i> แก้ไขประวัติส่วนตัว</Button>
           </Modal.Footer>
         </Modal>
       
