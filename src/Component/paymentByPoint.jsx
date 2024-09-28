@@ -171,7 +171,7 @@ if (validateValues()) {
                     name="email"
                     value={inputFields.email}
                     onChange={handleChange}
-                    placeholder="ใส่อีเมลล์ของคุณ"
+                    placeholder="examplename@mail.com"
                     className={`form-control ${
                       errors.email ? "is-invalid" : ""
                     }`}
@@ -216,13 +216,13 @@ if (validateValues()) {
                 </div>
                 <div>
                   <Button
-                    variant="primary"
+                    variant="outline-success"
                     className="mx-3"
                     onClick={handleSubmit}
                     type="submit"
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: "pointer" ,width:"300px"}}
                   >
-                    <i class="bi bi-egg-fried me-2"></i>เข้าสู่ระบบ
+                    เข้าสู่ระบบ
                   </Button>
                   {/*<LoginMember/>*/}
                 </div>

@@ -3,7 +3,16 @@ import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
 import NavbarMenu from "../Component/navBarCustomer";
-import { Row, Col, Card, Button } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  Modal,
+  Dropdown,
+  DropdownButton,
+  SplitButton,
+} from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import "../CSS_file/PaymentOption.css";
@@ -15,29 +24,30 @@ import point from "../image/icon/coin.png";
 import money from "../image/icon/money.png";
 import LoginMember from "../Customer/loginMember";
 import axios from "axios";
-import Receipt from "../Component/billPaper.jsx";
 import { useParams } from "react-router-dom";
+import SelectPage from "../Component/selectMemberOrBillModal.jsx";
+import Receipt from "../Component/billPaper.jsx";
 const PaymentPage = () => {
-  const {orderID} = useParams();
+  const { orderID } = useParams();
   const vat = 0.07;
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);
   const [orderData, setOrderData] = useState([]);
-  const openModal = (modalName)=>{
-    if(modalName==="login"){
-       setloginOpen(true);
-       setregisterOpen(false);
-    }else if(modalName=== "register"){
-       setloginOpen(false);
-       setregisterOpen(true);
+
+  const openModal = (modalName) => {
+    if (modalName === "login") {
+      setloginOpen(true);
+      setregisterOpen(false);
+    } else if (modalName === "register") {
+      setloginOpen(false);
+      setregisterOpen(true);
     }
-console.log('loginOpen :' , loginOpen);
-console.log('registerOpen :' , registerOpen);
+    console.log("loginOpen :", loginOpen);
+    console.log("registerOpen :", registerOpen);
+  };
 
-};
-
-  const handleOpenBill = () => {
+  /*const handleOpenBill = () => {
     Swal.fire({
       title: "เข้าสู่ระบบการสะสมคะแนนหรือไม่?",
       icon: "warning",
@@ -47,18 +57,17 @@ console.log('registerOpen :' , registerOpen);
       cancelButtonText: "ไม่ต้องการเข้าสู่หน้าสะสมคะแนน",
       confirmButtonText: "เข้าสู่ระบบ",
     }).then((result) => {
-      if (result.isConfirmed) {
-        //ไปที่ conponent เข้าสู่ระบบ
-        // toMenuPage()
-        <LoginMember 
+      if (result.isConfirmed) {*/
+  // ไปที่ conponent เข้าสู่ระบบ
+  // toMenuPage()
+  /*<LoginMember 
          isOpen={!loginOpen}
-         //setOPen == true
+         setOPen == true
          openRegister = {"register"}
          onClick={() => openModal("login")}
-         //onClose={()=> closeModal("login")}
-       /> 
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        //ไปที่หน้า component บิล
+         onClose={()=> closeModal("login")}
+       /> */
+  /* } else if (result.dismiss === Swal.DismissReason.cancel) {
         return(
           <>
             <Receipt/>
@@ -66,13 +75,13 @@ console.log('registerOpen :' , registerOpen);
         );
       }
     });
-  };
+  };*/
 
   const handleClick = (value) => {
     setOptionPay(value);
   };
 
-  const fetchingFulldata =async(orderID) => {
+  const fetchingFulldata = async (orderID) => {
     try {
       const response = await axios.get(
         `https://localhost:7202/api/Admin/GetOrderByID/${orderID}`
@@ -80,7 +89,7 @@ console.log('registerOpen :' , registerOpen);
       console.log("response :", response.data.orderItem);
       setOrderData(response.data.orderItem);
     } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้",error);
+      console.log("ไม่สามารถดึงข้อมูลได้", error);
     }
   };
   useEffect(() => {
@@ -98,6 +107,27 @@ console.log('registerOpen :' , registerOpen);
     return net;
   };
 
+  const sentMassage = async (orderID) => {
+    if(!orderID) return;
+    try {
+      const response = await axios.post(
+        `https://localhost:7202/api/Customer/AddNotification`,
+        {
+          title: "ต้องการชำระรายการด้วยเงินสด",
+          message: `ต้องการชำระเงินสด order : ${orderID}`,
+          tableID: "T001",
+        }
+      );
+      console.log("response :", response.data.notiItem);
+      Swal.fire({
+        text: "ระบบจะทำการเรียกพนักงานซักครู่",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้", error);
+    }
+  };
   return (
     <div>
       <SideBarCustomer />
@@ -105,13 +135,25 @@ console.log('registerOpen :' , registerOpen);
       <div className="mainMenu border border-info">
         <p className="my-3 p-2 fs-3">การชำระเงิน</p>
         <div className="d-flex flex-row">
-        <p style={{ fontSize: "1rem" ,marginRight:"150px"}}>รหัสการสั่งอาหาร : {orderData.orderID}</p>
-        {orderData.paymentStatus === "ยังไม่ได้ชำระ" &&(
-          <p style={{ fontSize: "1rem" }} className="border border-danger rounded-3 p-2 text-danger">สถานะการชำระเงิน : {orderData.paymentStatus}</p>
-        )}
-        {orderData.paymentStatus === "ชำระเงินสำเร็จ" &&(
-          <p style={{ fontSize: "1rem" }} className="border border-success rounded-3 p-2 text-success">สถานะการชำระเงิน : {orderData.paymentStatus}</p>
-        )}
+          <p style={{ fontSize: "1rem", marginRight: "150px" }}>
+            รหัสการสั่งอาหาร : {orderData.orderID}
+          </p>
+          {orderData.paymentStatus === "ยังไม่ได้ชำระ" && (
+            <p
+              style={{ fontSize: "1rem" }}
+              className="border border-danger rounded-3 p-2 text-danger"
+            >
+              สถานะการชำระเงิน : {orderData.paymentStatus}
+            </p>
+          )}
+          {orderData.paymentStatus === "ชำระเงินสำเร็จ" && (
+            <p
+              style={{ fontSize: "1rem" }}
+              className="border border-success rounded-3 p-2 text-success"
+            >
+              สถานะการชำระเงิน : {orderData.paymentStatus}
+            </p>
+          )}
         </div>
         <Row
           className=" d-flex justify-content-start"
@@ -134,33 +176,34 @@ console.log('registerOpen :' , registerOpen);
                 </tr>
               </thead>
               <tbody>
-                  {orderData.orderDetailList?.map((itemList)=>(
-                <tr>
-                  <th>
-                    <img
-                     src={itemList.imageSrc}
-                      alt="ภาพเมนูอาหาร"
-                      className="img-fluid border border-dark rounded-2 "
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </th>
-                  <th>
-                    <div className="d-flex flex-column">
-                      <p style={{ fontSize: "0.9rem" }}>{itemList.menuName}</p>
-                      <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                        {itemList.optionValue}
-                      </p>
-                    </div>
-                  </th>
-                  <th>{itemList.quantity} ชิ้น</th>
-                  <th>{itemList.netprice} บาท</th>
-                </tr>
-                    
-                  ))}
+                {orderData.orderDetailList?.map((itemList) => (
+                  <tr>
+                    <th>
+                      <img
+                        src={itemList.imageSrc}
+                        alt="ภาพเมนูอาหาร"
+                        className="img-fluid border border-dark rounded-2 "
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    </th>
+                    <th>
+                      <div className="d-flex flex-column">
+                        <p style={{ fontSize: "0.9rem" }}>
+                          {itemList.menuName}
+                        </p>
+                        <p style={{ fontSize: "0.8rem", color: "gray" }}>
+                          {itemList.optionValue}
+                        </p>
+                      </div>
+                    </th>
+                    <th>{itemList.quantity} ชิ้น</th>
+                    <th>{itemList.netprice} บาท</th>
+                  </tr>
+                ))}
               </tbody>
             </table>
             <Card border="secondary" style={{ width: "35rem" }}>
@@ -169,18 +212,24 @@ console.log('registerOpen :' , registerOpen);
                 {/*<Card.Title>ราคารวม</Card.Title>*/}
                 <Card.Text>
                   <div className="d-flex flex-row justify-content-between">
-                    <p style={{ fontSize: "0.8rem" }}>จำนวน ({orderData.orderDetailList?.reduce(
-                            (totalQuant, currentItem) =>
-                              totalQuant + currentItem.quantity,
-                            0
-                          )}) รายการ</p>
+                    <p style={{ fontSize: "0.8rem" }}>
+                      จำนวน (
+                      {orderData.orderDetailList?.reduce(
+                        (totalQuant, currentItem) =>
+                          totalQuant + currentItem.quantity,
+                        0
+                      )}
+                      ) รายการ
+                    </p>
                     <p style={{ fontSize: "0.8rem", fontWeight: "bold" }}>
                       {orderData.totalPrice} บาท
                     </p>
                   </div>
                   <div className="d-flex flex-row justify-content-between">
                     <p style={{ fontSize: "0.8rem" }}>ภาษีมุลค่าเพิ่ม (7%)</p>
-                    <p style={{ fontSize: "0.8rem" }}>{CalculateTax(orderData.totalPrice)} บาท</p>
+                    <p style={{ fontSize: "0.8rem" }}>
+                      {CalculateTax(orderData.totalPrice)} บาท
+                    </p>
                   </div>
                   <hr variant="secondary" />
                   <div className="d-flex flex-row justify-content-between">
@@ -188,7 +237,11 @@ console.log('registerOpen :' , registerOpen);
                       ราคาสุทธิ
                     </p>
                     <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} บาท
+                      {CalculateNetPrice(
+                        orderData.totalPrice,
+                        orderData.totalPrice * vat
+                      ).toFixed(0)}{" "}
+                      บาท
                     </p>
                   </div>
                 </Card.Text>
@@ -279,25 +332,82 @@ console.log('registerOpen :' , registerOpen);
               )}
               {optionPay === "Point" && (
                 <div>
-                  <PaymentByPoint tableID={orderData.tableID} totalAmount={orderData.totalPrice} totalTax = {CalculateTax(orderData.totalPrice)} orderID = {orderData.orderID }netTotalAmount = {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} paymentStatus={orderData.paymentStatus}/>
+                  <PaymentByPoint
+                    tableID={orderData.tableID}
+                    totalAmount={orderData.totalPrice}
+                    totalTax={CalculateTax(orderData.totalPrice)}
+                    orderID={orderData.orderID}
+                    netTotalAmount={CalculateNetPrice(
+                      orderData.totalPrice,
+                      orderData.totalPrice * vat
+                    ).toFixed(0)}
+                    paymentStatus={orderData.paymentStatus}
+                  />
                 </div>
               )}
               {optionPay === "QR" && (
                 <div>
-                  <PaymentByQR tableID={orderData.tableID} totalAmount={orderData.totalPrice} totalTax = {CalculateTax(orderData.totalPrice)} orderID = {orderData.orderID }netTotalAmount = {CalculateNetPrice(orderData.totalPrice,orderData.totalPrice * vat).toFixed(0)} paymentStatus={orderData.paymentStatus}/>
+                  <PaymentByQR
+                    tableID={orderData.tableID}
+                    totalAmount={orderData.totalPrice}
+                    totalTax={CalculateTax(orderData.totalPrice)}
+                    orderID={orderData.orderID}
+                    netTotalAmount={CalculateNetPrice(
+                      orderData.totalPrice,
+                      orderData.totalPrice * vat
+                    ).toFixed(0)}
+                    paymentStatus={orderData.paymentStatus}
+                  />
                 </div>
               )}
               {optionPay === "Money" && (
-                <div>
-                  <p>การชำระเงินด้วย เงินสด</p>
-                </div>
+                <>
+                  <div className="d-flex justify-content-center">
+                    <Card
+                      variant="Light"
+                      bg={"Light".toLowerCase()}
+                      key="Light"
+                      text={
+                        "Light".toLowerCase() === "light" ? "dark" : "white"
+                      }
+                      style={{ width: "18rem" }}
+                      className="mb-2"
+                    >
+                      <Card.Header>การชำระเงิน ด้วยเงินสด</Card.Header>
+                      <Card.Body>
+                        <Card.Text style={{ fontSize: "0.9rem" }}>
+                          ทำการชำระเงินสด เพื่อทำการเรียกพนักงาน
+                          ให้ทำการชำระเงิน
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                  <div className="d-flex justify-content-end">
+                    <Button onClick={()=>sentMassage(orderData.orderID)}>กดปุ่มเรียกพนักงาน</Button>
+                  </div>
+                </>
               )}
             </div>
             <hr variant="secondary" />
             <div className="d-flex justify-content-end">
-              <Button variant="outline-primary" onClick={handleOpenBill}>
+              {/*} <Button variant="outline-primary" onClick={handleOpenBill}>
                 เปิดดูบิล
-              </Button>
+              </Button>*/}
+              {/*<SelectPage/>*/}
+              <DropdownButton
+                key={"up"}
+                id={`dropdown-button-drop-up`}
+                drop="up"
+                variant="outline-primary"
+                title="ใบเสร็จ"
+              >
+                <Dropdown.Item>
+                  <i class="bi bi-stars me-2"></i>เข้าสู่ระบบสะสมคะแนน
+                </Dropdown.Item>
+                <Dropdown.Item>
+                  <i class="bi bi-receipt me-2"></i>เปิดใบเสร็จ
+                </Dropdown.Item>
+              </DropdownButton>
             </div>
           </Col>
         </Row>

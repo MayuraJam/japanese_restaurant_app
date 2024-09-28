@@ -70,7 +70,7 @@ const PaymentByQR = ({
         <img
           src={QRpic}
           //alt={user.firstName}
-          className="img-fluid border border-dark  rounded-2"
+          className="img-fluid border border-dark  rounded-2 mb-3"
           style={{
             width: "240px",
             //width:"100%",
@@ -79,6 +79,7 @@ const PaymentByQR = ({
             alt: "MenuImage",
           }}
         />
+        <p>ยอดการชำระ : {netTotalAmount} บาท</p>
         <div className="d-flex justify-content-center mt-3">
           <Button
             variant="outline-primary"

@@ -11,6 +11,7 @@ import Picture1 from '../image/food.jpg'
 import Picture2 from '../image/restuarant.jpg'
 import Mainlogo from '../image/phapirun_logo2.jpg'
 import { useNavigate } from "react-router-dom";
+import sideBannerPicture from "../image/japanese-wave.jpg";
 
 const CustomerLogin = () => {
   const toMenuPage = useNavigate();
@@ -19,6 +20,14 @@ const CustomerLogin = () => {
       <NavbarMain />
       <div style={{ marginTop: "50px", height: "calc(100vh - 50px)",backgroundImage: `url(${backgroundPicture})`,backgroundSize:'cover'}} className=" p-3 d-flex flec-column justify-content-center">
         <Row className="justify-content-center">
+        <Col style={{width:"100px",height:"vh-100-20"}}> 
+          <img 
+            src={sideBannerPicture}
+            alt="ลายประกอบ"
+            className="img-fluid"
+            style={{width:"100%",height:"100%",objectFit: "cover"}}
+          />
+          </Col>
          <Col>
          <div className="me-3" style={{width: "350px"}}>
          <img
@@ -63,10 +72,16 @@ const CustomerLogin = () => {
               }}
             />
             <div className="d-flex flex-column align-items-center m-0 mb-2">
-                      <p className="border rounded-4 p-2 fs-4" style={{backgroundColor:"#F9E79F"}}>
+                      <p className=" p-2 fs-3" style={{color:"#EB5B00"}}>
                         <strong>
                         {/*Kaset Japanese restaurant*/}
                         Daigoku japanese restaurant
+                        </strong>
+                      </p>
+                      <p className="fs-5" >
+                        <strong>
+                        {/*Kaset Japanese restaurant*/}
+                        ร้านอาหารญี่ปุ่นไดโกกุ
                         </strong>
                       </p>
             </div>

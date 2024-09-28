@@ -7,12 +7,13 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import backgroundPicture from "../image/circle.jpg";
 import Picture1 from "../image/food.jpg";
 import Picture2 from "../image/restuarant.jpg";
+import sideBannerPicture from "../image/japanese-wave.jpg";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
-import LoginMember from "../Customer/loginMember";
 import RegisterMember from "../Customer/registerMember";
 import { useParams } from 'react-router-dom';
+import Mainlogo from '../image/phapirun_logo2.jpg'
 const LoginStaftPage = () => {
   /*const navigate = useNavigate();
   const toPage = (path) => {
@@ -127,11 +128,19 @@ const LoginStaftPage = () => {
         className=" p-3 d-flex flec-column justify-content-center"
       >
         <Row className="justify-content-center">
+          <Col style={{width:"130px",height:"vh-100"}}> 
+          <img 
+            src={sideBannerPicture}
+            alt="ลายประกอบ"
+            className="img-fluid"
+            style={{width:"100%",height:"100%",objectFit: "cover"}}
+          />
+          </Col>
           <Col>
             <div className="me-3" style={{ width: "350px" }}>
               <img
                 src={Picture2}
-                //alt={user.firstName}
+                alt="ภาพภายในร้าน"
                 className="img-fluid border border-dark mb-3 border-2"
                 style={{
                   width: "350px",
@@ -143,7 +152,7 @@ const LoginStaftPage = () => {
               />
               <img
                 src={Picture1}
-                //alt={user.firstName}
+                alt="ภาพอาหารภายในร้าน"
                 className="img-fluid border border-dark border-2"
                 style={{
                   width: "350px",
@@ -159,7 +168,7 @@ const LoginStaftPage = () => {
             <div style={{ width: "600px" }}>
               <center>
                 <img
-                  //src=''
+                  src={Mainlogo}
                   //alt={user.firstName}
                   className="img-fluid rounded-circle mb-4 mt-3"
                   style={{
@@ -173,12 +182,14 @@ const LoginStaftPage = () => {
                 <p className=" p-2" style={{ width: "300px" }}>
                   <strong>เข้าสู่ระบบของพนักงาน</strong>
                 </p>
-                <p
-                  className=" p-2 mb-2 fs-4 border rounded-5"
-                  style={{ backgroundColor: "#FDF2E9", width: "300px" }}
-                >
-                  <strong>ชื่อร้านอาหารญี่ปุ่น</strong>
-                </p>
+                <div className="d-flex flex-column align-items-center m-0 mb-2">
+                      <p className="p-2 fs-3" style={{color:"#EB5B00"}}>
+                        <strong>
+                        {/*Kaset Japanese restaurant*/}
+                        Daigoku japanese restaurant
+                        </strong>
+                      </p>
+            </div>
               </center>
               <form className="needs-validation d-flex flex-column justify-content-center align-items-center" onSubmit={handleSubmit}>
                 <div className="form-group mb-2">
@@ -246,7 +257,7 @@ const LoginStaftPage = () => {
                     type="submit"
                     style={{ cursor: "pointer" }}
                   >
-                    <i class="bi bi-egg-fried me-2"></i>เข้าสู่ระบบ
+                  เข้าสู่ระบบ
                   </Button>
                   {/*<LoginMember/>*/}
                 </div>

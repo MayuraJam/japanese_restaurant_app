@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import PaymentPage from '../Customer/paymentPage';
 
-function Receipt() {
+function SelectPage() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -11,11 +10,11 @@ function Receipt() {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-      ใบเสร็จ
+      <Button variant="outline-primary" onClick={handleShow}>
+       ใบเสร็จ
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
@@ -33,4 +32,4 @@ function Receipt() {
   );
 }
 
-export default Receipt;
+export default SelectPage;
