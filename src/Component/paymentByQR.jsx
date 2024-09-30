@@ -12,16 +12,32 @@ const PaymentByQR = ({
   totalTax,
   orderID,
   netTotalAmount,
-  paymentStatus
+  paymentStatus,
+  customerID 
 }) => {
-  
+  console.log("Data",tableID,
+    totalAmount,
+    totalTax,
+    orderID,
+    netTotalAmount,
+    paymentStatus,
+    customerID)
+
   const handleConfirmPay = async (
     tableID,
     totalAmount,
     totalTax,
     orderID,
-    netTotalAmount
+    netTotalAmount,
+    customerID 
   ) => {
+    console.log("DataInput",
+      tableID,
+      orderID,
+      totalAmount,
+      totalTax,
+      netTotalAmount,
+      customerID)
     try {
       const response = await axios.post(
         `https://localhost:7202/api/Customer/AddPayment`,
@@ -34,7 +50,8 @@ const PaymentByQR = ({
           cash: netTotalAmount,
           change: 0,
           netTotalAmount: netTotalAmount,
-          staffID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          staffID: "STAFT00001",
+          customerID : customerID
         }
       );
       console.log("response :", response.data.payItem);
@@ -89,7 +106,8 @@ const PaymentByQR = ({
                 totalAmount,
                 totalTax,
                 orderID,
-                netTotalAmount
+                netTotalAmount,
+                customerID
               )
             }
           disabled={paymentStatus === "ชำระเงินสำเร็จ"}

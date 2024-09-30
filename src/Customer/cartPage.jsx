@@ -12,7 +12,7 @@ import NavbarCustomer from "../Component/navBarCustomer";
 import { useNavigate } from "react-router-dom";
 
 const Mycart = () => {
-
+  const customerID = "CUS000001";
   const nevigate = useNavigate();
   const ToPage = (path) => {
     nevigate(path);
@@ -129,6 +129,7 @@ const Mycart = () => {
       const response = await axios.post("https://localhost:7202/api/Customer/AddOrder",{
         tableID:tableID,
         totalPrice : totalPriceInput,
+        customerID : customerID
       })
       Swal.fire({
         text: "ยืนยันรายการสำเร็จ โปรดรอการอนุมัติรายการซักครู่",

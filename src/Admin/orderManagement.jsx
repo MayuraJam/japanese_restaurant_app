@@ -7,11 +7,13 @@ import { Row, Col, Alert, Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import OrderConfirmCard from "../Component/orderDetailConfirm";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 const OrderManagementPage = () => {
   const [orderData,setOrderData] = useState([]);
   const [sentID,setSentID] = useState(null);
   const [sentData,setSentData] = useState([]);
+   const { staftID } = useParams();
+
 //ดึงข้อมูล order ทั้งหมด
 const fetchingFulldata = async () => {
   try {
@@ -41,16 +43,15 @@ const refrestPage = ()=>{
 
   return (
     <div>
-      <SideBarAdmin />
-      <NavbarAdmin />
+      <SideBarAdmin staftID={staftID}/>
+      <NavbarAdmin staftID={staftID}/>
       <div className="mainMenu ">
         <p
           className="my-3 border border-dark bg-white p-2 rounded-5 d-flex justify-content-center"
           style={{ maxWidth: "220px" }}
         >
-          รายการอาหาร
+          รายการอาหาร 
         </p>
-
         <Row
           className=" d-flex justify-content-start"
           style={{ marginLeft: "8px" }}
@@ -184,7 +185,7 @@ const refrestPage = ()=>{
             }}
           >
             {sentID&& 
-             <OrderConfirmCard orderID={sentID}/>
+             <OrderConfirmCard orderID={sentID} staftID={staftID}/>
             }
           </Col>
         </Row>

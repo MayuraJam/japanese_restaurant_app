@@ -6,7 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
 import Swal from "sweetalert2";
-const OrderConfirmCard = ({orderID})=>{
+const OrderConfirmCard = ({orderID,staftID})=>{
 
   const [orderData,setOrderData] = useState([]);
 
@@ -77,7 +77,7 @@ const ConfirmOrder = async(confirmMassage,orderID)=>{
       {
         confirm:confirmMassage,
         orderID : orderID,
-        staftID : "b511a88f-6b00-4c47-a17d-8816266e14b5"
+        staftID : staftID
       }
     );
  console.log(response.data);
@@ -151,6 +151,7 @@ fetchingFulldata(orderID);
              </div>
              <p style={{ fontSize: "0.8rem" }}>จำนวนรายการรวม : {orderData.orderDetailList?.reduce((totalQuant, currentItem) => totalQuant + currentItem.quantity, 0)||0}</p>
            </div>
+           <p style={{ fontSize: "0.8rem" }}>รหัสลูกค้า : {orderData.customerID}</p>
            <hr className="text-secondary" />
            {orderData.orderDetailList?.map((item)=>(
            <Alert variant="warning" className="mb-3">

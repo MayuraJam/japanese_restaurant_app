@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import AdminProfileModal from "../Admin/adminProfile";
-
-const NavbarAdmin = () => {
+import NotificationModal from "./notificationStaff";
+const NavbarAdmin = ({staftID}) => {
   return (
     <div>
       <Container style={{ marginLeft: "180px", position: "fixed", top: 0,zIndex:1 }}>
@@ -16,9 +16,10 @@ const NavbarAdmin = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
-                    <button className="btn btn-outline-dark">
+                    {/*<button className="btn btn-outline-dark">
                       <i class="bi bi-pencil-square"> </i>แจ้งเตือน
-                    </button>
+                    </button>*/}
+                    <NotificationModal/>
                   </Nav>
                 </Navbar.Collapse>
               </Container>
@@ -33,7 +34,7 @@ const NavbarAdmin = () => {
                     {/*<button className="btn btn-outline-warning">
                       ชื่อพนักงาน : xxxx
                     </button>*/}
-                    <AdminProfileModal/>
+                    <AdminProfileModal staftID={staftID}/>
                   </Nav>
                 </Navbar.Collapse>
               </Container>

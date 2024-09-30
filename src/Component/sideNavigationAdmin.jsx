@@ -12,15 +12,14 @@ import reportIcon from '../image/icon/report.png';
 import faqIcon from '../image/icon/question.png';
 import Swal from "sweetalert2";
 import Mainlogo from '../image/phapirun_logo2.jpg'
-import { useNavigate,useLocation} from "react-router-dom";
+import { useNavigate,useLocation,useParams} from "react-router-dom";
 
-const SideBarAdmin = () => {
+const SideBarAdmin = ({staftID}) => {
   //นำไอดีพนักงานมาพักไว้ที่นี้ แล้วทำการแจกจ่ายไปในแต่ละปุ่ม
   const navigate = useNavigate();
   const toPage=(path) =>{
     navigate(path);
   } 
-
   const location = useLocation();
   
   const handleLogout=()=>{
@@ -82,30 +81,36 @@ const SideBarAdmin = () => {
         </div>
         <div className=" mt-4">
           <div className="d-flex flex-column ">
-            <a href="/Admin/table/#" className={`d-flex align-items-center ${location.pathname === "/Admin/table/#" ? "active" : ""}`}>
+         
+            <a 
+            href={`/Admin/table/${staftID}`}
+              className={`d-flex align-items-center ${location.pathname === `/Admin/table/${staftID}`? "active" : ""}`}>
             <img src={tableIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              โต๊ะ
-            </a>
+              โต๊ะ 
+            </a> 
+            
           </div>
           <div className="d-flex flex-column">
-            <a href="/Admin/orderManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/orderManagement" ? "active" : ""}`}>
+            <a href={`/Admin/orderManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/orderManagement/${staftID}`? "active" : ""}`}>
             <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
-              รายการสั่ง</a>
+              รายการสั่ง
+              </a>
           </div>
           <div className="d-flex flex-column">
-            <a href="/Admin/orderStatusManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/orderStatusManagement" ? "active" : ""}`}>
+            <a href={`/Admin/orderStatusManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/orderStatusManagement/${staftID}` ? "active" : ""}`}>
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              ดิดตามรายการสั่ง</a>
+              ดิดตามรายการสั่ง 
+              </a>
           </div>
           <div className="d-flex flex-column">
-            <a href="/Admin/paymentManagement" className={`d-flex align-items-center ${location.pathname === "/Admin/paymentManagement" ? "active" : ""}`}>
+            <a href={`/Admin/paymentManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/paymentManagement/${staftID}` ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               ชำระเงิน</a>
           </div>
           <div className="d-flex flex-column ">
-            <a href="/Admin/Addmenu" className={`d-flex align-items-center ${location.pathname === "/Admin/Addmenu" ? "active" : ""}`}>
+            <a href={`/Admin/Addmenu/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/Addmenu${staftID}` ? "active" : ""}`}>
             <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               เพิ่มรายการเมนู</a>

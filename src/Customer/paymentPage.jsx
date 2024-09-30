@@ -25,11 +25,13 @@ import money from "../image/icon/money.png";
 import LoginMember from "../Customer/loginMember";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import SelectPage from "../Component/selectMemberOrBillModal.jsx";
 import Receipt from "../Component/billPaper.jsx";
+
 const PaymentPage = () => {
   const { orderID } = useParams();
   const vat = 0.07;
+  const tableID = "T001";
+  const customerID = "CUS000001";
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);
@@ -46,6 +48,11 @@ const PaymentPage = () => {
     console.log("loginOpen :", loginOpen);
     console.log("registerOpen :", registerOpen);
   };
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   /*const handleOpenBill = () => {
     Swal.fire({
@@ -132,7 +139,7 @@ const PaymentPage = () => {
     <div>
       <SideBarCustomer />
       <NavbarMenu />
-      <div className="mainMenu border border-info">
+      <div className="mainMenu">
         <p className="my-3 p-2 fs-3">การชำระเงิน</p>
         <div className="d-flex flex-row">
           <p style={{ fontSize: "1rem", marginRight: "150px" }}>
@@ -141,7 +148,7 @@ const PaymentPage = () => {
           {orderData.paymentStatus === "ยังไม่ได้ชำระ" && (
             <p
               style={{ fontSize: "1rem" }}
-              className="border border-danger rounded-3 p-2 text-danger"
+              className="border border-danger rounded-3 p-2 text-danger bg-white shadow-sm"
             >
               สถานะการชำระเงิน : {orderData.paymentStatus}
             </p>
@@ -149,7 +156,7 @@ const PaymentPage = () => {
           {orderData.paymentStatus === "ชำระเงินสำเร็จ" && (
             <p
               style={{ fontSize: "1rem" }}
-              className="border border-success rounded-3 p-2 text-success"
+              className="border border-success rounded-3 p-2 text-success bg-white shadow-sm"
             >
               สถานะการชำระเงิน : {orderData.paymentStatus}
             </p>
@@ -163,10 +170,10 @@ const PaymentPage = () => {
             lg={7}
             md={5}
             sm={4}
-            className="border border-dark rounded-2 me-3 p-3 bg-white"
+            className="shadow-sm rounded-2 me-3 p-3 bg-white"
             style={{ minHeight: "440px" }}
           >
-            <table className="table table-striped border border-secondary">
+            <table className="table table-striped ">
               <thead>
                 <tr>
                   <th>ภาพเมนู</th>
@@ -252,7 +259,7 @@ const PaymentPage = () => {
             lg={4}
             md={3}
             sm={4}
-            className="border border-dark p-2  rounded-2 bg-white"
+            className="shadow-sm p-2  rounded-2 bg-white"
             style={{
               position: "fixed",
               height: "490px",
@@ -288,6 +295,7 @@ const PaymentPage = () => {
                 variant="outline-warning"
                 style={{ height: "100px" }}
                 onClick={() => handleClick("Money")}
+                disabled={orderData.paymentStatus === "ชำระเงินสำเร็จ"}
               >
                 <img
                   src={money}
@@ -307,6 +315,7 @@ const PaymentPage = () => {
                 variant="outline-warning"
                 style={{ height: "100px" }}
                 onClick={() => handleClick("Point")}
+               
               >
                 <img
                   src={point}
@@ -342,22 +351,27 @@ const PaymentPage = () => {
                       orderData.totalPrice * vat
                     ).toFixed(0)}
                     paymentStatus={orderData.paymentStatus}
+                    customerID = {orderData.customerID}
                   />
                 </div>
               )}
               {optionPay === "QR" && (
                 <div>
-                  <PaymentByQR
-                    tableID={orderData.tableID}
-                    totalAmount={orderData.totalPrice}
-                    totalTax={CalculateTax(orderData.totalPrice)}
-                    orderID={orderData.orderID}
-                    netTotalAmount={CalculateNetPrice(
-                      orderData.totalPrice,
-                      orderData.totalPrice * vat
-                    ).toFixed(0)}
-                    paymentStatus={orderData.paymentStatus}
-                  />
+                  {orderData.customerID&&(
+                    <PaymentByQR
+                      tableID={orderData.tableID}
+                      totalAmount={orderData.totalPrice}
+                      totalTax={CalculateTax(orderData.totalPrice)}
+                      orderID={orderData.orderID}
+                      netTotalAmount={CalculateNetPrice(
+                        orderData.totalPrice,
+                        orderData.totalPrice * vat
+                      ).toFixed(0)}
+                      paymentStatus={orderData.paymentStatus}
+                      customerID  = {orderData.customerID}
+                    />
+
+                  )}
                 </div>
               )}
               {optionPay === "Money" && (
@@ -389,26 +403,9 @@ const PaymentPage = () => {
               )}
             </div>
             <hr variant="secondary" />
-            <div className="d-flex justify-content-end">
-              {/*} <Button variant="outline-primary" onClick={handleOpenBill}>
-                เปิดดูบิล
-              </Button>*/}
-              {/*<SelectPage/>*/}
-              <DropdownButton
-                key={"up"}
-                id={`dropdown-button-drop-up`}
-                drop="up"
-                variant="outline-primary"
-                title="ใบเสร็จ"
-              >
-                <Dropdown.Item>
-                  <i class="bi bi-stars me-2"></i>เข้าสู่ระบบสะสมคะแนน
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <i class="bi bi-receipt me-2"></i>เปิดใบเสร็จ
-                </Dropdown.Item>
-              </DropdownButton>
-            </div>
+           <div className="d-flex justify-content-end">
+             {orderData.orderID&&(<Receipt orderID={orderData.orderID}/>)}
+           </div>
           </Col>
         </Row>
       </div>

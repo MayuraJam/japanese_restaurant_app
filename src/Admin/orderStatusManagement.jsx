@@ -6,7 +6,10 @@ import NavbarAdmin from "../Component/NavBarAdmin";
 import { Button, Card, Form } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+
 const OrderStatusManagementPage = () => {
+  const { staftID } = useParams();
   const [orderData, setOrderData] = useState([]);
   const [orderOriData, setOrderOriData] = useState([]);
   const [tableData, setTable] = useState([]);
@@ -112,8 +115,8 @@ const OrderStatusManagementPage = () => {
  
   return (
     <div>
-      <SideBarAdmin />
-      <NavbarAdmin />
+      <SideBarAdmin staftID={staftID}/>
+      <NavbarAdmin staftID={staftID}/>
       <div className="mainMenu">
       <p
           className="my-3 border border-dark bg-white p-2 rounded-5 d-flex justify-content-center"

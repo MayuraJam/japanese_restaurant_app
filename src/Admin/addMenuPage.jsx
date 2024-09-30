@@ -7,6 +7,7 @@ import NavbarAdmin from "../Component/NavBarAdmin";
 //import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
 import {
   Tab,
   Tabs,
@@ -21,6 +22,7 @@ import AddOptionComponent from "../Admin/addOptionComponent";
 import Menucategory from "../Component/MenucagoryData";
 
 const AddMenuPage = () => {
+  const { staftID } = useParams();
   const [key, setKey] = useState("เพิ่มเมนู");
   const photoUploadRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -207,8 +209,8 @@ const AddMenuPage = () => {
    };
   return (
     <>
-      <SideBarAdmin />
-      <NavbarAdmin />
+      <SideBarAdmin staftID={staftID}/>
+      <NavbarAdmin staftID={staftID}/>
       <div
         className="mainMenu "
         style={{ height: "calc(100vh - 50px)" }}

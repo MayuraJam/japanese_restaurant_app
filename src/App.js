@@ -54,13 +54,12 @@ function App() {
 
         {/*ฝั่งพนักงาน*/}
      <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : STAFT00001 */}
-     <Route path="/Admin/addmenu" element={<AddMenuPage/>} />   
-     <Route path="/Admin/orderManagement" element={<OrderManagementPage/>} />   
-     <Route path="/Admin/orderStatusManagement" element={<OrderStatusManagementPage/>} />   
-     <Route path="/Admin/paymentManagement" element={<PaymentManagementPage/>} />   
+     <Route path="/Admin/addmenu/:staftID" element={<AddMenuPage/>} />   
+     <Route path="/Admin/orderManagement/:staftID" element={<OrderManagementPage/>} />   
+     <Route path="/Admin/orderStatusManagement/:staftID" element={<OrderStatusManagementPage/>} />   
+     <Route path="/Admin/paymentManagement/:staftID" element={<PaymentManagementPage/>} />   
+     <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
 
-        {/*หน้าทั่วไป ใช่ร่วมกัน*/}
-        <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
          {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
         <Route path="/AuthenModalPage" element={<AuthenModel/>} />  
         

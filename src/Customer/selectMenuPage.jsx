@@ -13,6 +13,7 @@ import Swal from "sweetalert2";
 
 const MenuPage = ({ tableID }) => {
   tableID = "T001";
+  const customerID = "CUS000001";
   const [inputOrder, setInputOrder] = useState({
     option: "",
     tableID: "",
@@ -75,9 +76,10 @@ const MenuPage = ({ tableID }) => {
         "https://localhost:7202/api/Customer/AddCart",
         {
           menuID: menuIDSelect,
-          tableID: tableID,
+          tableID: tableID, //ใส่ตรง URL
           optionValue: optionValue,
-          unitPrice : unitPrice
+          unitPrice : unitPrice,
+          customerID : customerID //ใส่ตรง URL
         }
       );
       console.log("Add cart response: ", response.data);

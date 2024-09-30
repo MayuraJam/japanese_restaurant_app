@@ -39,8 +39,8 @@ const TablePage = () => {
   
   return (
     <div>
-      <SideBarAdmin />
-      <NavbarAdmin />
+      <SideBarAdmin staftID={staftID}/>
+      <NavbarAdmin staftID={staftID}/>
       <div
         className="mainMenu border border-info "
         style={{ height: "calc(100vh - 50px)" }}
@@ -149,7 +149,7 @@ const TablePage = () => {
             <Card border="primary" bg='warning' style={{ width: "12rem" ,height:"12rem"}}>
                 <Card.Header style={{fontSize:'1rem'}}>รหัสโต๊ะ : {item.tableID}</Card.Header>
                 <Card.Body>
-                  <Card.Title>สถานะ : {item.tableStatus}</Card.Title>
+                  <Card.Title style={{fontSize:'0.9rem'}}>รหัสลูกค้า : {item.customerID}</Card.Title>
                   <hr className="text-secondary" />
                   <Card.Text style={{fontSize:'0.8rem'}}>
                  <p >จำนวนที่นั่ง : {item.seat} ที่นั่ง</p>

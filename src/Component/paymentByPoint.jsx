@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from "react";
-import {Button } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import "../CSS_file/PaymentOption.css";
@@ -13,9 +13,10 @@ const PaymentByPoint = ({
   totalTax,
   orderID,
   netTotalAmount,
-  paymentStatus
+  paymentStatus,
+  customerID,
 }) => {
- /* const navigate = useNavigate();
+  /* const navigate = useNavigate();
        const toPage = (staftID) => {
          navigate("/Admin/table/"+staftID);
        }*/
@@ -25,8 +26,8 @@ const PaymentByPoint = ({
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [isLogin,setLogin] = useState(false);
-  const [pointData,setPointData] = useState([]);
+  const [isLogin, setLogin] = useState(false);
+  const [pointData, setPointData] = useState([]);
   const validateValues = () => {
     let isValid = true;
     const error = {};
@@ -52,60 +53,59 @@ const PaymentByPoint = ({
       [name]: value,
     });
   };
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-if (validateValues()) {
+    if (validateValues()) {
       console.log("Input data : ", inputFields);
-      
+
       try {
-      const response = await axios.post(
+        const response = await axios.post(
           `https://localhost:7202/api/Auth/LoginCustomerMember`,
           {
-            email:inputFields.email,
-            password : inputFields.password,
-            roleName : "ลูกค้า",
-            totalPrice : netTotalAmount,
-            pointType :"ลดคะแนน"
+            email: inputFields.email,
+            password: inputFields.password,
+            roleName: "ลูกค้า",
+            totalPrice: netTotalAmount,
+            pointType: "ลดคะแนน",
           }
         );
-     var logindata = response.data;
-     console.log(response.data);
-     if(logindata.message === "ไม่พบบัญชีผู้ใช้งานรายนี้"){
-      Swal.fire({
-        title: "ไม่พบบัญชีผู้ใช้งานรายนี้",
-        text: "กรุณาใส่ email และ password ใหม่ด้วยค่ะ",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-     }else if(logindata.message === "แต้มคะแนนไม่เพียงพอ"){
-      Swal.fire({
-        title:"แต้มสะสมไม่เพียงพอ",
-        html: `<p>
+        var logindata = response.data;
+
+        if (logindata.message === "ไม่พบบัญชีผู้ใช้งานรายนี้") {
+          Swal.fire({
+            title: "ไม่พบบัญชีผู้ใช้งานรายนี้",
+            text: "กรุณาใส่ email และ password ใหม่ด้วยค่ะ",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        } else if (logindata.message === "แต้มคะแนนไม่เพียงพอ") {
+          Swal.fire({
+            title: "แต้มสะสมไม่เพียงพอ",
+            html: `<p>
                   แต้มสะสมที่คุณมี มีเพียง ${logindata.pesentpoint} คะแนน
                </p>
                <p>** ซึ่งไม่เพียงพอต่อการชำระสินค้า **</p>
                `,
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-     }
-     else{
-       setLogin(true);
-       setPointData();
-      };
-     
-    } catch (error) {
-      setLogin(false);
-      Swal.fire({
-        text: "ไม่สามารถดึงข้อมูล api ได้",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      console.error("Error fetching data:", error);
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        } else if (logindata.pesentpoint === 0) {
+          console.log(response.data);
+          setLogin(true);
+          setPointData(response.data.customerList[0]);
+        }
+      } catch (error) {
+        setLogin(false);
+        Swal.fire({
+          title: "ไม่พบบัญชีผู้ใช้งานรายนี้",
+          text: "กรุณาใส่ email และ password ใหม่ด้วยค่ะ",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        console.error("Error fetching data:", error);
+      }
     }
-  }
-
-}
+  };
   const finishSubmit = () => {
     console.log(inputFields);
   };
@@ -126,109 +126,199 @@ if (validateValues()) {
     setSubmitting(false);
   };
 
-  const handleConfirmPay=()=>{
-    Swal.fire({
-      title:"ชำระเงินสำเร็จ",
-      html: `
-      <div className="border border-secondary">
-      <p style={{ fontSize: "0.8rem", textAlign: "center" }}>ราคาสินค้าทั้งหมด บาท</p>
-      <p>รายละเอียดรายการ:</p>
-       <p>รายการที่ 3</p>
-       <p>รายการที่ 2</p>
-      </div>
-    
-  `,
-      icon: "success",
-      confirmButtonText: "ไปที่หน้า ติดตามรายการสั่ง",
-    });
-
-  }
+  const handleConfirmPay = async (
+    tableID,
+    totalAmount,
+    totalTax,
+    orderID,
+    netTotalAmount,
+    customerID
+  ) => {
+    try {
+      const response = await axios.post(
+        `https://localhost:7202/api/Customer/AddPayment`,
+        {
+          orderID: orderID,
+          tableID: tableID,
+          paymentType: "แต้มคะแนน",
+          totalAmount: totalAmount,
+          totalFee: totalTax,
+          cash: netTotalAmount,
+          change: 0,
+          netTotalAmount: netTotalAmount,
+          staffID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          customerID: customerID,
+        }
+      );
+      console.log("response :", response.data.payItem);
+      Swal.fire({
+        title: "ชำระเงินสำเร็จ",
+        html: `
+        <div className="border border-secondary">
+        <p style={{ fontSize: "0.8rem", textAlign: "center" }}>ราคาสินค้าทั้งหมด ${totalAmount} บาท</p>
+        <p style={{ fontSize: "0.8rem", textAlign: "center" }}>(รวมภาษีมุลค่าเพิ่ม 7% เป็น ${netTotalAmount} บาท)</p>
+        <hr variant="secondary" />
+        <p>ชำระเงินในรูปแบบ : แต้มคะแนน </p>
+        <p>ยอดที่ชำระทั้งหมด : ${netTotalAmount} บาท</p>
+        <p>เงินทอน : 0 บาท</p>
+        </div>
+      
+    `,
+        icon: "success",
+        confirmButtonText: "ไปที่หน้า ติดตามรายการสั่ง",
+      });
+      //toPage();
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้", error);
+    }
+  };
   return (
     <div className="container">
-    {isLogin?(
-      <div>
-         <h2>ข้อมูลเกี่ยวกับแต้มสะสม</h2>
-         <p>นี่คือแต้มสะสมของคุณ: {pointData.totalPoint} คะแนน</p>
-         <div className="d-flex justify-content-center mt-3">
-        <Button variant="outline-primary" onClick={handleConfirmPay} disabled={paymentStatus === "ชำระเงินสำเร็จ"}>ยืนยันการชำระเงิน</Button>
-      </div>
-      </div>
-    ):(
-      <div>
-
-      <p>เข้าสู่ระบบการสะสมแต้มของคุณ</p>
-      <form className="needs-validation d-flex flex-column justify-content-center align-items-center" onSubmit={handleSubmit}>
-                <div className="form-group mb-2">
-                  <label
-                    htmlFor="title"
-                    className="form-label"
-                    style={{ fontSize: "0.8rem", color: "gray" }}
+      {isLogin ? (
+        <div>
+          <div className="d-flex flex-column align-items-center justify-content-center">
+            <Card
+              border="light"
+              className="shadow-sm mb-4"
+              style={{ width: "18rem" }}
+            >
+              <Card.Header>
+                <i class="bi bi-stars "></i>การชำระด้วยแต้มคะแนน
+                <i class="bi bi-stars"></i>
+              </Card.Header>
+              <Card.Body>
+                <Card.Title style={{ fontSize: "1rem", color: "blue" }}>
+                  ข้อมูลของผู้สะสมแต้ม
+                </Card.Title>
+                <Card.Text style={{ fontSize: "0.8rem" }}>
+                  <p>
+                    ชื่อ : {pointData.firstname} {pointData.lastname}
+                  </p>
+                  <p>เบอร์โทรศัพท์ : {pointData.phone}</p>
+                </Card.Text>
+                <hr />
+                <Card.Text style={{ fontSize: "0.8rem" }}>
+                  <p
+                    className="p-3 text-danger"
+                    style={{
+                      fontSize: "2rem",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                    }}
                   >
-                    อีเมลล์ ต้องมี @ ด้วย *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={inputFields.email}
-                    onChange={handleChange}
-                    placeholder="examplename@mail.com"
-                    className={`form-control ${
-                      errors.email ? "is-invalid" : ""
-                    }`}
-                    style={{ width: "350px" }}
-                  />
-                  {errors.email && (
-                    <div
-                      className="error"
-                      style={{ fontSize: "0.8rem", color: "red" }}
-                    >
-                      {errors.email}
-                    </div>
-                  )}
-                </div>
-                <div className="form-group mb-4">
-                  <label
-                    htmlFor="title"
-                    className="form-label"
-                    style={{ fontSize: "0.8rem", color: "gray" }}
+                    - {netTotalAmount} คะแนน
+                  </p>
+                  <div >
+                  <p
+                    style={{
+                      color: "#424242",
+                      backgroundColor: "#C0C78C",
+                      textAlign: "center",
+                      fontWeight: "bold",
+                    }}
+                    className="p-1 rounded-4 "
                   >
-                    รหัสผ่าน *
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={inputFields.password}
-                    onChange={handleChange}
-                    placeholder="ใส่รหัสผ่านของคุณ"
-                    className={`form-control ${
-                      errors.password ? "is-invalid" : ""
-                    }`}
-                    style={{ width: "350px" }}
-                  />
-                  {errors.password && (
-                    <div
-                      className="error"
-                      style={{ fontSize: "0.8rem", color: "red" }}
-                    >
-                      {errors.password}
-                    </div>
-                  )}
+                    คะแนนคงเหลือ : {pointData.totalPoint} คะแนน
+                  </p>
+                  </div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+            <Button
+              variant="outline-primary"
+              onClick={() =>
+                handleConfirmPay(
+                  tableID,
+                  totalAmount,
+                  totalTax,
+                  orderID,
+                  netTotalAmount,
+                  customerID
+                )
+              }
+              disabled={paymentStatus === "ชำระเงินสำเร็จ"}
+            >
+              ยืนยันการชำระเงิน
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <p>เข้าสู่ระบบการสะสมแต้มของคุณ</p>
+          <form
+            className="needs-validation d-flex flex-column justify-content-center align-items-center"
+            onSubmit={handleSubmit}
+          >
+            <div className="form-group mb-2">
+              <label
+                htmlFor="title"
+                className="form-label"
+                style={{ fontSize: "0.8rem", color: "gray" }}
+              >
+                อีเมลล์ ต้องมี @ ด้วย *
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={inputFields.email}
+                onChange={handleChange}
+                placeholder="examplename@mail.com"
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                style={{ width: "350px" }}
+              />
+              {errors.email && (
+                <div
+                  className="error"
+                  style={{ fontSize: "0.8rem", color: "red" }}
+                >
+                  {errors.email}
                 </div>
-                <div>
-                  <Button
-                    variant="outline-success"
-                    className="mx-3"
-                    onClick={handleSubmit}
-                    type="submit"
-                    style={{ cursor: "pointer" ,width:"300px"}}
-                  >
-                    เข้าสู่ระบบ
-                  </Button>
-                  {/*<LoginMember/>*/}
+              )}
+            </div>
+            <div className="form-group mb-4">
+              <label
+                htmlFor="title"
+                className="form-label"
+                style={{ fontSize: "0.8rem", color: "gray" }}
+              >
+                รหัสผ่าน *
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={inputFields.password}
+                onChange={handleChange}
+                placeholder="ใส่รหัสผ่านของคุณ"
+                className={`form-control ${
+                  errors.password ? "is-invalid" : ""
+                }`}
+                style={{ width: "350px" }}
+              />
+              {errors.password && (
+                <div
+                  className="error"
+                  style={{ fontSize: "0.8rem", color: "red" }}
+                >
+                  {errors.password}
                 </div>
-              </form>
-      </div>
-    )}
+              )}
+            </div>
+            <div>
+              <Button
+                variant="outline-success"
+                className="mx-3"
+                onClick={handleSubmit}
+                type="submit"
+                style={{ cursor: "pointer", width: "300px" }}
+                disabled={paymentStatus === "ชำระเงินสำเร็จ"}
+              >
+                เข้าสู่ระบบ
+              </Button>
+              {/*<LoginMember/>*/}
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };

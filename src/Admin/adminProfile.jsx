@@ -7,7 +7,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 //import "../Component/flipCard.css";
 
-function AdminProfileModal() {
+function AdminProfileModal({staftID}) {
   const [show, setShow] = useState(false);
   const [showModal2, setShowModal2] = useState(false); 
 
@@ -27,7 +27,7 @@ function AdminProfileModal() {
   const [firstName, setFirstName] = useState("");
 
   // ตัวอย่าง staftID : STAFT00001
-  var staftID = "STAFT00003";
+ var staftID = "STAFT00003";
   //ดึงข้อมูลพนักงานทั้งหมด
   const fetchingFulldata = async () => {
     try {

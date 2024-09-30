@@ -6,7 +6,6 @@ import NavbarMenu from "../Component/navBarCustomer";
 import "../CSS_file/dataTeble.css";
 import { Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -17,14 +16,15 @@ const OrderConfirmPage = () => {
     navigate("/Customer/payment/" + orderID);
   };
   const tableID = "T001";
+  const customerID = "CUS000001";
   const vat = 0.07;
   const [orderData, setOrderData] = useState([]);
-
+  
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {
       const response = await axios.get(
-        `https://localhost:7202/api/Customer/GetOrder/${tableID}`
+        `https://localhost:7202/api/Customer/GetOrder/${customerID}`
       );
       console.log("response :", response.data.orders);
       setOrderData(response.data.orders);
@@ -192,11 +192,11 @@ const OrderConfirmPage = () => {
     <div>
       <SideBarCustomer />
       <NavbarMenu />
-      <div className="mainMenu border border-info">
+      <div className="mainMenu">
         <p className="my-3 p-2 fs-3">ติดตามรายการอาหาร</p>
         {orderData.length === 0 ? (
           <div
-            className="border border-black p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center "
+            className="p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center shadow-sm"
             style={{ height: "425px" }}
           >
             <p style={{ textAlign: "center" }}>ไม่พบรายการสั่ง</p>
@@ -204,7 +204,7 @@ const OrderConfirmPage = () => {
         ) : (
           orderData?.map((item) => (
             <div
-              className="border border-black p-3 rounded-3 bg-white mb-4 "
+              className="p-3 rounded-3 bg-white mb-4 shadow-sm"
               style={{ Height: "525px" }}
             >
               <div>
@@ -240,7 +240,7 @@ const OrderConfirmPage = () => {
                   </div>
                 </div>
                 <hr variant="secondary" />
-                <table className="table table-striped border border-dark">
+                <table className="table table-striped">
                   <thead>
                     <tr>
                       <th>ภาพเมนู</th>
@@ -290,7 +290,7 @@ const OrderConfirmPage = () => {
                 </table>
                 <hr variant="secondary" />
                 <div className="d-flex justify-content-end">
-                  <Card border="secondary" style={{ width: "25rem" }}>
+                  <Card border="light" style={{ width: "25rem" }}>
                     <Card.Header>รายละเอียด</Card.Header>
                     <Card.Body>
                       {/*<Card.Title>ราคารวม</Card.Title>*/}
