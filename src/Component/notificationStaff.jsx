@@ -46,9 +46,9 @@ function NotificationModal() {
     }
   };
 
-   //วันและเวลา
+  //วันและเวลา
 
-   const timeOrder = (datetime) => {
+  const timeOrder = (datetime) => {
     if (datetime) {
       const myArray = datetime.split("T");
       const date = myArray[0];
@@ -77,10 +77,11 @@ function NotificationModal() {
   return (
     <>
       <Button variant="outline-dark" onClick={handleShow}>
-        {notiData.isRead !== "ยังไมได้อ่าน" &&(
-            <>
-            <i class="bi bi-bell me-2"></i>แจ้งเตือน ({notiData.filter(noti=>noti.isRead==="ยังไม่ได้อ่าน").length})
-            </>
+        {notiData.isRead !== "ยังไมได้อ่าน" && (
+          <>
+            <i class="bi bi-bell me-2"></i>แจ้งเตือน (
+            {notiData.filter((noti) => noti.isRead === "ยังไม่ได้อ่าน").length})
+          </>
         )}
       </Button>
 
@@ -97,54 +98,69 @@ function NotificationModal() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "350px", overflowY: "auto" }}>
-          {notiData?.map((item) => (
-            <Alert variant="warning">
-              <div className="d-flex flex-row justify-content-between">
-                <Alert.Heading style={{ fontSize: "1.2rem" }}>
-                  {item.title}
-                </Alert.Heading>
+          {notiData?.length === 0 ? (
+            <>
+              <center>
+                <p>ไม่พบรายการแจ้งเตือน</p>
+              </center>
+            </>
+          ) : (
+            <>
+              {notiData?.map((item) => (
+                <Alert variant="warning">
+                  <div className="d-flex flex-row justify-content-between">
+                    <Alert.Heading style={{ fontSize: "1.2rem" }}>
+                      {item.title}
+                    </Alert.Heading>
 
-                <p
-                  className="bg-danger text-warning p-1 border rounded-3"
-                  style={{ fontSize: "0.7rem" }}
-                >
-                  NEW !
-                </p>
-              </div>
-              <div className="d-flex justify-content-between">
-                <p style={{ color: "gray", fontSize: "1rem" }}>
-                  {item.message}
-                </p>
-                <p>โต๊ะที่ : {item.tableID}</p>
-              </div>
-              <div>
-              <div className="d-flex ">
-                <p style={{ color: "gray", fontSize: "0.8rem" }} className="me-2">
-                  {dateOrder(item.createDate)}
-                </p>
-                <p style={{ color: "gray", fontSize: "0.8rem" }}>
-                  {timeOrder(item.createDate)} น.
-                </p>
-              </div>
-                <div className="d-flex justify-content-end">
-                  <Button
-                    variant="outline-primary"
-                    className="me-3"
-                    onClick={() => handleUpdate(item.notificationID)}
-                    hidden={item.isRead === "อ่านแล้ว"}
-                  >
-                    อ่าน
-                  </Button>
-                  <Button
-                    variant="outline-danger"
-                    onClick={() => handleDelete(item.notificationID)}
-                  >
-                    <i class="bi bi-x-circle"></i>
-                  </Button>
-                </div>
-              </div>
-            </Alert>
-          ))}
+                    {notiData.isRead !== "อ่านแล้ว" && (
+                      <p
+                        className="bg-danger text-warning p-1 border rounded-3"
+                        style={{ fontSize: "0.7rem" }}
+                      >
+                        NEW !
+                      </p>
+                    )}
+                  </div>
+                  <div className="d-flex justify-content-between">
+                    <p style={{ color: "gray", fontSize: "1rem" }}>
+                      {item.message}
+                    </p>
+                    <p>โต๊ะที่ : {item.tableID}</p>
+                  </div>
+                  <div>
+                    <div className="d-flex ">
+                      <p
+                        style={{ color: "gray", fontSize: "0.8rem" }}
+                        className="me-2"
+                      >
+                        {dateOrder(item.createDate)}
+                      </p>
+                      <p style={{ color: "gray", fontSize: "0.8rem" }}>
+                        {timeOrder(item.createDate)} น.
+                      </p>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                      <Button
+                        variant="outline-primary"
+                        className="me-3"
+                        onClick={() => handleUpdate(item.notificationID)}
+                        hidden={item.isRead === "อ่านแล้ว"}
+                      >
+                        อ่าน
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        onClick={() => handleDelete(item.notificationID)}
+                      >
+                        <i class="bi bi-x-circle"></i>
+                      </Button>
+                    </div>
+                  </div>
+                </Alert>
+              ))}
+            </>
+          )}
         </Modal.Body>
         <Modal.Footer></Modal.Footer>
       </Modal>

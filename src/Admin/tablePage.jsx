@@ -43,9 +43,14 @@ const TablePage = () => {
       <NavbarAdmin staftID={staftID}/>
       <div
         className="mainMenu border border-info "
-        style={{ height: "calc(100vh - 50px)" }}
+       style={{ height: "calc(100vh - 50px)" }}
       >
-        <h4 className="my-3">รายการโต๊ะ id: {staftID}</h4>
+        <p
+          className="my-3 border border-dark bg-white p-2 rounded-5 d-flex justify-content-center"
+          style={{ maxWidth: "220px" }}
+        >
+          รายการโต๊ะ
+        </p>
         <div
           style={{
             display: "grid",
@@ -67,7 +72,7 @@ const TablePage = () => {
                      display: "grid",
                      gridTemplateColumns: "repeat(auto-fill,minmax(12rem,12rem))",
                      gap: "10px",
-                     height: "350px",
+                     height: "330px",
                      overflowY: "auto",
                    }}
                  >

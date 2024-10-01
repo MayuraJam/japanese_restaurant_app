@@ -157,7 +157,7 @@ const AddOptionComponent = () => {
           )}
         </Form.Group>
         <div
-          className="border border-dark rounded-4"
+          className="border border-secondary rounded-4"
           style={{ width: "350px" }}
         >
           {/*สำหรับเพิ่ม list*/}

@@ -110,7 +110,7 @@ const SideBarAdmin = ({staftID}) => {
               ชำระเงิน</a>
           </div>
           <div className="d-flex flex-column ">
-            <a href={`/Admin/Addmenu/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/Addmenu${staftID}` ? "active" : ""}`}>
+            <a href={`/Admin/menu/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/menu/${staftID}` ? "active" : ""}`}>
             <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               เพิ่มรายการเมนู</a>

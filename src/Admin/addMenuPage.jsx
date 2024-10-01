@@ -1,36 +1,35 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
+import "../CSS_file/dataTeble.css"
 import NavbarAdmin from "../Component/NavBarAdmin";
 //import DatePicker from "react-datepicker";
 //import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
 import {
-  Tab,
-  Tabs,
-  Button,
-  Spinner,
-  Form,
-} from "react-bootstrap";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import photoDefault from "../image/default-product-img.jpg";
-import ManageMenu from "./manageMenuPage";
-import AddOptionComponent from "../Admin/addOptionComponent";
-import Menucategory from "../Component/MenucagoryData";
+    Tab,
+    Tabs,
+    Button,
+    Spinner,
+    Form,
+  } from "react-bootstrap";
+  import "bootstrap-icons/font/bootstrap-icons.css";
+  import photoDefault from "../image/default-product-img.jpg";
+  import ManageMenu from "./manageMenuPage";
+  import AddOptionComponent from "./addOptionComponent";
+  import Menucategory from "../Component/MenucagoryData";
 
-const AddMenuPage = () => {
-  const { staftID } = useParams();
+const AddmenuCard =({selectData})=>{
+   
   const [key, setKey] = useState("เพิ่มเมนู");
   const photoUploadRef = useRef();
   const [loading, setLoading] = useState(false);
   const [formvalue, setformValue] = useState({
+    id : "",
     manuName: "",
-    //menuDescription:"",
     categoryName: "",
-    //timeCooking: null,
     optionID: "",
     unitPrice: 0.0,
     imageName : "",
@@ -38,6 +37,7 @@ const AddMenuPage = () => {
     photoSrc : photoDefault,
     quantity : 1
   });
+
   const [errors,setError] = useState({});
   const [submitted,setSubmit] = useState(false);
   const [menuDescription, setDescription] = useState("");
@@ -128,7 +128,7 @@ const AddMenuPage = () => {
       error.categoryName = "กรุณาเลือกประเภทอาหารด้วย"
       isValid = false;
     }
-    if(formvalue.quantity == 0){
+    if(formvalue.quantity === 0){
       error.quantity = "กรุณากรอกจำนวนอาหารด้วย"
       isValid = false;
     }
@@ -136,6 +136,10 @@ const AddMenuPage = () => {
       error.quantity = "จำนวนอาหารไม่ติดลบ";
       isValid = false;
     }
+    else if(formvalue.quantity <= 0){
+        error.quantity = "จำนวนอาหารไม่น้อยกว่าหรือเป็น 0";
+        isValid = false;
+      }
     else if(formvalue.quantity > 100){
       error.quantity = "จำนวนอาหารในคลังไม่เพียงพอ";
       isValid = false;
@@ -147,38 +151,67 @@ const AddMenuPage = () => {
   const handleSubmit= async (e)=>{
     e.preventDefault();
     if (validateValues()) {
-
-      const formData = new FormData();
-      formData.append("menuName", formvalue.manuName);
-      formData.append("menuDescription", menuDescription);
-      formData.append("unitPrice", formvalue.unitPrice);
-      formData.append("categoryName", formvalue.categoryName);
-      formData.append("optionID", formvalue.optionID);
-      formData.append("imageName", formvalue.imageName);
-      formData.append("imageFile", formvalue.imagefile);
-      formData.append("quantity", formvalue.quantity);
-      try {
-        const response = await axios.post(
-          `https://localhost:7202/api/Admin/AddMenu`,formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-     console.log(response.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-      setSubmit(true);
-      Swal.fire({
-        text: "คุณกรอกข้อมูลเรียบร้อย",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-      handleClear();
-     } else {
-    }
+     
+      if(formvalue.id){
+        console.log("มี menuID",formvalue);
+        try {
+          const response = await axios.put(
+            `https://localhost:7202/api/Admin/UpdateMenu`,{
+              menuID:formvalue.id,
+              menuName : formvalue.manuName,
+              menuDescription : menuDescription,
+              unitPrice:formvalue.unitPrice,
+              categoryName : formvalue.categoryName,
+              optionID : formvalue.optionID,
+              stockQuantity : formvalue.quantity
+            }
+          );
+       console.log("From edit data",response.data);
+       setSubmit(true);
+       Swal.fire({
+         text: "แก้ไขข้อมูลเรียบร้อย",
+         icon: "success",
+         confirmButtonText: "OK",
+       });
+       handleClear();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      }
+      else{
+        const FormData = new FormData();
+        FormData.append("menuName", formvalue.manuName);
+        FormData.append("menuDescription", menuDescription);
+        FormData.append("unitPrice", formvalue.unitPrice);
+        FormData.append("categoryName", formvalue.categoryName);
+        FormData.append("optionID", formvalue.optionID);
+        FormData.append("imageName", formvalue.imageName);
+        FormData.append("imageFile", formvalue.imagefile);
+        FormData.append("stockQuantity", formvalue.quantity);
+        
+     
+        try {
+          const response = await axios.post(
+            `https://localhost:7202/api/Admin/AddMenu`,FormData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+       console.log(response.data);
+       setSubmit(true);
+       Swal.fire({
+         text: "คุณกรอกข้อมูลเรียบร้อย",
+         icon: "success",
+         confirmButtonText: "OK",
+       });
+       handleClear();
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+       } 
+      }
   }
   const finishSubmit = () => {
     console.log(formvalue);
@@ -192,8 +225,8 @@ const AddMenuPage = () => {
   //time
    const handleClear=()=>{
      setformValue({
+      id : "",
       manuName: "",
-      menuDescription:"",
       categoryName: "",
       optionID: "",
       unitPrice: 0,
@@ -207,18 +240,45 @@ const AddMenuPage = () => {
      setSubmit(false);
      
    };
-  return (
+
+   //ตรวจสอบข้อมูลเพื่อแยกว่า เป็นกรเพิ่มข้อมูลหรือแก้ไขข้อมูล
+   useEffect(()=>{
+    if(selectData){
+      setformValue({
+      id : selectData.menuID,
+      manuName: selectData.menuName,
+      categoryName: selectData.categoryName,
+      optionID: selectData.optionID,
+      unitPrice: selectData.unitPrice,
+      imageName:selectData.imageName,
+      imagefile: selectData.imageName,
+      photoSrc:selectData.imageSrc,
+      quantity : selectData.stockQuantity
+      });
+      setDescription(selectData.menuDescription
+);
+    }else{
+      setformValue({
+        id : "",
+        manuName: "",
+        categoryName: "",
+        optionID: "",
+        unitPrice: 0,
+        imageName:"",
+        imagefile: null,
+        photoSrc:photoDefault,
+        quantity : 1
+       });
+       setDescription("");
+    }
+   },[selectData]
+  
+
+  )
+  return(
     <>
-      <SideBarAdmin staftID={staftID}/>
-      <NavbarAdmin staftID={staftID}/>
       <div
-        className="mainMenu "
-        style={{ height: "calc(100vh - 50px)" }}
-      >
-        <h4 className="my-3">การเพิ่มรายการ</h4>
-        <div className=" d-flex flex-row justify-content-center">
-          <div
-            className="border border-dark rounded-4 me-3"
+            className="shadow-sm rounded-4 me-3"
             style={{
               height: "450px",
               //overflowY: "auto",
@@ -316,11 +376,11 @@ const AddMenuPage = () => {
                   </div>
                   <Form.Group className="mb-2">
                     <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
-                      ส่วนประกอบเมนู :
+                      รายละเอียดเมนู :
                     </Form.Label>
                     <Form.Control
                       as="textarea" rows={3}
-                      placeholder="กรอกส่วนประกอบเมนู..."
+                      placeholder="กรอกรายละเอียดเมนู..."
                       name="menuDescription"
                       style={{maxHeight:'600px',resize:'none'}}
                       value={menuDescription}
@@ -395,7 +455,7 @@ const AddMenuPage = () => {
                     <Button variant="secondary" className="me-3" onClick={handleClear}>
                       ยกเลิก
                     </Button>
-                    <Button variant="primary" onClick={handleSubmit}>บันทึกข้อมูล</Button>
+                    <Button variant="primary" onClick={handleSubmit}>{formvalue.id?'แก้ไขเมนู':'เพิ่มเมนูใหม่'}</Button>
                   </div>
                 </Form>
               </Tab>
@@ -409,10 +469,7 @@ const AddMenuPage = () => {
               </Tab>
             </Tabs>
           </div>
-        </div>
-          <ManageMenu/>
-      </div>
     </>
   );
-};
-export default AddMenuPage;
+}
+export default AddmenuCard;

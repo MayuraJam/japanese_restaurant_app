@@ -11,33 +11,34 @@ import "../CSS_file/stepperInputDesign.css";
 import Menucategory from "../Component/MenucagoryData";
 import Swal from "sweetalert2";
 
-const MenuPage = ({ tableID }) => {
+const SelectMenuPage = ({ tableID }) => {
   tableID = "T001";
   const customerID = "CUS000001";
   const [inputOrder, setInputOrder] = useState({
     option: "",
     tableID: "",
     menuID: "",
-    unitPrice : 0.0
+    unitPrice: 0.0,
   });
 
   const [menuData, setMenuData] = useState([]);
   const [originalmenuData, setOriginalMenuData] = useState([]);
   const [menuSelect, setMenuSelect] = useState([]);
-  const [search,setSearch] = useState("");
+  const [search, setSearch] = useState("");
   //ดึงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
     try {
       const response = await axios.post(
-        `https://localhost:7202/api/Admin/GetMenu`,{
-          menuName : search
+        `https://localhost:7202/api/Admin/GetMenu`,
+        {
+          menuName: search,
         }
       );
       console.log("response :", response.data.menuList);
       setMenuData(response.data.menuList);
       setOriginalMenuData(response.data.menuList);
     } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้",error);
+      console.log("ไม่สามารถดึงข้อมูลได้", error);
     }
   };
   useEffect(() => {
@@ -68,8 +69,7 @@ const MenuPage = ({ tableID }) => {
     return arrayTXT;
   };
 
-
-  const handleAddCart = async (menuIDSelect, optionValue,unitPrice) => {
+  const handleAddCart = async (menuIDSelect, optionValue, unitPrice) => {
     console.log("Add option value: ", optionValue, typeof optionValue);
     try {
       const response = await axios.post(
@@ -78,8 +78,8 @@ const MenuPage = ({ tableID }) => {
           menuID: menuIDSelect,
           tableID: tableID, //ใส่ตรง URL
           optionValue: optionValue,
-          unitPrice : unitPrice,
-          customerID : customerID //ใส่ตรง URL
+          unitPrice: unitPrice,
+          customerID: customerID, //ใส่ตรง URL
         }
       );
       console.log("Add cart response: ", response.data);
@@ -128,11 +128,12 @@ const MenuPage = ({ tableID }) => {
 
               {Menucategory.map((item) => (
                 <button
-                  className="innerbutton hoverCard" 
+                  className="innerbutton hoverCard"
                   onClick={() => {
                     filterItem(item.categoryName);
                   }}
-                  type="button">
+                  type="button"
+                >
                   <img
                     src={item.icon}
                     alt={item.categoryName}
@@ -147,17 +148,17 @@ const MenuPage = ({ tableID }) => {
                 </button>
               ))}
             </div>
-       
+
             <div>
               <Row>
                 <Col
                 //</Row>xs={7}
                 >
                   <div
-                    className="border border-black p-3 rounded-3 bg-white"
-                    style={{ maxHeight: "410px" }}
+                    className="shadow-sm p-3 rounded-3 bg-white"
+                    //style={{ maxHeight: "410px" }}
                   >
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end" style={{position:"sticky"}}>
                       <div
                         className="search-container-box shadow-sm"
                         style={{ width: 300 }}
@@ -170,10 +171,12 @@ const MenuPage = ({ tableID }) => {
                             name="search"
                             className="form-control "
                             value={search}
-                            onChange={(e)=>{setSearch(e.target.value)}}
+                            onChange={(e) => {
+                              setSearch(e.target.value);
+                            }}
                           />
                           <div className="input-group-append">
-                            <span className="input-group-text bg-white border-0" >
+                            <span className="input-group-text bg-white border-0">
                               <i className="bi bi-search"></i>
                             </span>
                           </div>
@@ -182,8 +185,8 @@ const MenuPage = ({ tableID }) => {
                     </div>
                     <div
                       style={{
-                        maxHeight: "340px",
-                        overflowY: "auto",
+                        //maxHeight: "340px",
+                       // overflowY: "auto",
                         marginTop: "10px",
                       }}
                     >
@@ -205,17 +208,40 @@ const MenuPage = ({ tableID }) => {
                               minHeight: "20rem",
                               cursor: "pointer",
                               transition: "border-color 0.3s",
+                              position: "relative",
+                              //opacity: item.stockQuantity === 0 ? 0.5 : 1,
                             }}
                             className="hoverCard"
                           >
+                            {item.stockQuantity === 0&&(
+                            <div  style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: "rgba(0,0,0,0.5)",
+                              color: "white",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: "1rem",
+                              fontWeight: "bold",
+                              zIndex: 1,
+                              borderRadius:"5px"
+                            }}>
+                              เมนูนี้หมดแล้วค่ะ ขออภัยด้วย
+                            </div>
+                            )}
                             <Card.Img
                               variant="top"
                               src={item.imageSrc}
                               style={{
                                 width: "16rem",
-                                height: "130px",
+                                height: "1ุ30px",
                                 backgroundSize: "cover",
                               }}
+                              className="img-fluid"
                             />
                             <Card.Body>
                               <div className="d-flex flex-row justify-content-between">
@@ -299,9 +325,29 @@ const MenuPage = ({ tableID }) => {
                             width: "16rem",
                             cursor: "pointer",
                             transition: "border-color 0.3s",
+                            position: "relative",
                           }}
                           className="hoverCard"
                         >
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              backgroundColor: "rgba(0,0,0,0.5)",
+                              color: "white",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              fontSize: "1.5rem",
+                              fontWeight: "bold",
+                              zIndex: 1,
+                            }}
+                          >
+                            เมนูหมด
+                          </div>
                           <Card.Img
                             variant="top"
                             src={Picture2}
@@ -356,4 +402,4 @@ const MenuPage = ({ tableID }) => {
     </div>
   );
 };
-export default MenuPage;
+export default SelectMenuPage;

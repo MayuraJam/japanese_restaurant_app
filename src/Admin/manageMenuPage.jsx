@@ -14,13 +14,18 @@ import {
 } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import simpleImage from "../image/food.jpg";
-const ManageMenu = () => {
+const ManageMenu = ({onSentDataToEdit}) => {
   const [menuData, setMenuData] = useState([]);
+  const [dataForEdit,setDataForEdit] = useState(null);
+
+  const [search,setSearch] = useState("");
   //ดึงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
     try {
-      const response = await axios.get(
-        "https://localhost:7202/api/Admin/GetMenu"
+      const response = await axios.post(
+        `https://localhost:7202/api/Admin/GetMenu`,{
+          menuName : search
+        }
       );
       console.log("response :", response.data.menuList);
       setMenuData(response.data.menuList);
@@ -30,7 +35,7 @@ const ManageMenu = () => {
   };
   useEffect(() => {
     fetchingFulldata();
-  }, []);
+  }, [search]);
 
   const handleDeleteItem= async(menuID)=>{
     const result = await Swal.fire({
@@ -66,25 +71,47 @@ const ManageMenu = () => {
         const day = String(date.getDate()).padStart(2, "0");
         return `${day}/${month}/${year}`;
       };
+  
   return (
     <div>
       <div className="border border-dark rounded p-3 mt-5" style={{height:"520px"}}>
-       <div>
-      <p> <i class="bi bi-table me-2"></i> ตารางแสดงรายการเมนูอาหาร</p>
+       <div className="d-flex justify-content-between">
+       <p> <i class="bi bi-table me-2"></i> ตารางแสดงรายการเมนูอาหาร</p>
+       <div
+                className="search-container-box  "
+                style={{ width: 300 }}
+              >
+                <div className="input-group ">
+                  <input
+                    type="text"
+                    id="search"
+                    placeholder="ค้นหารายการสั่ง..."
+                    name="search"
+                    className="form-control "
+                     value={search}
+                     onChange={(e)=>{setSearch(e.target.value)}}
+                  />
+                  <div className="input-group-append">
+                    <span className="input-group-text bg-white border-0" style={{cursor:"pointer"}}>
+                      <i className="bi bi-search"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
        </div>
        <div className="table-wrapper">
       <table
-        className="table table-striped border border-dark"
+        className="table table-striped "
         aria-labelledby="tableLabel"
         style={{ marginTop: "35px"}}
       >
         <thead>
           <tr>
             <th>ภาพ</th>
+            <th>รหัสเมนู</th>
             <th>ชื่อเมนู</th>
             <th>ประเภทอาหาร</th>
             <th>ราคา</th>
-            <th>ชื่อตัวเลือกพิเศษ</th>
             <th>จำนวนในคลัง</th>
             <th>วันที่สร้างรายการ</th>
             <th></th>
@@ -97,7 +124,7 @@ const ManageMenu = () => {
                 <img
                   src={item.imageSrc}
                   //alt={user.firstName}
-                  className="img-fluid border border-dark mb-3 rounded-2"
+                  className="img-fluid  mb-3 rounded-2"
                   style={{
                     width: "50px",
                     //width:"100%",
@@ -107,44 +134,18 @@ const ManageMenu = () => {
                   }}
                 />
               </th>
+              <th>{item.menuID}</th>
               <th>{item.menuName}</th>
               <th>{item.categoryName}</th>
               <th>{item.unitPrice} ฿</th>
-              <th>{item.optionName}</th>
-              <th>{item.quantity}</th>
+              <th>{item.stockQuantity}</th>
               <th>{getCurrentDate(item.createDate)}</th>
               <th>
+              <Button variant="warning" className="me-2" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>
               <Button variant="danger" onClick={()=>handleDeleteItem(item.menuID)}>ลบ</Button>
               </th>
             </tr>
           ))}
-          <tr>
-              <th>
-                <img
-                  src={simpleImage}
-                  //alt={user.firstName}
-                  className="img-fluid border border-dark mb-3 rounded-2"
-                  style={{
-                    width: "50px",
-                    //width:"100%",
-                    height: "50px",
-                    objectFit: "cover",
-                    alt: "MenuImage",
-                  }}
-                />
-              </th>
-              <th>ชื่อเมนู1</th>
-              <th>ประเภทอาหาร1</th>
-              <th>ราคา1</th>
-              <th>ชื่อตัวเลือกพิเศษ1</th>
-              <th>ตัวเลือก1</th>
-              <th>
-                <Button variant="warning" className="me-2">
-                  แก้ไข
-                </Button>
-                <Button variant="danger">ลบ</Button>
-              </th>
-          </tr>
         </tbody>
       </table>
 

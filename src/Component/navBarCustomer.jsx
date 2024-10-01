@@ -9,7 +9,7 @@ const NavbarCustomer = () => {
   const tableID = "T001";
   return (
     <div>
-      <Container style={{ marginLeft: "180px", position: "fixed", top: 0 ,zIndex:1}}>
+      <Container style={{ marginLeft: "180px", position: "fixed", top: 0 ,zIndex:2}}>
         <Row>
           <Col xs={9} style={{ padding: 0 }}>
             <Navbar className="" style={{ backgroundColor: "#EB5B00" }}>

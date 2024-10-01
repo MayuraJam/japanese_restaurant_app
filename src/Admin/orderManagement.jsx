@@ -13,17 +13,16 @@ const OrderManagementPage = () => {
   const [sentID,setSentID] = useState(null);
   const [sentData,setSentData] = useState([]);
    const { staftID } = useParams();
-
+  const [search,setSearch] = useState("");
 //ดึงข้อมูล order ทั้งหมด
 const fetchingFulldata = async () => {
   try {
-    const response = await axios.get(
-      `https://localhost:7202/api/Admin/GetOrder`
+    const response = await axios.post(
+      `https://localhost:7202/api/Admin/GetOrder`,{
+        orderID : search
+      }
     );
     console.log("response :", response.data.orders);
-    if(response.data.orders.confirmOrder === "ยกเลิกรายการสั่งนี้"){
-      setOrderData(null);
-    }
     setOrderData(response.data.orders);
     
   } catch (error) {
@@ -32,7 +31,7 @@ const fetchingFulldata = async () => {
 };
 useEffect(() => {
   fetchingFulldata();
-}, []);
+}, [search]);
 
 const handleClick=async(orderID)=>{
    setSentID(orderID);
@@ -60,7 +59,7 @@ const refrestPage = ()=>{
             lg={7}
             md={5}
             sm={4}
-            className="border border-dark rounded-2 me-3 p-2 bg-white"
+            className="shadow-sm rounded-2 me-3 p-2 bg-white"
             style={{ minHeight: "440px" }}
           >
             <div className="d-flex justify-content-between  mb-3">
@@ -76,9 +75,8 @@ const refrestPage = ()=>{
                     placeholder="ค้นหารายการสั่ง..."
                     name="search"
                     className="form-control "
-                    /*value={"search"}
-                            onChange={handleInputChange}
-                            onKeyDown={handleSearch}*/
+                    value={search}
+                    onChange={(e)=>{setSearch(e.target.value)}}
                   />
                   <div className="input-group-append">
                     <span className="input-group-text bg-white border-0" style={{cursor:"pointer"}}>
@@ -88,7 +86,12 @@ const refrestPage = ()=>{
                 </div>
               </div>
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(12rem,17rem)",gap:"10px"}}>
+            {orderData?.length === 0?(
+              <div className=" d-flex justify-content-center mt-4">
+               <p className="text-secondary">ไม่พบรายการที่ต้องทำการอนุมัติ</p>
+              </div>
+            ):(
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(12rem,17rem)",gap:"10px"}} >
               {orderData.map((item)=>(
             <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
                 <Card.Header style={{fontSize:'1rem'}}>
@@ -116,66 +119,15 @@ const refrestPage = ()=>{
                     </Button>
                 </Card.Body>
               </Card>
-              ))}
-              <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
-                <Card.Header style={{fontSize:'1rem'}}>รหัสการสั่งอาหาร : xxx</Card.Header>
-                <Card.Body>
-                  <Card.Title style={{fontSize:'1rem'}}>รหัสโต๊ะ : xxx</Card.Title>
-
-                  <Card.Text style={{fontSize:'0.8rem'}}>
-                  จำนวนรายการ : รายการ
-                  </Card.Text>
-                  <Button variant="outline-primary">
-                    กดดูรายระเอียดเพื่อทำการยืนยัน
-                    </Button>
-                </Card.Body>
-              </Card>
-              <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
-                <Card.Header style={{fontSize:'1rem'}}>รหัสการสั่งอาหาร : xxx</Card.Header>
-                <Card.Body>
-                  <Card.Title style={{fontSize:'1rem'}}>รหัสโต๊ะ : xxx</Card.Title>
-
-                  <Card.Text style={{fontSize:'0.8rem'}}>
-                  จำนวนรายการ : รายการ
-                  </Card.Text>
-                  <Button variant="outline-primary">
-                    กดดูรายระเอียดเพื่อทำการยืนยัน
-                    </Button>
-                </Card.Body>
-              </Card>
-              <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
-                <Card.Header style={{fontSize:'1rem'}}>รหัสการสั่งอาหาร : xxx</Card.Header>
-                <Card.Body>
-                  <Card.Title style={{fontSize:'1rem'}}>รหัสโต๊ะ : xxx</Card.Title>
-
-                  <Card.Text style={{fontSize:'0.8rem'}}>
-                  จำนวนรายการ : รายการ
-                  </Card.Text>
-                  <Button variant="outline-primary">
-                    กดดูรายระเอียดเพื่อทำการยืนยัน
-                    </Button>
-                </Card.Body>
-              </Card>
-              <Card  bg='white' text='dark' style={{ height:"11rem" }} className="shadow-sm">
-                <Card.Header style={{fontSize:'1rem'}}>รหัสการสั่งอาหาร : xxx</Card.Header>
-                <Card.Body>
-                  <Card.Title style={{fontSize:'1rem'}}>รหัสโต๊ะ : xxx</Card.Title>
-
-                  <Card.Text style={{fontSize:'0.8rem'}}>
-                  จำนวนรายการ : รายการ
-                  </Card.Text>
-                  <Button variant="outline-primary">
-                    กดดูรายระเอียดเพื่อทำการยืนยัน
-                    </Button>
-                </Card.Body>
-              </Card>
+              ))}             
             </div>
+            )}
           </Col>
           <Col
             lg={4}
             md={3}
             sm={4}
-            className="border border-dark p-2  rounded-2 bg-white"
+            className="shadow-sm p-2  rounded-2 bg-white"
             style={{
               position: "fixed",
               height: "490px",
