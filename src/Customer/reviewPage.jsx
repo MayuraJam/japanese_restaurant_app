@@ -1,25 +1,119 @@
 import { React, useState } from "react";
-import SideBarCustomer from "../Component/sideNavigationCustomer";
-import "../CSS_file/sideNavigation.css";
-import "../CSS_file/selectMenu.css";
-import NavbarCustomer from "../Component/navBarCustomer";
 import {
-  Nav,
-  Navbar,
-  NavDropdown,
-  Container,
-  Button,
-  Row,
-  Col,
-  Card,
-} from "react-bootstrap";
+  Modal,Form,Button,Alert} from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-const ReviewPage = () => {
+const ReviewPage = ({orderID,menuName,image,menuID,customerID}) => {
   const [rating, setRating] = useState(0);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const handleSubmit=async(customerID,menuID,rate)=>{
+    console.log("rating data",customerID,menuID,rate)
+    try {
+      const response = await axios.post(
+        `https://localhost:7202/api/Customer/AddReview`,
+        {
+         rate:rate,
+         menuID :menuID,
+         customerID: customerID
+        }
+      );
+   console.log("บันทึกข้อมูลเรียบร้อย");
+   setRating(0);
+   Swal.fire({
+    text: "คุณทำการให้คะแนนเรียบร้อย",
+    icon: "success",
+    confirmButtonText: "OK",
+  });
+    }catch(error){
+      console.log("ไม่สามารถส่งขอมูลได้ เนื่องจาก",error);
+    }
+  }
   return (
     <>
-      <SideBarCustomer />
+      <Button variant="outline-success me-4" onClick={handleShow}>
+      <i class="bi bi-star me-2"></i> ให้คะแนนและรีวิว
+      </Button>
+
+      <Modal show={show} onHide={handleClose} size="lg" centered > 
+        <Modal.Header closeButton style={{backgroundColor:"#DEE5D4"}}>
+          <Modal.Title><i class="bi bi-stars me-2"></i>ให้คะแนน</Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{backgroundColor:"#FEF9D9"}}>
+        <center>
+        <div
+            style={{ MaxWidth: "700px", height: "100px" }}
+            className="shadow-sm rounded-3 p-3 bg-white" 
+          >
+            <div className="d-flex flex-row align-items-center justify-content-between">
+              <div className="d-flex flex-row align-items-center ">
+                <img
+                  src={image}
+                  //alt={user.firstName}
+                  className="img-fluid border border-dark mb-3 me-3 rounded-3"
+                  style={{
+                    width: "60px",
+                    //width:"100%",
+                    height: "60px",
+                    objectFit: "cover",
+                    backgroundColor: "#ffff",
+                  }}
+                />
+                <h4>{menuName}</h4>
+              </div>
+              <div className="d-flex flex-column align-items-between">
+                <p style={{ fontSize: "0.9rem", color: "gray" }}>
+                  หมายเลขรายการอาหาร : {orderID}{" "}
+                </p>
+              </div>
+            </div>
+          </div>
+        </center>
+        <div>
+          <p className="my-4" style={{fontSize:"1rem"}}><i class="bi bi-star me-2"></i>ส่วนของการให้คะแนนความพึ่งพอใจของท่านลูกค้าขอรับ</p>
+          <center>
+            <div
+              style={{ MaxWidth: "600px", height: "80px" }}
+              className="shadow-sm rounded-3 mb-4 d-flex align-items-center justify-content-center bg-white"
+            >
+              {[1, 2, 3, 4, 5].map((star) => {
+                return (
+                  <span
+                    className="start"
+                    style={{
+                      cursor: "pointer",
+                      color: rating >= star ? "gold" : "gray",
+                      fontSize: `35px`,
+                      marginRight: "20px",
+                    }}
+                    onClick={() => {
+                      setRating(star);
+                    }}
+                  >
+                    {"   "}★{"   "}
+                  </span>
+                );
+              })}
+            </div>
+          </center>
+          <Alert variant="success" style={{fontSize:"0.7rem"}}>
+          ขอขอบคุณทุกๆคะแนนที่ท่านลูกค้าส่งมาขอรับ พวกเราจะนำคะแนนที่ได้รับมาในแต่ละเมนูไปปรับปรุงสูตรอาหารให้ถูกใจคุณลูกค้ามากยิ่งขึ้นขอรับ 
+          <br/>ขอบคุณสำหรับทุกคะแนนขอรับ
+        </Alert>
+         
+        </div>
+        </Modal.Body>
+        <Modal.Footer style={{backgroundColor:"#DEE5D4"}}>
+          <Button variant="primary" onClick={()=>{handleSubmit(customerID,menuID,rating)}}>
+          <i class="bi bi-star me-2"></i>ให้คะแนน
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/*<SideBarCustomer />
       <NavbarCustomer />
       <div
         className="mainMenu border border-info p-3"
@@ -114,7 +208,7 @@ const ReviewPage = () => {
             </div>
           </div>
         </center>
-      </div>
+      </div>*/}
     </>
   );
 };

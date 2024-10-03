@@ -245,7 +245,7 @@ const SelectMenuPage = ({ tableID }) => {
                             />
                             <Card.Body>
                               <div className="d-flex flex-row justify-content-between">
-                                <Card.Title>{item.menuName}</Card.Title>
+                                <Card.Title style={{ fontSize: "1rem" ,fontWeight:"bold"}}>{item.menuName}</Card.Title>
                                 <p
                                   style={{ fontSize: "0.7rem" }}
                                   className="border p-2 rounded-5 bg-warning fw-bold"
@@ -254,11 +254,11 @@ const SelectMenuPage = ({ tableID }) => {
                                 </p>
                               </div>
                               <div className="d-flex flex-row justify-content-between">
-                                <Card.Text style={{ fontSize: "1rem" }}>
+                                <Card.Text style={{ fontSize: "1rem",fontWeight:"bold"}} className="text-primary">
                                   {item.unitPrice} บาท
                                 </Card.Text>
                                 <p style={{ fontSize: "0.7rem" }}>
-                                  rating : {item.rating}
+                                <i class="bi bi-star-half"></i> {(item.rating).toFixed(2)}
                                 </p>
                               </div>
                               <hr className="text-secondary" />
@@ -269,7 +269,7 @@ const SelectMenuPage = ({ tableID }) => {
                                 Array.isArray(SlitStringToArray(item.value)) &&
                                 SlitStringToArray(item.value).map(
                                   (optionValue, index) => (
-                                    <ul key={index}>
+                                    <div key={index} className="radio-group">
                                       <input
                                         type="radio"
                                         name="optionValue"
@@ -292,7 +292,7 @@ const SelectMenuPage = ({ tableID }) => {
                                         <span>{optionValue}</span>
                                       </label>
                                       <br />
-                                    </ul>
+                                    </div>
                                   )
                                 )}
                               <hr className="text-secondary" />

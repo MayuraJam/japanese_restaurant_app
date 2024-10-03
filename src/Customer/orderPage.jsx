@@ -193,7 +193,12 @@ const OrderConfirmPage = () => {
       <SideBarCustomer />
       <NavbarMenu />
       <div className="mainMenu">
-        <p className="my-3 p-2 fs-3">ติดตามรายการอาหาร</p>
+      <p
+          className="my-3 border border-dark bg-white p-3 rounded-5 d-flex justify-content-center"
+          style={{ maxWidth: "220px" }}
+        >
+          ติดตามรายการอาหาร
+        </p>
         {orderData.length === 0 ? (
           <div
             className="p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center shadow-sm"

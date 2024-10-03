@@ -135,3 +135,7 @@
   background-color: #fff2;
   cursor: pointer;
 }
+
+.radio-group input[type="radio"]{
+  margin-right: 10px;
+}

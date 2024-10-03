@@ -146,13 +146,13 @@ const Mycart = () => {
     <>
       <SideBarCustomer />
       <NavbarCustomer />
-      <div className="mainMenu border border-info">
+      <div className="mainMenu ">
         <div
-          className="border border-black p-3 rounded-3 bg-white"
-          style={{ minHeight: "525px" }}
+          className="shadow-sm p-3 rounded-3 bg-white mt-3"
+          style={{ minHeight: "500px" }}
         >
           {cartList?.length === 0 ? (
-            <div style={{ height: "500px" }}>
+            <div style={{ height: "480px" }}>
               <p>ตารางรายการสั่ง</p>
               <hr variant="secondary" />
               <center>

@@ -141,8 +141,8 @@ const ManageMenu = ({onSentDataToEdit}) => {
               <th>{item.stockQuantity}</th>
               <th>{getCurrentDate(item.createDate)}</th>
               <th>
-              <Button variant="warning" className="me-2" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>
-              <Button variant="danger" onClick={()=>handleDeleteItem(item.menuID)}>ลบ</Button>
+              <Button variant="outline-warning" className="me-2 text-dark" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>
+              <Button variant="outline-danger" onClick={()=>handleDeleteItem(item.menuID)}>ลบ</Button>
               </th>
             </tr>
           ))}

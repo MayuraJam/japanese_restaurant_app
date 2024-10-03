@@ -141,6 +141,7 @@ function RegisterMember({ isOpen }) {
         confirmButtonText: "OK",
       });
       handleClear();
+      setShow(false); 
     } else {
     }
   };

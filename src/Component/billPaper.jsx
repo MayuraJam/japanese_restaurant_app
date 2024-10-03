@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-import { Modal, Dropdown, DropdownButton, Button } from "react-bootstrap";
+import { Modal, Dropdown, DropdownButton, Button,Col,Row,Form } from "react-bootstrap";
 import PaymentPage from "../Customer/paymentPage";
 import Mainlogo from "../image/phapirun_logo2.jpg";
 import axios from "axios";
+import RegisterMember from "../Customer/registerMember";
+import Swal from "sweetalert2";
+import Picture2 from '../image/restuarant.jpg'
+
 function Receipt({ orderID }) {
   //const printRef = React.useRef();
   const [orderData, setOrderData] = useState([]);
@@ -10,11 +14,23 @@ function Receipt({ orderID }) {
 
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleClose2 = () => setShow2(false);
   const handleShow2 = () => setShow2(true);
+  const handleClose3 = () => setShow3(false);
+  const handleShow3 = () => setShow3(true);
+
+  const handleOpenToModal3 = () => {
+    setShow2(false); // Hide Modal2
+    setShow3(true);  // Show Modal3
+  };
+  const handleOpenToModal2 = () => {
+    setShow2(true); // Hide Modal3
+    setShow3(false);  // Show Modal2
+  };
   //ดึง 2 ตารางคือ การเงินและorder
   const fetchingOrderdata = async (orderID) => {
     try {
@@ -102,7 +118,78 @@ function Receipt({ orderID }) {
     },
   ];
 
-  const handleDownLoadBill = () => {};
+  //const handleDownLoadBill = () => {};
+
+  const [inputFields,setInputFields] = useState({
+    email:'',
+    password:''
+ });
+ const [errors,setErrors] = useState({});
+ const [submitting,setSubmitting] = useState(false);
+ 
+ const validateValues = ()=>{
+   let isValid = true;
+   const error = {};
+   if(!inputFields.email){
+     error.email = "กรุณากรอกอีเมลล์ด้วย";
+     isValid =false;
+   }if(!inputFields.password){
+     error.password = "กรุณากรอกรหัสผ่านด้วย";
+     isValid =false;
+   }
+    else if(inputFields.password < 5){
+     error.password = "กรุณากรอกรหัสให้มากกว่า 5 ตัวอักษร";
+     isValid =false;
+    } 
+    setErrors(error);
+    return isValid;
+
+
+ };
+
+
+ const handleChange = (e)=>{
+   const {name,value} = e.target;
+   setInputFields({
+     ...inputFields,[name]:value
+   });
+
+ };
+ function handleSubmit(e){
+    e.preventDefault();
+    if(validateValues()){
+     console.log("Input data : ",inputFields);
+     setSubmitting(true);
+     Swal.fire({
+       text: "เข้าสู่ระบบการสะสมแต้มคะแนน",
+       icon: "success",
+       confirmButtonText: "OK",
+     });
+     handleClear();
+     handleOpenToModal3();
+    }else{
+     console.log(validateValues());
+   }
+ };
+ const finishSubmit=()=>{
+   console.log(inputFields);
+ };
+
+ useEffect(()=>{
+   if(Object.keys(errors).length===0&&submitting){
+     finishSubmit();
+   }
+ },[errors]);
+ //const isInputValid = Object.keys(errors).length===0;
+
+ const handleClear=()=>{
+   setInputFields({
+     email:'',
+    password:''
+   });
+   setErrors({});
+   setSubmitting(false);
+ }
   return (
     <>
       <DropdownButton
@@ -211,18 +298,103 @@ function Receipt({ orderID }) {
         </Modal.Footer>
       </Modal>
 
-      {/*เข้าสู่ระบบสมาชิก*/}
-      <Modal show={show2} onHide={handleClose2} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+      {/*หน้าระบบสมาชิก*/}
+      <Modal show={show2} onHide={handleClose2} centered size="lg">
+      <Modal.Header closeButton>
+          <Modal.Title>เข้าสู่ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body >
+        <Row>
+          <Col xs={5} >
+        <img
+              src={Picture2}
+              //alt={user.firstName}
+              className="img-fluid border border-dark mb-3"
+              style={{
+                width: "350px",
+                //width:"100%",
+                height: "350px",
+                objectFit: "cover",
+                backgroundColor: "#ffff",
+              }}
+            />
+          </Col>
+          <Col xs={6} style={{marginLeft:'10px'}}>
+          <center>
+        <img
+              //src=''
+              //alt={user.firstName}
+              className="img-fluid rounded-circle mb-4 mt-3"
+              style={{
+                width: "80px",
+                height: "80px",
+                objectFit: "cover",
+                backgroundColor: "#ffff",
+                border:'5px solid #EB5B00'
+              }}
+        />
+                      <p className=" p-2 mb-2  border rounded-5" style={{backgroundColor:'#FDF2E9',width:'300px',fontSize:'0.8rem'}}>
+                        <strong>
+                        ชื่อร้านอาหารญี่ปุ่น
+                        </strong>
+                      </p>
+            </center>
+          <Form className="needs-validation d-flex flex-column justify-content-center align-items-center">
+            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+              <Form.Label style={{fontSize:'0.8rem',color:'gray'}}>อีเมลล์ ต้องเพิ่ม @*</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="กรอกอีเมลล์ ..."
+                autoFocus
+                className={`${errors.email ? "is-invalid" : ""}`} style={{width:'350px'}}
+                name='email'
+                onChange={handleChange}
+                value={inputFields.email}
+              />
+              {errors.email && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.email}</div>}
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label style={{fontSize:'0.8rem',color:'gray'}}>รหัสผ่าน</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="กรอกรหัสผ่าน ..."
+                autoFocus
+                className={`${errors.password ? "is-invalid" : ""}`} style={{width:'350px'}}
+                name='password'
+                onChange={handleChange}
+                value={inputFields.password}
+              />
+              {errors.password && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.password}</div>}
+            </Form.Group>
+          </Form>
+          </Col>
+        </Row>
+        </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose2}>
-            Close
+         <RegisterMember isOpen={true}/>
+          {/*
+            openRegister == true
+          เข้าสู่หน้าการลงทะเบียน */}
+          <Button variant="primary" onClick={handleSubmit}>
+            เข้าสู่ระบบ
           </Button>
-          <Button variant="primary" onClick={handleClose2}>
-            Save Changes
+          {/*เข้าสู่หน้าสะสมแต้ม*/}
+        </Modal.Footer>
+      </Modal>
+        {/*เนื่อหาภายในใช้เป็น component */}
+      <Modal show={show3} onHide={handleClose3} centered size="lg">
+      <Modal.Header closeButton>
+          <Modal.Title>ระบบสะสมแต้ม</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+        
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" >
+            ออกจากระบบ
           </Button>
         </Modal.Footer>
       </Modal>
