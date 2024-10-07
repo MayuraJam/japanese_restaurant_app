@@ -70,6 +70,7 @@ const SideBarCustomer = () => {
           ชำระเงิน
         </a>
       )}
+       
           </div>
           <div className="d-flex flex-column mb-2">
             <a href="/Customer/history" className={`d-flex align-items-center ${location.pathname === "/Customer/history" ? "active" : ""}`}>

@@ -185,8 +185,6 @@ const SelectMenuPage = ({ tableID }) => {
                     </div>
                     <div
                       style={{
-                        //maxHeight: "340px",
-                       // overflowY: "auto",
                         marginTop: "10px",
                       }}
                     >

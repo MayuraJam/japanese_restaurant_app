@@ -25,7 +25,7 @@ const NavbarAdmin = ({staftID}) => {
               </Container>
             </Navbar>
           </Col>
-          <Col xs={2} style={{ padding: 0 }}>
+          <Col xs={3} style={{ padding: 0 }}>
             <Navbar className="" style={{ backgroundColor: "#1A5276" }}>
               <Container>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

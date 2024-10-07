@@ -54,35 +54,6 @@ const PaymentPage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  /*const handleOpenBill = () => {
-    Swal.fire({
-      title: "เข้าสู่ระบบการสะสมคะแนนหรือไม่?",
-      icon: "warning",
-      showCancelButton: true,
-      cancelButtonColor: "#d33",
-      confirmButtonColor: "#3085d6",
-      cancelButtonText: "ไม่ต้องการเข้าสู่หน้าสะสมคะแนน",
-      confirmButtonText: "เข้าสู่ระบบ",
-    }).then((result) => {
-      if (result.isConfirmed) {*/
-  // ไปที่ conponent เข้าสู่ระบบ
-  // toMenuPage()
-  /*<LoginMember 
-         isOpen={!loginOpen}
-         setOPen == true
-         openRegister = {"register"}
-         onClick={() => openModal("login")}
-         onClose={()=> closeModal("login")}
-       /> */
-  /* } else if (result.dismiss === Swal.DismissReason.cancel) {
-        return(
-          <>
-            <Receipt/>
-          </>
-        );
-      }
-    });
-  };*/
 
   const handleClick = (value) => {
     setOptionPay(value);

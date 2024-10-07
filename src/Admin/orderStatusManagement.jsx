@@ -7,6 +7,7 @@ import { Button, Card, Form } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import DatePicker from "react-datepicker";
 
 const OrderStatusManagementPage = () => {
   const { staftID } = useParams();
@@ -14,11 +15,17 @@ const OrderStatusManagementPage = () => {
   const [orderOriData, setOrderOriData] = useState([]);
   const [tableData, setTable] = useState([]);
   const [selectStatus,setSelectStatus] = useState("");
+  const [selectdate,setSelectDate] = useState(new Date());
+  const [search,getSearch] = useState("");
+  
+  
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {
-      const response = await axios.get(
-        `https://localhost:7202/api/Admin/GetOrderStatus`
+      const response = await axios.post(
+        `https://localhost:7202/api/Admin/GetOrderStatus`,{
+          orderID : search
+        }
       );
       console.log("response :", response.data.orderList);
       setOrderData(response.data.orderList);
@@ -31,19 +38,19 @@ const OrderStatusManagementPage = () => {
     fetchingFulldata();
   }, []);
   const cookStatus = orderData
-    ? orderData.filter((item) => item.orderDetailStatus === "กำลังปรุง")
+    ? orderData.filter((item) => item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search))
     : [];
   console.log("cookStatus :", cookStatus.length);
   const cookedStatus = orderData
-    ? orderData.filter((item) => item.orderDetailStatus === "ปรุงสำเร็จ")
+    ? orderData.filter((item) => item.orderDetailStatus === "ปรุงสำเร็จ" && item.orderID.includes(search))
     : [];
   console.log("CookedStatus :", cookedStatus.length);
   const serveStatus = orderData
-    ? orderData.filter((item) => item.orderDetailStatus === "กำลังเสริฟ")
+    ? orderData.filter((item) => item.orderDetailStatus === "กำลังเสริฟ" && item.orderID.includes(search))
     : [];
   console.log("ServeStatus :", serveStatus.length);
   const finalStatus = orderData
-    ? orderData.filter((item) => item.orderDetailStatus === "เสริฟแล้ว")
+    ? orderData.filter((item) => item.orderDetailStatus === "เสริฟแล้ว" && item.orderID.includes(search))
     : [];
   console.log("Final status :", finalStatus.length);
 
@@ -124,14 +131,37 @@ const OrderStatusManagementPage = () => {
         >
           จัดการรายการอาหาร
         </p>
-        <div className="d-flex flex-row justify-content-start mt-4">
+        <div className="d-flex flex-row justify-content-between mt-4">
           <Form.Select defaultValue="ทั้งหมด" className="me-4" onChange={(e)=>filterTable(e.target.value)}>
             <option value="all">โต๊ะทั้งหมด</option>
             {tableData?.map((item)=>(
               <option value={item.tableID}>{item.tableID}</option>
             ))}
           </Form.Select>
+          {/*<DatePicker
+          //showIcon
+          selected={selectdate}
+          onChange={(date) => setSelectDate(selectdate)}
+        />*/}
+        {/*<input aria-label="Date and time" type="datetime-local" onChange={(date) => setSelectDate(selectdate)} selected={selectdate}/>*/}
+        <div className="input-group ">
+                  <input
+                    type="text"
+                    id="search"
+                    placeholder="ค้นหารายการสั่ง..."
+                    name="search"
+                    className="form-control "
+                    value={search}
+                    onChange={(e)=>{getSearch(e.target.value)}}
+                  />
+                  <div className="input-group-append">
+                    <span className="input-group-text bg-white border-0" style={{cursor:"pointer"}}>
+                      <i className="bi bi-search"></i>
+                    </span>
+                  </div>
+                </div>
         </div>
+
 
         <div className="mt-4 d-flex flex-row justify-content-center">
           <Card

@@ -20,3 +20,6 @@ code {
   background-color: #FDF2E9
   ;
 }
+*, *::before, *::after {
+  box-sizing: border-box;
+}

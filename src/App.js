@@ -25,6 +25,8 @@ import Mycart from './Customer/cartPage.jsx';
 import LoginMember from './Customer/loginMember.jsx';
 import PointPage from './Customer/pointPage.jsx';
 import FAQModal from './Component/question.jsx';
+import ReportPage from './Admin/reportPage.jsx';
+import DashBoardPage from './Admin/dashboardPage.jsx';
 function App() {
   return (
     <Router>
@@ -49,7 +51,7 @@ function App() {
      <Route path="/Customer/loginTopoint" element={<LoginMember/>} />   
      <Route path="/Customer/pointPage" element={<PointPage/>} />   
      <Route path="/Customer/FAQPage" element={<FAQModal/>} />   
-
+    
 
 
         {/*ฝั่งพนักงาน*/}
@@ -58,7 +60,10 @@ function App() {
      <Route path="/Admin/orderManagement/:staftID" element={<OrderManagementPage/>} />   
      <Route path="/Admin/orderStatusManagement/:staftID" element={<OrderStatusManagementPage/>} />   
      <Route path="/Admin/paymentManagement/:staftID" element={<PaymentManagementPage/>} />   
-     <Route path="/LoginStaftPage" element={<LoginStaftPage/>} />   
+     <Route path="/LoginStaftPage" element={<LoginStaftPage/>} /> 
+     <Route path="/Admin/report/:staftID" element={<ReportPage/>} />   
+     <Route path="/Admin/dashboard/:staftID" element={<DashBoardPage />} />   
+    
 
          {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
         <Route path="/AuthenModalPage" element={<AuthenModel/>} />  

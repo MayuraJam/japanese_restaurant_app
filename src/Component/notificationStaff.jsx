@@ -91,6 +91,7 @@ function NotificationModal() {
         backdrop="static"
         keyboard={false}
         centered
+        size="lg"
       >
         <Modal.Header closeButton>
           <Modal.Title>

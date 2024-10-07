@@ -12,6 +12,7 @@ import reportIcon from '../image/icon/report.png';
 import faqIcon from '../image/icon/question.png';
 import Swal from "sweetalert2";
 import Mainlogo from '../image/phapirun_logo2.jpg'
+import dashboardIcon from '../image/icon/dashboard (1).png'
 import { useNavigate,useLocation,useParams} from "react-router-dom";
 
 const SideBarAdmin = ({staftID}) => {
@@ -115,14 +116,14 @@ const SideBarAdmin = ({staftID}) => {
               
               เพิ่มรายการเมนู</a>
           </div>
-          {/*<div className="d-flex flex-column ">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
-            <img src={faqIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
-              FAQ</a>
-          </div>*/}
           <div className="d-flex flex-column ">
-            <a href="#" className={`d-flex align-items-center ${location.pathname === "#" ? "active" : ""}`}>
+            <a href={`/Admin/dashboard/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/dashboard/${staftID}` ? "active" : ""}`}>
+            <img src={dashboardIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+      
+              dashboard</a>
+          </div>
+          <div className="d-flex flex-column ">
+            <a href={`/Admin/report/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/report/${staftID}` ? "active" : ""}`}>
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
       
               รายงาน</a>

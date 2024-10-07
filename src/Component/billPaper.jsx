@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Modal, Dropdown, DropdownButton, Button,Col,Row,Form } from "react-bootstrap";
-import PaymentPage from "../Customer/paymentPage";
 import Mainlogo from "../image/phapirun_logo2.jpg";
 import axios from "axios";
 import RegisterMember from "../Customer/registerMember";
 import Swal from "sweetalert2";
 import Picture2 from '../image/restuarant.jpg'
+import { useNavigate } from "react-router-dom";
+import html2canvas from "html2canvas";
 
 function Receipt({ orderID }) {
   //const printRef = React.useRef();
@@ -22,6 +23,38 @@ function Receipt({ orderID }) {
   const handleShow2 = () => setShow2(true);
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
+ //บันทึกภาพบิล
+  const billRef = useRef(null);
+
+  const saveBill = (element) =>{
+    console.log("element",element);
+    if(element){
+      html2canvas(element,{
+        scrollY: -window.scrollY, 
+        useCORS: true,             
+        windowHeight: element.scrollHeight
+      }).then((canvas)=>{
+        //document.body.appendChild(canvas);
+        const link = document.createElement("a");
+        link.download = `ใบเสร็จรายการอาหารที่_${orderID}.png`;
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+      Swal.fire({
+        text: "บันทึกภาพใบเสร็จสำเร็จ",
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+    }else{
+      Swal.fire({
+        text: "ไม่สามารถบันทึกภาพใบเสร็จ",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+    }
+  };
+   /*const navigate = useNavigate();
+   const ToInvoicePage = navigate("/CustomerinvoicePage/"+orderID);*/
 
   const handleOpenToModal3 = () => {
     setShow2(false); // Hide Modal2
@@ -190,6 +223,7 @@ function Receipt({ orderID }) {
    setErrors({});
    setSubmitting(false);
  }
+
   return (
     <>
       <DropdownButton
@@ -202,7 +236,9 @@ function Receipt({ orderID }) {
         <Dropdown.Item onClick={handleShow2}>
           <i class="bi bi-stars me-2"></i>เข้าสู่ระบบสะสมคะแนน
         </Dropdown.Item>
-        <Dropdown.Item onClick={handleShow}>
+        <Dropdown.Item 
+          onClick={handleShow}
+          >
           <i class="bi bi-receipt me-2"></i>เปิดใบเสร็จ
         </Dropdown.Item>
       </DropdownButton>
@@ -218,8 +254,10 @@ function Receipt({ orderID }) {
           </Modal.Body>
         ) : (
           <>
-            <Modal.Body style={{ maxHeight: "400px", overflowY: "auto" }}>
-              <div style={{ backgroundColor: "#F9E79F" }} className="p-2">
+            <Modal.Body 
+           // style={{ maxHeight: "400px", overflowY: "auto" }} 
+            ref={billRef}>
+              <div  className="p-2 bg-white">
                 <div style={{ textAlign: "center", fontSize: "0.7rem" }}>
                   <img
                     src={Mainlogo}
@@ -285,16 +323,19 @@ function Receipt({ orderID }) {
                     <p style={{ fontWeight: "bold" }}>{item.value}</p>
                   </div>
                 ))}
+                <center>
+                <p className="text-secondary" style={{fontSize:"0.7rem"}}>ขอบคุณที่ใช้บริการ</p>
+                </center>
               </div>
+
             </Modal.Body>
           </>
         )}
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
+      <Modal.Footer>
+          <Button variant="primary" onClick={()=>saveBill(billRef.current)}>
             <i class="bi bi-download me-2"></i>
             บันทึกใบเสร็จ
           </Button>
-          {/*<div ref={printRef}></div>*/}
         </Modal.Footer>
       </Modal>
 

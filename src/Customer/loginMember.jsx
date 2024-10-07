@@ -53,8 +53,6 @@ function LoginMember({isOpen,openRegister}) {
     } 
     setErrors(error);
     return isValid;
-
-
  };
 
 
