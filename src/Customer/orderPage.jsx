@@ -194,15 +194,16 @@ const OrderConfirmPage = () => {
       <NavbarMenu />
       <div className="mainMenu">
       <p
-          className="my-3 border border-dark bg-white p-3 rounded-5 d-flex justify-content-center"
-          style={{ maxWidth: "220px" }}
+          className="my-3 border border-dark  p-3 rounded-5 d-flex justify-content-center"
+          style={{ maxWidth: "220px",backgroundColor:"#4A4947",color:"#F9E79F"}}
+
         >
           ติดตามรายการอาหาร
         </p>
         {orderData.length === 0 ? (
           <div
             className="p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center shadow-sm"
-            style={{ height: "425px" }}
+            style={{ height: "425px" ,border:"1px solid #EB5B00"}}
           >
             <p style={{ textAlign: "center" }}>ไม่พบรายการสั่ง</p>
           </div>
@@ -210,12 +211,12 @@ const OrderConfirmPage = () => {
           orderData?.map((item) => (
             <div
               className="p-3 rounded-3 bg-white mb-4 shadow-sm"
-              style={{ Height: "525px" }}
+              style={{ Height: "525px" ,border:"1px solid #EB5B00"}}
             >
               <div>
                 <div className="d-flex flex-row justify-content-between ">
                   <div className="d-flex flex-column m-0 ">
-                    <p style={{ fontSize: "1rem" }}>
+                    <p style={{ fontSize: "1rem" ,color:"#EB5B00"}}>
                       รหัสการสั่งอาหาร : {item.orderID}
                     </p>
                     <div className="d-flex flex-row justify-content-around">
@@ -322,8 +323,8 @@ const OrderConfirmPage = () => {
                         </div>
                         <hr variant="secondary" />
                         <div className="d-flex flex-row justify-content-between">
-                          <p style={{ fontSize: "1.3rem" }}>ราคาสุทธิ </p>
-                          <p style={{ fontSize: "1.3rem" }}>
+                          <p style={{ fontSize: "1.3rem",color:"#EB5B00" }}>ราคาสุทธิ </p>
+                          <p style={{ fontSize: "1.3rem" ,color:"#EB5B00"}}>
                             {CalculateNetPrice(
                               item.totalPrice,
                               item.totalPrice * vat

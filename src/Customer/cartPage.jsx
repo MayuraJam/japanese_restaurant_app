@@ -168,7 +168,7 @@ const Mycart = () => {
               <div 
               //style={{ maxHeight: "295px", overflowY: "auto" }}
               >
-                <table className="table table-striped border border-dark"> 
+                <table className="table table-striped"> 
                  <thead>
                   <tr>
                     <th>ภาพเมนู</th>
@@ -228,14 +228,14 @@ const Mycart = () => {
                     </th>
                     <th>
                     <Button
-                        variant="outline-warning" 
+                        variant="warning" 
                         onClick={() => handleEditCart(item.cartID,item.quantity,item.unitPrice)}
                         className="me-3"
                       >
                        <i class="bi bi-arrow-clockwise"></i>
                       </Button>
                       <Button
-                        variant="outline-danger"
+                        variant="danger"
                         onClick={() => handleDeleteCart(item.cartID)}
                       >
                         <i class="bi bi-x-circle"></i>

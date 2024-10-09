@@ -122,12 +122,12 @@ const SideBarAdmin = ({staftID}) => {
       
               dashboard</a>
           </div>
-          <div className="d-flex flex-column ">
+          {/*<div className="d-flex flex-column ">
             <a href={`/Admin/report/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/report/${staftID}` ? "active" : ""}`}>
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
       
               รายงาน</a>
-          </div>
+          </div>*/}
           <hr className = "text-secondary mt-2"/>
           <div className="d-flex flex-column">
             <a onClick={handleLogout}>

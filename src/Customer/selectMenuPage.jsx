@@ -245,7 +245,7 @@ const SelectMenuPage = ({ tableID }) => {
                               <div className="d-flex flex-row justify-content-between">
                                 <Card.Title style={{ fontSize: "1rem" ,fontWeight:"bold"}}>{item.menuName}</Card.Title>
                                 <p
-                                  style={{ fontSize: "0.7rem" }}
+                                  style={{ fontSize: "0.5rem" }}
                                   className="border p-2 rounded-5 bg-warning fw-bold"
                                 >
                                   {item.categoryName}
@@ -318,76 +318,7 @@ const SelectMenuPage = ({ tableID }) => {
                             </Card.Body>
                           </Card>
                         ))}
-                        <Card
-                          style={{
-                            width: "16rem",
-                            cursor: "pointer",
-                            transition: "border-color 0.3s",
-                            position: "relative",
-                          }}
-                          className="hoverCard"
-                        >
-                          <div
-                            style={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              backgroundColor: "rgba(0,0,0,0.5)",
-                              color: "white",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: "1.5rem",
-                              fontWeight: "bold",
-                              zIndex: 1,
-                            }}
-                          >
-                            เมนูหมด
-                          </div>
-                          <Card.Img
-                            variant="top"
-                            src={Picture2}
-                            style={{
-                              width: "16rem",
-                              height: "130px",
-                              backgroundSize: "cover",
-                            }}
-                          />
-                          <Card.Body>
-                            <div className="d-flex flex-row justify-content-between">
-                              <Card.Title>ชื่อเมนู</Card.Title>
-                              <p
-                                style={{ fontSize: "0.7rem" }}
-                                className="border p-2 rounded-5 bg-warning fw-bold"
-                              >
-                                ประเภทเมนู
-                              </p>
-                            </div>
-                            <div className="d-flex flex-row justify-content-between">
-                              <Card.Text style={{ fontSize: "1rem" }}>
-                                ราคาอาหาร บาท
-                              </Card.Text>
-                              <p style={{ fontSize: "0.7rem" }}>rating</p>
-                            </div>
-                            <hr className="text-secondary" />
-                            <div className="button-area">
-                              {/*ปุ่มเพื่อจำนวนจาน*/}
-                              <div className=" d-flex flex-row">
-                                <div>
-                                  <button
-                                    type="button"
-                                    className="addButtomMenu"
-                                  >
-                                    <i class="bi bi-patch-plus me-2"></i>
-                                    เพิ่มรายการ
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </Card.Body>
-                        </Card>
+                       
                       </div>
                     </div>
                   </div>

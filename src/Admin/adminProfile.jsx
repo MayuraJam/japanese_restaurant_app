@@ -168,8 +168,8 @@ const handleSwitchToModal2 = () => {
       
 
       {/*ด้านหลัง*/}
-       <Modal show={showModal2} animation={false} onHide={handleClose2}>
-          <Modal.Header closeButton>
+       <Modal show={showModal2} animation={false} >
+          <Modal.Header >
             <Modal.Title>
               <i class="bi bi-pen-fill me-3"></i>แก้ไขรายละเอียดพนักงาน{" "}
             </Modal.Title>

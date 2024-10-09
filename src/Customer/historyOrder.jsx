@@ -75,8 +75,8 @@ const HistoryPage=()=>{
       <NavbarMenu />
     <div className="mainMenu">
     <p
-          className="my-3 border border-dark bg-white p-3 rounded-5 d-flex justify-content-center"
-          style={{ maxWidth: "220px" }}
+          className="my-3 border border-dark  p-3 rounded-5 d-flex justify-content-center"
+          style={{ maxWidth: "220px",backgroundColor:"#4A4947",color:"#F9E79F"}}
         >
           ประวัติรายการอาหาร
         </p>
@@ -84,11 +84,11 @@ const HistoryPage=()=>{
         {filterDOrderData?.map((item)=>(
         <div
           className="shadow-sm p-3 rounded-3 bg-white mb-3"
-          style={{ Height: "525px" }}>
+          style={{ Height: "525px"  ,border:"1px solid #EB5B00"}}>
           <div>
             <div className="d-flex justify-content-end">
             <div className="d-flex flex-column m-0">
-            <p style={{fontSize:"1rem"}}>รหัสการสั่งอาหาร : {item.orderID}</p>
+            <p style={{fontSize:"1rem",color:"#EB5B00"}}>รหัสการสั่งอาหาร : {item.orderID}</p>
             <p style={{ fontSize: "0.8rem", color: "gray" }}>{dateOrder(item.orderDate)} {timeOrder(item.orderDate)} น.</p>
             </div>
             </div>
@@ -162,8 +162,8 @@ const HistoryPage=()=>{
                   </div>
                 <hr variant="secondary" />
                 <div className="d-flex flex-row justify-content-between">
-                <p style={{fontSize:"1.3rem"}}>ราคาสุทธิ : </p>
-                <p style={{fontSize:"1.3rem"}}>{item.paymentItem.netTotalAmount} บาท</p>
+                <p style={{fontSize:"1.3rem",color:"#EB5B00"}}>ราคาสุทธิ : </p>
+                <p style={{fontSize:"1.3rem",color:"#EB5B00"}}>{item.paymentItem.netTotalAmount} บาท</p>
                   </div>
                   <div className="d-flex flex-row justify-content-between">
                 <p style={{fontSize:"0.8rem"}}>ชำระด้วย :</p>

@@ -37,6 +37,7 @@ const OrderStatusManagementPage = () => {
   useEffect(() => {
     fetchingFulldata();
   }, []);
+  
   const cookStatus = orderData
     ? orderData.filter((item) => item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search))
     : [];

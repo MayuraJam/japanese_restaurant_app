@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import Picture2 from '../image/restuarant.jpg'
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
-
+import MemberPointComponent from "./memberPointPage";
 function Receipt({ orderID }) {
   //const printRef = React.useRef();
   const [orderData, setOrderData] = useState([]);
@@ -224,6 +224,14 @@ function Receipt({ orderID }) {
    setSubmitting(false);
  }
 
+ const handleLogout = () =>{
+  setShow3(false);
+  Swal.fire({
+    text: "ออกจากระบบสำเร็จ",
+    icon: "success",
+    confirmButtonText: "OK",
+  });
+ }
   return (
     <>
       <DropdownButton
@@ -340,7 +348,7 @@ function Receipt({ orderID }) {
       </Modal>
 
       {/*หน้าระบบสมาชิก*/}
-      <Modal show={show2} onHide={handleClose2} centered size="lg">
+      <Modal show={show2}  centered size="lg">
       <Modal.Header closeButton>
           <Modal.Title>เข้าสู่ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
@@ -426,15 +434,15 @@ function Receipt({ orderID }) {
         </Modal.Footer>
       </Modal>
         {/*เนื่อหาภายในใช้เป็น component */}
-      <Modal show={show3} onHide={handleClose3} centered size="lg">
-      <Modal.Header closeButton>
-          <Modal.Title>ระบบสะสมแต้ม</Modal.Title>
+      <Modal show={show3}  centered size="lg">
+      <Modal.Header style={{backgroundColor:"#4A4947",color:"#FDF2E9"}}>
+          <Modal.Title><i class="bi bi-stars me-2"></i> ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
-        <Modal.Body >
-        
+        <Modal.Body style={{backgroundColor:"#FDF2E9"}}>
+         <MemberPointComponent/>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" >
+        <Modal.Footer style={{backgroundColor:"#4A4947"}}>
+          <Button variant="primary" onClick={handleLogout}>
             ออกจากระบบ
           </Button>
         </Modal.Footer>

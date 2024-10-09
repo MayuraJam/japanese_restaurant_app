@@ -40,13 +40,13 @@ const ReviewPage = ({orderID,menuName,image,menuID,customerID}) => {
       </Button>
 
       <Modal show={show} onHide={handleClose} size="lg" centered > 
-        <Modal.Header closeButton style={{backgroundColor:"#DEE5D4"}}>
+        <Modal.Header closeButton style={{backgroundColor:"#1A5276",color:"#F9E79F"}}>
           <Modal.Title><i class="bi bi-stars me-2"></i>ให้คะแนน</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{backgroundColor:"#FEF9D9"}}>
         <center>
         <div
-            style={{ MaxWidth: "700px", height: "100px" }}
+            style={{ MaxWidth: "700px", height: "100px", border:"1px solid #EB5B00"}}
             className="shadow-sm rounded-3 p-3 bg-white" 
           >
             <div className="d-flex flex-row align-items-center justify-content-between">
@@ -63,7 +63,7 @@ const ReviewPage = ({orderID,menuName,image,menuID,customerID}) => {
                     backgroundColor: "#ffff",
                   }}
                 />
-                <h4>{menuName}</h4>
+                <h4 style={{color:"#EB5B00"}}>{menuName}</h4>
               </div>
               <div className="d-flex flex-column align-items-between">
                 <p style={{ fontSize: "0.9rem", color: "gray" }}>
@@ -77,7 +77,7 @@ const ReviewPage = ({orderID,menuName,image,menuID,customerID}) => {
           <p className="my-4" style={{fontSize:"1rem"}}><i class="bi bi-star me-2"></i>ส่วนของการให้คะแนนความพึ่งพอใจของท่านลูกค้าขอรับ</p>
           <center>
             <div
-              style={{ MaxWidth: "600px", height: "80px" }}
+              style={{ MaxWidth: "600px", height: "80px" , border:"1px solid #EB5B00"}}
               className="shadow-sm rounded-3 mb-4 d-flex align-items-center justify-content-center bg-white"
             >
               {[1, 2, 3, 4, 5].map((star) => {
@@ -107,8 +107,8 @@ const ReviewPage = ({orderID,menuName,image,menuID,customerID}) => {
          
         </div>
         </Modal.Body>
-        <Modal.Footer style={{backgroundColor:"#DEE5D4"}}>
-          <Button variant="primary" onClick={()=>{handleSubmit(customerID,menuID,rating)}}>
+        <Modal.Footer style={{backgroundColor:"#1A5274"}}>
+          <Button variant="warning" onClick={()=>{handleSubmit(customerID,menuID,rating)}}>
           <i class="bi bi-star me-2"></i>ให้คะแนน
           </Button>
         </Modal.Footer>
