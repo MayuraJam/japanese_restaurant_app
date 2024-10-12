@@ -12,12 +12,12 @@ import NavbarCustomer from "../Component/navBarCustomer";
 import { useNavigate } from "react-router-dom";
 
 const Mycart = () => {
-  const customerID = "CUS000001";
+  const customerID = "CUS000004";
+  const tableID = "T008";
   const nevigate = useNavigate();
   const ToPage = (path) => {
     nevigate(path);
   };
-  const tableID = "T001";
   const [cartList, setCartList] = useState([]);
   const [total, setTotal] = useState(0);
   const [quantity,setQuantity] = useState(1);

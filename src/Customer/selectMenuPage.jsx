@@ -12,8 +12,8 @@ import Menucategory from "../Component/MenucagoryData";
 import Swal from "sweetalert2";
 
 const SelectMenuPage = ({ tableID }) => {
-  tableID = "T001";
-  const customerID = "CUS000001";
+  tableID = "T008";
+  const customerID = "CUS000004";
   const [inputOrder, setInputOrder] = useState({
     option: "",
     tableID: "",

@@ -16,8 +16,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import QuestionModal from "./question";
 import Swal from "sweetalert2";
 import axios from "axios";
+import NotificationModal from "./notificationStaff";
 const NavbarCustomer = () => {
-  const tableID = "T001";
+  const tableID = "T008";
 
   const [input, setInput] = useState({
     orderID: "",
@@ -52,6 +53,7 @@ const NavbarCustomer = () => {
             title: massage,
             message: ``,
             tableID: tableID,
+            sentBy : "ลูกค้า",
           }
         );
         console.log("response :", response.data.notiItem);
@@ -72,6 +74,7 @@ const NavbarCustomer = () => {
               title: massage,
               message: `หมายเลขการสั่งที่ ${orderID} ยังไม่ได้ทำการเสริฟให้แก่ลูกค้า`,
               tableID: tableID,
+              sentBy : "ลูกค้า",
             }
           );
           console.log("response :", response.data.notiItem);
@@ -95,6 +98,7 @@ const NavbarCustomer = () => {
               title: massage,
               message: `หมายเลขการสั่งที่ ${orderID} รายการชื่อว่า ${menuName} ยังไม่ได้ทำการเสริฟให้แก่ลูกค้า`,
               tableID: tableID,
+              sentBy : "ลูกค้า",
             }
           );
           console.log("response :", response.data.notiItem);
@@ -215,6 +219,7 @@ const NavbarCustomer = () => {
                     </NavDropdown>
                   </Nav>
                 </Navbar.Collapse>
+                <NotificationModal role={"พนักงาน"} tableID={tableID}/>
               </Container>
             </Navbar>
           </Col>
@@ -227,19 +232,6 @@ const NavbarCustomer = () => {
                     <button className="btn btn-outline-warning">
                       โต๊ะที่ : {tableID}
                     </button>
-                    {/* <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#link">Link</Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>*/}
                   </Nav>
                 </Navbar.Collapse>
               </Container>

@@ -4,6 +4,8 @@ import Picture2 from "../image/restuarant.jpg";
 import { Row, Col, Form ,Button,Modal} from "react-bootstrap";
 import axios from "axios";
 import PasswordFormatGuide from "../Component/passwordSetting";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 
 function RegisterMember({ isOpen }) {
   const [show, setShow] = useState(false);
@@ -370,7 +372,7 @@ function RegisterMember({ isOpen }) {
                     </div>
                   )}
                 </Form.Group>
-                <Form.Group className="mb-2">
+              <Form.Group className="mb-2">
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     เบอร์โทรศัพท์
                   </Form.Label>
@@ -393,6 +395,7 @@ function RegisterMember({ isOpen }) {
                     </div>
                   )}
                 </Form.Group>
+              
               </div>
               <PasswordFormatGuide/>
               </div>

@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button, Modal, Alert } from "react-bootstrap";
 import axios from "axios";
-function NotificationModal() {
+function NotificationModal({role,tableID}) {
+  console.log("ผู้ส่ง", role);
+  
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -73,14 +75,20 @@ function NotificationModal() {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
-
+ 
+  const filterNotification = notiData?.filter((newData) => {
+    if (role === "พนักงาน") {
+      return newData.sentBy === role && newData.tableID === tableID;
+    }
+    return newData.sentBy === role;
+  });
+ 
   return (
     <>
       <Button variant="outline-dark" onClick={handleShow}>
         {notiData.isRead !== "ยังไมได้อ่าน" && (
           <>
-            <i class="bi bi-bell me-2"></i>แจ้งเตือน (
-            {notiData.filter((noti) => noti.isRead === "ยังไม่ได้อ่าน").length})
+            <i class="bi bi-bell me-2"></i>แจ้งเตือน 
           </>
         )}
       </Button>
@@ -99,7 +107,7 @@ function NotificationModal() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "350px", overflowY: "auto" }}>
-          {notiData?.length === 0 ? (
+          {filterNotification?.length === 0 ? (
             <>
               <center>
                 <p>ไม่พบรายการแจ้งเตือน</p>
@@ -107,14 +115,14 @@ function NotificationModal() {
             </>
           ) : (
             <>
-              {notiData?.map((item) => (
+              {filterNotification?.map((item) => (
                 <Alert variant="warning">
                   <div className="d-flex flex-row justify-content-between">
                     <Alert.Heading style={{ fontSize: "1.2rem" }}>
                       {item.title}
                     </Alert.Heading>
 
-                    {notiData.isRead !== "อ่านแล้ว" && (
+                    {filterNotification.isRead !== "อ่านแล้ว" && (
                       <p
                         className="bg-danger text-warning p-1 border rounded-3"
                         style={{ fontSize: "0.7rem" }}

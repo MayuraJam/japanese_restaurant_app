@@ -15,8 +15,8 @@ const OrderConfirmPage = () => {
   const toPage = (orderID) => {
     navigate("/Customer/payment/" + orderID);
   };
-  const tableID = "T001";
-  const customerID = "CUS000001";
+  const tableID = "T008";
+  const customerID = "CUS000004";
   const vat = 0.07;
   const [orderData, setOrderData] = useState([]);
   
@@ -332,6 +332,11 @@ const OrderConfirmPage = () => {
                             บาท
                           </p>
                         </div>
+                        {item.paymentStatus === "ยังไม่ได้ชำระ"?(
+                          <p style={{ fontSize: "0.8rem" ,maxWidth:"200px",color:"red"}} className="border border-danger p-1 ">สถานะการชำระเงิน : {item.paymentStatus}</p>
+                        ):(
+                          <p style={{ fontSize: "0.8rem" ,maxWidth:"200px" , color:"green"}} className="border border-success p-1 bg-warning">สถานะการชำระเงิน : {item.paymentStatus}</p>
+                        )}
                       </Card.Text>
                     </Card.Body>
                   </Card>

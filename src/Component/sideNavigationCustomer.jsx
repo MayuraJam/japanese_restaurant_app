@@ -79,8 +79,9 @@ const SideBarCustomer = () => {
               ประวัติการสั่ง</a>
           </div>
           <hr className = "text-warning mt-2"/>
+
           <div className="d-flex flex-column">
-            <a href="#">
+            <a href="/Customer/ThankYouPage">
             <img src={logoutIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ออกจากระบบ</a>
           </div>

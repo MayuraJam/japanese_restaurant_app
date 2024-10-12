@@ -23,10 +23,11 @@ import PaymentManagementPage from './Admin/paymentManagement.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Mycart from './Customer/cartPage.jsx';
 import LoginMember from './Customer/loginMember.jsx';
-import PointPage from './Customer/pointPage.jsx';
 import FAQModal from './Component/question.jsx';
 import ReportPage from './Admin/reportPage.jsx';
 import DashBoardPage from './Admin/dashboardPage.jsx';
+import ThankYouPage from './Customer/thankYouPage.jsx';
+import MemberManagementPage from './Admin/memberManagement.jsx';
 function App() {
   return (
     <Router>
@@ -48,10 +49,9 @@ function App() {
      <Route path="/Customer/payment/:orderID" element={<PaymentPage/>} />   {/*หน้า payment แบบมีรหัสลูกค้า */}  
      <Route path="/Customer/history" element={<HistoryPage/>} />   
      <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
-     <Route path="/Customer/loginTopoint" element={<LoginMember/>} />   
-     <Route path="/Customer/pointPage" element={<PointPage/>} />   
+     <Route path="/Customer/loginTopoint" element={<LoginMember/>} />    
      <Route path="/Customer/FAQPage" element={<FAQModal/>} />   
-    
+     <Route path="/Customer/ThankYouPage" element={<ThankYouPage/>} />   
 
 
         {/*ฝั่งพนักงาน*/}
@@ -63,7 +63,7 @@ function App() {
      <Route path="/LoginStaftPage" element={<LoginStaftPage/>} /> 
      <Route path="/Admin/report/:staftID" element={<ReportPage/>} />   
      <Route path="/Admin/dashboard/:staftID" element={<DashBoardPage />} />   
-    
+     <Route path="/Admin/memberManagement/:staftID" element={<MemberManagementPage/>}/>
 
          {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
         <Route path="/AuthenModalPage" element={<AuthenModel/>} />  

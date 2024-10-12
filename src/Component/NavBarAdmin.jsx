@@ -19,7 +19,7 @@ const NavbarAdmin = ({staftID}) => {
                     {/*<button className="btn btn-outline-dark">
                       <i class="bi bi-pencil-square"> </i>แจ้งเตือน
                     </button>*/}
-                    <NotificationModal/>
+                    <NotificationModal role="ลูกค้า"/>
                   </Nav>
                 </Navbar.Collapse>
               </Container>

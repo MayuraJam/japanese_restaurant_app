@@ -5,9 +5,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const NavbarMain=()=>{
+  const tableID = "T008";
     return(
      <>
-      <Container style={{ position: "fixed", top: 0,zIndex:1 }}>
+      <Container style={{ position: "fixed", top: 0,zIndex:1,right:0,left:0 }}>
         <Row>
           <Col xs={10} style={{ padding: 0}}>
             <Navbar className="" style={{ backgroundColor: "#000000" ,height:'50px'}}>
@@ -27,7 +28,7 @@ const NavbarMain=()=>{
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <button className="btn btn-outline-warning">
-                      โต๊ะที่ : T001
+                      โต๊ะที่ : {tableID}
                     </button>
                   </Nav>
                 </Navbar.Collapse>

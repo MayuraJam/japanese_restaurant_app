@@ -21,8 +21,7 @@ const PaymentByPoint = ({
          navigate("/Admin/table/"+staftID);
        }*/
   const [inputFields, setInputFields] = useState({
-    email: "",
-    password: "",
+    phone : ""
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -31,16 +30,9 @@ const PaymentByPoint = ({
   const validateValues = () => {
     let isValid = true;
     const error = {};
-    if (!inputFields.email) {
-      error.email = "กรุณากรอกอีเมลล์ด้วย";
-      isValid = false;
-    }
-    if (!inputFields.password) {
-      error.password = "กรุณากรอกรหัสผ่านด้วย";
-      isValid = false;
-    } else if (inputFields.password < 5) {
-      error.password = "กรุณากรอกรหัสให้มากกว่า 5 ตัวอักษร";
-      isValid = false;
+    if(!inputFields.phone){
+      error.phone = "กรุณากรอกหมายเลขโทรศัพท์ของท่านด้วย";
+      isValid =false;
     }
     setErrors(error);
     return isValid;
@@ -62,8 +54,7 @@ const PaymentByPoint = ({
         const response = await axios.post(
           `https://localhost:7202/api/Auth/LoginCustomerMember`,
           {
-            email: inputFields.email,
-            password: inputFields.password,
+            phone : inputFields.phone,
             roleName: "ลูกค้า",
             totalPrice: netTotalAmount,
             pointType: "ลดคะแนน",
@@ -246,63 +237,36 @@ const PaymentByPoint = ({
         <div>
           <p>เข้าสู่ระบบการสะสมแต้มของคุณ</p>
           <form
-            className="needs-validation d-flex flex-column justify-content-center align-items-center"
+            className="needs-validation d-flex flex-column justify-content-center align-items-center mb-3"
             onSubmit={handleSubmit}
           >
-            <div className="form-group mb-2">
+            <div className="form-group mb-5">
               <label
                 htmlFor="title"
                 className="form-label"
                 style={{ fontSize: "0.8rem", color: "gray" }}
               >
-                อีเมลล์ ต้องมี @ ด้วย *
+                เบอร์โทรศัพท์ : 
               </label>
               <input
-                type="email"
-                name="email"
-                value={inputFields.email}
+                type="tel"
+                name="phone"
+                value={inputFields.phone}
                 onChange={handleChange}
-                placeholder="examplename@mail.com"
-                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                placeholder="xxx-xxx-xxxx"
+                className={`form-control ${errors.phone ? "is-invalid" : ""}`}
                 style={{ width: "350px" }}
               />
-              {errors.email && (
+              {errors.phone && (
                 <div
                   className="error"
                   style={{ fontSize: "0.8rem", color: "red" }}
                 >
-                  {errors.email}
+                  {errors.phone}
                 </div>
               )}
             </div>
-            <div className="form-group mb-4">
-              <label
-                htmlFor="title"
-                className="form-label"
-                style={{ fontSize: "0.8rem", color: "gray" }}
-              >
-                รหัสผ่าน *
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={inputFields.password}
-                onChange={handleChange}
-                placeholder="ใส่รหัสผ่านของคุณ"
-                className={`form-control ${
-                  errors.password ? "is-invalid" : ""
-                }`}
-                style={{ width: "350px" }}
-              />
-              {errors.password && (
-                <div
-                  className="error"
-                  style={{ fontSize: "0.8rem", color: "red" }}
-                >
-                  {errors.password}
-                </div>
-              )}
-            </div>
+            
             <div>
               <Button
                 variant="outline-success"

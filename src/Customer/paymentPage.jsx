@@ -30,8 +30,8 @@ import Receipt from "../Component/billPaper.jsx";
 const PaymentPage = () => {
   const { orderID } = useParams();
   const vat = 0.07;
-  const tableID = "T001";
-  const customerID = "CUS000001";
+  const customerID = "CUS000004";
+  const tableID = "T008";
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);

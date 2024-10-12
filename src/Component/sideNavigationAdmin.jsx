@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 import Mainlogo from '../image/phapirun_logo2.jpg'
 import dashboardIcon from '../image/icon/dashboard (1).png'
 import { useNavigate,useLocation,useParams} from "react-router-dom";
+import axios from "axios";
 
 const SideBarAdmin = ({staftID}) => {
   //นำไอดีพนักงานมาพักไว้ที่นี้ แล้วทำการแจกจ่ายไปในแต่ละปุ่ม
@@ -22,8 +23,9 @@ const SideBarAdmin = ({staftID}) => {
     navigate(path);
   } 
   const location = useLocation();
-  
+
   const handleLogout=()=>{
+    console.log("staftID",staftID)
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: "btn btn-success",
@@ -40,17 +42,22 @@ const SideBarAdmin = ({staftID}) => {
         cancelButtonText: "ไม่ ฉันไม่ต้องการออกจากระบบ",
         reverseButtons: true,
       })
-      .then((result) => {
+      .then(async(result) =>{
         if (result.isConfirmed) {
+          try {
+              await axios.put(
+              `https://localhost:7202/api/Auth/LogoutStaft/${staftID}`,
+            );
+          } catch (error) {
+            console.log("ไม่สามารถ update ข้อมูลได้", error);
+          }
           toPage('/LoginStaftPage');
           swalWithBootstrapButtons
             .fire({
               title: "ออกจากระบบสำเร็จ",
               icon: "success",
             })
-            .then(() => {
-              
-            });
+           
         } else if (
           /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
@@ -108,13 +115,19 @@ const SideBarAdmin = ({staftID}) => {
             <a href={`/Admin/paymentManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/paymentManagement/${staftID}` ? "active" : ""}`}>
             <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
-              ชำระเงิน</a>
+              ชำระเงินสด</a>
           </div>
           <div className="d-flex flex-column ">
             <a href={`/Admin/menu/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/menu/${staftID}` ? "active" : ""}`}>
             <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               เพิ่มรายการเมนู</a>
+          </div>
+          <div className="d-flex flex-column ">
+            <a href={`/Admin/memberManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/memberManagement/${staftID}` ? "active" : ""}`}>
+            <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+              
+              บัญชีลูกค้า</a>
           </div>
           <div className="d-flex flex-column ">
             <a href={`/Admin/dashboard/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/dashboard/${staftID}` ? "active" : ""}`}>
@@ -129,10 +142,9 @@ const SideBarAdmin = ({staftID}) => {
               รายงาน</a>
           </div>*/}
           <hr className = "text-secondary mt-2"/>
-          <div className="d-flex flex-column">
-            <a onClick={handleLogout}>
+          <div className="d-flex flex-column" >
+            <a onClick={handleLogout} style={{color:"#F9E79F",cursor:"pointer"}}>
             <img src={logoutIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              
               ออกจากระบบ</a>
           </div>
           

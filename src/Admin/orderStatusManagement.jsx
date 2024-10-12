@@ -145,7 +145,7 @@ const OrderStatusManagementPage = () => {
           onChange={(date) => setSelectDate(selectdate)}
         />*/}
         {/*<input aria-label="Date and time" type="datetime-local" onChange={(date) => setSelectDate(selectdate)} selected={selectdate}/>*/}
-        <div className="input-group ">
+        <div className="input-group me-2">
                   <input
                     type="text"
                     id="search"
@@ -161,8 +161,9 @@ const OrderStatusManagementPage = () => {
                     </span>
                   </div>
                 </div>
+              
         </div>
-
+        
 
         <div className="mt-4 d-flex flex-row justify-content-center">
           <Card

@@ -8,11 +8,11 @@ import Picture2 from '../image/restuarant.jpg'
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import MemberPointComponent from "./memberPointPage";
+
 function Receipt({ orderID }) {
-  //const printRef = React.useRef();
   const [orderData, setOrderData] = useState([]);
   const [paymentData, setPaymentData] = useState([]);
-
+  const [memberData,setMemberData] = useState([]);
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
@@ -20,7 +20,19 @@ function Receipt({ orderID }) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
+  const handleShow2 = () => {
+    if(orderData.paymentStatus === "ยังไม่ได้ชำระ"){
+      Swal.fire({
+        text: "ไม่สามารถเข้าสู่ระบบเพื่อทำการสะสมคะแนนได้ กรุณาชำระรายการให้เรียบร้อย",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      setShow2(false);
+    }
+    else{
+      setShow2(true);
+    }
+  }
   const handleClose3 = () => setShow3(false);
   const handleShow3 = () => setShow3(true);
  //บันทึกภาพบิล
@@ -28,6 +40,7 @@ function Receipt({ orderID }) {
 
   const saveBill = (element) =>{
     console.log("element",element);
+    
     if(element){
       html2canvas(element,{
         scrollY: -window.scrollY, 
@@ -87,7 +100,7 @@ function Receipt({ orderID }) {
       fetchingOrderdata(orderID);
     }
   }, [orderID]);
-
+  const netTotal = (orderData.totalPrice*0.07)+orderData.totalPrice;
   //วันและเวลา
 
   const timeOrder = (datetime) => {
@@ -154,8 +167,9 @@ function Receipt({ orderID }) {
   //const handleDownLoadBill = () => {};
 
   const [inputFields,setInputFields] = useState({
-    email:'',
-    password:''
+    /*email:'',
+    password:''*/
+    phone :""
  });
  const [errors,setErrors] = useState({});
  const [submitting,setSubmitting] = useState(false);
@@ -163,7 +177,8 @@ function Receipt({ orderID }) {
  const validateValues = ()=>{
    let isValid = true;
    const error = {};
-   if(!inputFields.email){
+   
+   /*if(!inputFields.email){
      error.email = "กรุณากรอกอีเมลล์ด้วย";
      isValid =false;
    }if(!inputFields.password){
@@ -173,11 +188,14 @@ function Receipt({ orderID }) {
     else if(inputFields.password < 5){
      error.password = "กรุณากรอกรหัสให้มากกว่า 5 ตัวอักษร";
      isValid =false;
-    } 
+    } */
+     if(!inputFields.phone){
+      error.phone = "กรุณากรอกหมายเลขโทรศัพท์ของท่านด้วย";
+      isValid =false;
+    }
+    
     setErrors(error);
     return isValid;
-
-
  };
 
 
@@ -188,20 +206,49 @@ function Receipt({ orderID }) {
    });
 
  };
- function handleSubmit(e){
+ const handleSubmit=async(e)=>{
     e.preventDefault();
+    console.log("netTotal",netTotal);
     if(validateValues()){
      console.log("Input data : ",inputFields);
-     setSubmitting(true);
-     Swal.fire({
-       text: "เข้าสู่ระบบการสะสมแต้มคะแนน",
-       icon: "success",
-       confirmButtonText: "OK",
-     });
-     handleClear();
-     handleOpenToModal3();
+     try {
+      const response = await axios.post(
+        `https://localhost:7202/api/Auth/LoginCustomerMember`,
+        {
+         /* email: inputFields.email,
+          password: inputFields.password,*/
+          phone : inputFields.phone,
+          roleName: "ลูกค้า",
+          totalPrice: netTotal,
+          pointType: "เพิ่มคะแนน"
+        }
+      );
+      if(response.data.message === "ไม่พบบัญชีผู้ใช้งานรายนี้"){
+        Swal.fire({
+          text: "ไม่พบบัญชีผู้ใช้งานรายนี้",
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
+        setSubmitting(false);
+      }
+      else {
+        console.log("memberData :",response.data.customerList);
+        setMemberData(response.data.customerList)
+        setSubmitting(true);
+        Swal.fire({
+          text: "เข้าสู่ระบบการสะสมแต้มคะแนน",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        handleClear();
+        handleOpenToModal3();
+      }
+      //console.log("response :", response.data.menuList);
+    } catch (error) {
+      console.log("ไม่สามารถเพิ่มข้อมูลได้", error);
+    }
     }else{
-     console.log(validateValues());
+     console.log("validate",validateValues());
    }
  };
  const finishSubmit=()=>{
@@ -217,8 +264,9 @@ function Receipt({ orderID }) {
 
  const handleClear=()=>{
    setInputFields({
-     email:'',
-    password:''
+     /*email:'',
+    password:''*/
+    phone :""
    });
    setErrors({});
    setSubmitting(false);
@@ -348,7 +396,7 @@ function Receipt({ orderID }) {
       </Modal>
 
       {/*หน้าระบบสมาชิก*/}
-      <Modal show={show2}  centered size="lg">
+      <Modal show={show2}  centered size="lg" onHide={handleClose2}>
       <Modal.Header closeButton>
           <Modal.Title>เข้าสู่ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
@@ -371,8 +419,8 @@ function Receipt({ orderID }) {
           <Col xs={6} style={{marginLeft:'10px'}}>
           <center>
         <img
-              //src=''
-              //alt={user.firstName}
+              src={Mainlogo}
+              alt="restaurant-logo"
               className="img-fluid rounded-circle mb-4 mt-3"
               style={{
                 width: "80px",
@@ -382,14 +430,19 @@ function Receipt({ orderID }) {
                 border:'5px solid #EB5B00'
               }}
         />
-                      <p className=" p-2 mb-2  border rounded-5" style={{backgroundColor:'#FDF2E9',width:'300px',fontSize:'0.8rem'}}>
+                      <p className=" p-2 mb-3  border rounded-5" style={{backgroundColor:'#FDF2E9',width:'300px',fontSize:'0.8rem'}}>
                         <strong>
-                        ชื่อร้านอาหารญี่ปุ่น
+                        ร้านอาหารญี่ปุ่นไดโกกุ
                         </strong>
                       </p>
+                    
+                    <p><i class="bi bi-info-circle me-2"></i>ยินดีตอนรับสู่ระบบสะสมแต้ม <br/><strong>กรุณากรอกเบอร์โทรศัพท์</strong> ของท่านเพื่อเข้าสู่ระบบ<br/>ได้เลยค่ะ</p>
+                     
+
             </center>
-          <Form className="needs-validation d-flex flex-column justify-content-center align-items-center">
-            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+            <hr/>
+          <Form className="needs-validation d-flex flex-column justify-content-center align-items-center mt-3">
+            {/*<Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
               <Form.Label style={{fontSize:'0.8rem',color:'gray'}}>อีเมลล์ ต้องเพิ่ม @*</Form.Label>
               <Form.Control
                 type="email"
@@ -417,6 +470,20 @@ function Receipt({ orderID }) {
                 value={inputFields.password}
               />
               {errors.password && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.password}</div>}
+            </Form.Group>*/}
+            
+            <Form.Group className="mb-2" controlId="exampleForm.ControlInput1">
+              <Form.Label style={{fontSize:'0.8rem',color:'gray'}}>เบอร์โทรศัพท์ :</Form.Label>
+              <Form.Control
+                type="tel"
+                placeholder="xxx-xxx-xxxx"
+                autoFocus
+                className={`${errors.phone ? "is-invalid" : ""}`} style={{width:'350px'}}
+                name='phone'
+                onChange={handleChange}
+                value={inputFields.phone}
+              />
+              {errors.phone && <div className="error" style={{fontSize:'0.8rem',color:'red'}}>{errors.phone}</div>}
             </Form.Group>
           </Form>
           </Col>
@@ -439,7 +506,9 @@ function Receipt({ orderID }) {
           <Modal.Title><i class="bi bi-stars me-2"></i> ระบบสะสมแต้ม</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{backgroundColor:"#FDF2E9"}}>
-         <MemberPointComponent/>
+
+         <MemberPointComponent memberdata={memberData}/>
+        
         </Modal.Body>
         <Modal.Footer style={{backgroundColor:"#4A4947"}}>
           <Button variant="primary" onClick={handleLogout}>
