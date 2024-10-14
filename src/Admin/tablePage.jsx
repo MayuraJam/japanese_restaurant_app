@@ -42,7 +42,7 @@ const TablePage = () => {
       <SideBarAdmin staftID={staftID}/>
       <NavbarAdmin staftID={staftID}/>
       <div
-        className="mainMenu border border-info "
+        className="mainMenu "
        style={{ height: "calc(100vh - 50px)" }}
       >
         <p
@@ -60,9 +60,9 @@ const TablePage = () => {
           }}
         >
           {freeTable.length===0?(
-               <div className="shadow-sm p-2 rounded-3 bg-white">
+               <div className="shadow-sm p-2 rounded-3 bg-white" >
                <div className="d-flex flex-row justify-content-between align-items-center">
-               <p>โต๊ะที่ยังไม่จอง</p>  
+               <p>โต๊ะที่ไม่มีลูกค้า</p>  
                <p className="border p-2 rounded-3 bg-secondary text-warning ">{freeTable.length} โต๊ะ</p>
                </div>
                  <hr className="text-secondary" />
@@ -80,9 +80,9 @@ const TablePage = () => {
                   </div>
                   </div>
           ):(
-          <div className="shadow-sm p-2 rounded-3 bg-white">
+          <div className="shadow-sm p-2 rounded-3 bg-white" >
           <div className="d-flex flex-row justify-content-between align-items-center">
-          <p>โต๊ะที่ยังไม่จอง</p>  
+          <p>โต๊ะที่ไม่มีลูกค้า</p>  
           <p className="border p-2 rounded-3 bg-secondary text-warning ">{freeTable.length} โต๊ะ</p>
           </div>
             <hr className="text-secondary" />
@@ -114,9 +114,9 @@ const TablePage = () => {
 
           )}
           {reservedTable.length===0?(
-            <div className="shadow-sm p-2 rounded-3 bg-white">
+            <div className="shadow-sm p-2 rounded-3 bg-white" >
             <div className="d-flex flex-row justify-content-between align-items-center">
-            <p>โต๊ะที่จองแล้ว</p>  
+            <p>โต๊ะที่มีลูกค้า</p>  
             <p className="border p-2 rounded-3 bg-warning text-secondary ">{reservedTable.length} โต๊ะ</p>
             </div>
               <hr className="text-secondary" />
@@ -134,9 +134,9 @@ const TablePage = () => {
               </div>
               </div>
               ):(
-          <div className="shadow-sm p-2 rounded-3 bg-white">
+          <div className="shadow-sm p-2 rounded-3 bg-white" >
           <div className="d-flex flex-row justify-content-between align-items-center">
-          <p>โต๊ะที่จองแล้ว</p>  
+          <p>โต๊ะที่มีลูกค้า</p>  
           <p className="border p-2 rounded-3 bg-warning text-secondary ">{reservedTable.length} โต๊ะ</p>
           </div>
             <hr className="text-secondary" />

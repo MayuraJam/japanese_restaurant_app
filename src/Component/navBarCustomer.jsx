@@ -26,7 +26,7 @@ const NavbarCustomer = () => {
   });
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
-
+  const [order,setOrder] = useState([]);
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -85,6 +85,8 @@ const NavbarCustomer = () => {
             icon: "success",
             confirmButtonText: "OK",
           });
+
+          setShow(false);
         } catch (error) {
           console.log("ไม่สามารถดึงข้อมูลได้", error);
         }
@@ -96,11 +98,12 @@ const NavbarCustomer = () => {
             `https://localhost:7202/api/Customer/AddNotification`,
             {
               title: massage,
-              message: `หมายเลขการสั่งที่ ${orderID} รายการชื่อว่า ${menuName} ยังไม่ได้ทำการเสริฟให้แก่ลูกค้า`,
+              message: `หมายเลขการสั่งที่ ${orderID} รายการชื่อว่า " ${menuName} " ยังไม่ได้ทำการเสริฟให้แก่ลูกค้า`,
               tableID: tableID,
               sentBy : "ลูกค้า",
             }
           );
+          setShow(false);
           console.log("response :", response.data.notiItem);
           setSubmitting(true);
           handleClear();
@@ -109,6 +112,7 @@ const NavbarCustomer = () => {
             icon: "success",
             confirmButtonText: "OK",
           });
+          setShow(false);
         } catch (error) {
           console.log("ไม่สามารถดึงข้อมูลได้", error);
         }
@@ -127,7 +131,6 @@ const NavbarCustomer = () => {
   }, [errors]);
 
   //การเปลี่ยนค่า
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInput({
@@ -145,6 +148,30 @@ const NavbarCustomer = () => {
     setSubmitting(false);
   };
 
+  const handleEnter=async(orderID,event)=>{
+    if(event.key === "Enter"){
+      try {
+        const response = await axios.get(
+          `https://localhost:7202/api/Admin/GetOrderByID/${orderID}`
+        );
+        if(response.data.message === "ไม่พบรายการสั่งของโต๊ะนี้"){
+          Swal.fire({
+            text: "ไม่พบรายการสั่งของโต๊ะนี้",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          console.log("ไม่มีข้อมูล");
+          return;
+        }
+        setOrder(response.data.orderItem.orderDetailList);
+      } catch (error) {
+        console.log("ไม่สามารถดึงข้อมูลได้");
+      }
+    }
+    else{
+      return "ไม่มีการ enter"
+    }
+  } 
 
   return (
     <div>
@@ -242,8 +269,6 @@ const NavbarCustomer = () => {
       {/*กรอกเลข orderID และชื่ออาหาร */}
       <Modal
         show={show}
-        onHide={handleClose}
-       
       >
         <Modal.Header closeButton>
           <Modal.Title>อาหารที่สั่งไว้ยังไม่มา</Modal.Title>
@@ -261,6 +286,7 @@ const NavbarCustomer = () => {
                 value={input.orderID}
                 onChange={handleChange}
                 required
+                onKeyDown={(enter)=>handleEnter(input.orderID,enter)}
               />
             </Form.Group>
             {errors.orderID && (
@@ -272,14 +298,19 @@ const NavbarCustomer = () => {
               </div>
             )}
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
+             {/*} <Form.Control
                 type="text"
                 placeholder="กรอกชื่ออาหาร"
                 autoFocus
                 name="menuName"
                 value={input.menuName}
                 onChange={handleChange}
-              />
+              />*/}
+              <Form.Select  name = "menuName" className="me-4" onChange={handleChange}>
+            {order?.map((item)=>(
+              <option value={item.menuName}>{item.menuName}</option>
+            ))}
+          </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>

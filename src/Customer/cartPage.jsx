@@ -12,7 +12,7 @@ import NavbarCustomer from "../Component/navBarCustomer";
 import { useNavigate } from "react-router-dom";
 
 const Mycart = () => {
-  const customerID = "CUS000004";
+  const customerID = "CUS000007";
   const tableID = "T008";
   const nevigate = useNavigate();
   const ToPage = (path) => {
@@ -120,10 +120,6 @@ const Mycart = () => {
   }
   //filter
 
-  const CalculateTax = (price)=>{
-       if(!price) return;
-       const ans = price*0.07
-  }
   const handleCheckOut = async(totalPriceInput)=>{
     try{
       const response = await axios.post("https://localhost:7202/api/Customer/AddOrder",{
@@ -149,7 +145,7 @@ const Mycart = () => {
       <div className="mainMenu ">
         <div
           className="shadow-sm p-3 rounded-3 bg-white mt-3"
-          style={{ minHeight: "500px" }}
+          style={{ minHeight: "500px" ,border: "1px solid #EB5B00"}}
         >
           {cartList?.length === 0 ? (
             <div style={{ height: "480px" }}>

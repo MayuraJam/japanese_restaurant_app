@@ -141,6 +141,7 @@ const AddmenuCard = ({ selectData }) => {
    const quantityValue = parseInt(formvalue.quantity, 10);
     if (validateValues()) {
       if (formvalue.id) {
+        //แก้ไขข้อมูล
         console.log("มี menuID", formvalue,typeof quantityValue);
         console.log("รายละเอียดเมนู", menuDescription);
         try {
@@ -173,6 +174,7 @@ const AddmenuCard = ({ selectData }) => {
           console.error("Error fetching data:", error);
         }
       } else {
+        //เพิ่มข้อูล
         const formData = new FormData();
         formData.append("menuName", formvalue.manuName);
         formData.append("menuDescription", menuDescription);
@@ -245,7 +247,7 @@ const AddmenuCard = ({ selectData }) => {
         imageName: selectData.imageName,
         imagefile: selectData.imageName,
         photoSrc: selectData.imageSrc,
-        quantity: selectData.stockQuantity,
+        quantity: 0,
       });
       setDescription(selectData.menuDescription);
       console.log("Type of stockQuantity",typeof selectData.stockQuantity);
@@ -385,7 +387,7 @@ const AddmenuCard = ({ selectData }) => {
                   </Form.Select>
                 </Form.Group>
               </div>
-              <Form.Group className="mb-2">
+              {/*<Form.Group className="mb-2">
                 <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                   รายละเอียดเมนู :
                 </Form.Label>
@@ -398,7 +400,7 @@ const AddmenuCard = ({ selectData }) => {
                   value={menuDescription}
                   onChange={handleChangeSizeBox}
                 ></Form.Control>
-              </Form.Group>
+              </Form.Group>*/}
               <div className="d-flex flex-row">
                 <Form.Group className="mb-2 me-3">
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>

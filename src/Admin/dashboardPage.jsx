@@ -58,6 +58,7 @@ const DashBoardPage = () => {
   useEffect(() => {
     fetchingOrderdata();
     fetchingFulldata ();
+   
   }, []);
 
   const filterOrderData = (orderStatus) => {
@@ -67,6 +68,13 @@ const DashBoardPage = () => {
           .length
       : 0;
   };
+
+  const filtertebleData = () => {
+    return customerData
+      ? customerData.filter((item) => item.tableStatus === "มีลูกค้า").length
+      : 0;
+  };
+
   const month_name =(datetime)=>{
     const date = new Date(datetime)
     const  mlist = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" ];
@@ -193,13 +201,12 @@ const DashBoardPage = () => {
                         lineHeight: 1,
                       }}
                     >
-                      จำนวนลูกค้า
+                      จำนวนโต๊ะที่มีลูกค้าใช้บริการ
                     </p>
-                    {customerData?.customerID !== null && (
                       <p style={{ fontSize: "1.5rem" }}>
-                        {customerData.length} คน
+                        {filtertebleData()}/{customerData.length} โต๊ะ
                       </p>
-                    )}
+                   
                   </div>
                 </div>
               </div>

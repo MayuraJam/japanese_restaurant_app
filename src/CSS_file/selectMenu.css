@@ -10,9 +10,9 @@
   }
 */
 .innerbutton{
-    border: 1px solid #1A5276;
+    border: 1px solid #EB5B00;
     max-width: 180px;
-    height:'40px';
+    height:40px;
     margin-right: 15px;
     margin-left: 15px;
     border-radius: 50px;
@@ -22,6 +22,12 @@
     align-items: center;
     padding: 0.6rem;
     flex-shrink: 0; 
+    color: #EB5B00;
+    background-color: white;
+}
+.innerbutton:hover{
+  border: none;
+  background-color: #F9E79F;
 }
 .hoverCard:hover{
   box-shadow: 0 4px 8px 0 rgba(24, 12, 12, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);

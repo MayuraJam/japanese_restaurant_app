@@ -27,7 +27,7 @@ function AdminProfileModal({staftID}) {
   const [firstName, setFirstName] = useState("");
 
   // ตัวอย่าง staftID : STAFT00001
- var staftID = "STAFT00003";
+ //var staftID = "STAFT00003";
   //ดึงข้อมูลพนักงานทั้งหมด
   const fetchingFulldata = async () => {
     try {

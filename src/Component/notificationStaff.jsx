@@ -25,17 +25,7 @@ function NotificationModal({role,tableID}) {
     fetchingFulldata();
   }, []);
 
-  const handleDelete = async (notiID) => {
-    try {
-      const response = await axios.delete(
-        `https://localhost:7202/api/Admin/DeleteNotification/${notiID}`
-      );
-      console.log("ลบข้อมูลสำเร็จ");
-      fetchingFulldata();
-    } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้", error);
-    }
-  };
+  
   const handleUpdate = async (notiID) => {
     try {
       const response = await axios.put(
@@ -86,11 +76,11 @@ function NotificationModal({role,tableID}) {
   return (
     <>
       <Button variant="outline-dark" onClick={handleShow}>
-        {notiData.isRead !== "ยังไมได้อ่าน" && (
+        {}
           <>
             <i class="bi bi-bell me-2"></i>แจ้งเตือน 
           </>
-        )}
+        
       </Button>
 
       <Modal
@@ -154,16 +144,11 @@ function NotificationModal({role,tableID}) {
                         variant="outline-primary"
                         className="me-3"
                         onClick={() => handleUpdate(item.notificationID)}
-                        hidden={item.isRead === "อ่านแล้ว"}
+                        //hidden={item.isRead === "อ่านแล้ว"}
                       >
                         อ่าน
                       </Button>
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => handleDelete(item.notificationID)}
-                      >
-                        <i class="bi bi-x-circle"></i>
-                      </Button>
+                   
                     </div>
                   </div>
                 </Alert>

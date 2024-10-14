@@ -3,7 +3,7 @@ import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
 import NavbarCustomer from "../Component/navBarCustomer";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card ,Button} from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 
 const SelectMenuPage = ({ tableID }) => {
   tableID = "T008";
-  const customerID = "CUS000004";
+  const customerID = "CUS000007";
   const [inputOrder, setInputOrder] = useState({
     option: "",
     tableID: "",
@@ -23,7 +23,7 @@ const SelectMenuPage = ({ tableID }) => {
 
   const [menuData, setMenuData] = useState([]);
   const [originalmenuData, setOriginalMenuData] = useState([]);
-  const [menuSelect, setMenuSelect] = useState([]);
+  const [menuSelect, setMenuSelect] = useState("all");
   const [search, setSearch] = useState("");
   //ดึงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
@@ -52,6 +52,7 @@ const SelectMenuPage = ({ tableID }) => {
     // ใช้ originalMenuData ในการกรองเสมอ
     if (categoryName === "all") {
       // แสดงเมนูทั้งหมดเมื่อเลือก "all"
+      setMenuSelect("all")
       setMenuData(originalmenuData);
     } else {
       // กรองข้อมูลตาม categoryName
@@ -59,6 +60,7 @@ const SelectMenuPage = ({ tableID }) => {
         (newval) => newval.categoryName.trim() === categoryName.trim()
       );
       console.log("Filtered item:", newItem);
+      setMenuSelect(categoryName);
       setMenuData(newItem);
     }
   };
@@ -117,10 +119,11 @@ const SelectMenuPage = ({ tableID }) => {
               style={{ height: "110px", maxWidth: "1300px", overflowX: "auto" }}
             >
               <button
-                className="innerbutton hoverCard"
-                value="ทั้งหมด"
+                className={`innerbutton ${menuSelect === 'all' ? 'active' : ''} hoverCard`}
+                value="all"
                 onClick={() => {
                   filterItem("all");
+                  
                 }}
               >
                 ทั้งหมด
@@ -128,11 +131,13 @@ const SelectMenuPage = ({ tableID }) => {
 
               {Menucategory.map((item) => (
                 <button
-                  className="innerbutton hoverCard"
+                  //className="innerbutton hoverCard"
+                  className={`innerbutton ${menuSelect === item.categoryName ? 'active' : ''} hoverCard`}
                   onClick={() => {
                     filterItem(item.categoryName);
                   }}
                   type="button"
+               
                 >
                   <img
                     src={item.icon}
@@ -155,8 +160,8 @@ const SelectMenuPage = ({ tableID }) => {
                 //</Row>xs={7}
                 >
                   <div
-                    className="shadow-sm p-3 rounded-3 bg-white"
-                    //style={{ maxHeight: "410px" }}
+                    className="shadow-sm p-3 rounded-3 bg-white "
+                    style={{ border: "1px solid #EB5B00"}}
                   >
                     <div className="d-flex justify-content-end" style={{position:"sticky"}}>
                       <div
@@ -199,125 +204,132 @@ const SelectMenuPage = ({ tableID }) => {
                         }}
                         className="mb-3"
                       >
-                        {menuData.map((item) => (
-                          <Card
-                            style={{
-                              width: "16rem",
-                              minHeight: "20rem",
-                              cursor: "pointer",
-                              transition: "border-color 0.3s",
-                              position: "relative",
-                              //opacity: item.stockQuantity === 0 ? 0.5 : 1,
-                            }}
-                            className="hoverCard"
-                          >
-                            {item.stockQuantity === 0&&(
-                            <div  style={{
-                              position: "absolute",
-                              top: 0,
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              backgroundColor: "rgba(0,0,0,0.5)",
-                              color: "white",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: "1rem",
-                              fontWeight: "bold",
-                              zIndex: 1,
-                              borderRadius:"5px"
-                            }}>
-                              เมนูนี้หมดแล้วค่ะ ขออภัยด้วย
-                            </div>
-                            )}
-                            <Card.Img
-                              variant="top"
-                              src={item.imageSrc}
+                        {menuData.length===0?(
+                          <div style={{height:"250px"}} 
+                          className=" d-flex justify-content-center align-items-center">
+                            <p>กำลังโหลดข้อมูลเมนูอาหาร...</p>
+                          </div>
+                        ):(
+                          menuData.map((item) => (
+                            <Card
                               style={{
                                 width: "16rem",
-                                height: "1ุ30px",
-                                backgroundSize: "cover",
+                                minHeight: "20rem",
+                                cursor: "pointer",
+                                transition: "border-color 0.3s",
+                                position: "relative",
+                                //opacity: item.stockQuantity === 0 ? 0.5 : 1,
                               }}
-                              className="img-fluid"
-                            />
-                            <Card.Body>
-                              <div className="d-flex flex-row justify-content-between">
-                                <Card.Title style={{ fontSize: "1rem" ,fontWeight:"bold"}}>{item.menuName}</Card.Title>
-                                <p
-                                  style={{ fontSize: "0.5rem" }}
-                                  className="border p-2 rounded-5 bg-warning fw-bold"
-                                >
-                                  {item.categoryName}
-                                </p>
+                              className="hoverCard"
+                            >
+                              {item.stockQuantity === 0&&(
+                              <div  style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundColor: "rgba(0,0,0,0.5)",
+                                color: "white",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                fontSize: "1rem",
+                                fontWeight: "bold",
+                                zIndex: 1,
+                                borderRadius:"5px"
+                              }}>
+                                เมนูนี้หมดแล้วค่ะ ขออภัยด้วย
                               </div>
-                              <div className="d-flex flex-row justify-content-between">
-                                <Card.Text style={{ fontSize: "1rem",fontWeight:"bold"}} className="text-primary">
-                                  {item.unitPrice} บาท
-                                </Card.Text>
-                                <p style={{ fontSize: "0.7rem" }}>
-                                <i class="bi bi-star-half"></i> {(item.rating).toFixed(2)}
+                              )}
+                              <Card.Img
+                                variant="top"
+                                src={item.imageSrc}
+                                style={{
+                                  width: "16rem",
+                                  height: "1ุ30px",
+                                  backgroundSize: "cover",
+                                }}
+                                className="img-fluid"
+                              />
+                              <Card.Body>
+                                <div className="d-flex flex-row justify-content-between">
+                                  <Card.Title style={{ fontSize: "1rem" ,fontWeight:"bold"}}>{item.menuName}</Card.Title>
+                                  <p
+                                    style={{ fontSize: "0.5rem" }}
+                                    className="border p-2 rounded-5 bg-warning fw-bold"
+                                  >
+                                    {item.categoryName}
+                                  </p>
+                                </div>
+                                <div className="d-flex flex-row justify-content-between">
+                                  <Card.Text style={{ fontSize: "1rem",fontWeight:"bold"}} className="text-primary">
+                                    {item.unitPrice} บาท
+                                  </Card.Text>
+                                  <p style={{ fontSize: "0.7rem" }}>
+                                  <i class="bi bi-star-half"></i> {(item.rating).toFixed(2)}
+                                  </p>
+                                </div>
+                                <hr className="text-secondary" />
+                                <p style={{ fontSize: "1rem" }}>
+                                  {item.optionName}
                                 </p>
-                              </div>
-                              <hr className="text-secondary" />
-                              <p style={{ fontSize: "1rem" }}>
-                                {item.optionName}
-                              </p>
-                              {SlitStringToArray(item.value) &&
-                                Array.isArray(SlitStringToArray(item.value)) &&
-                                SlitStringToArray(item.value).map(
-                                  (optionValue, index) => (
-                                    <div key={index} className="radio-group">
-                                      <input
-                                        type="radio"
-                                        name="optionValue"
-                                        checked={
-                                          inputOrder.option === optionValue
-                                        }
-                                        value={optionValue}
-                                        onChange={(e) =>
-                                          setInputOrder({
-                                            ...inputOrder,
-                                            option: e.target.value,
-                                          })
-                                        }
-                                      />
-
-                                      <label
-                                        style={{ fontSize: "1rem" }}
-                                        htmlFor={`option-${index}`}
+                                {SlitStringToArray(item.value) &&
+                                  Array.isArray(SlitStringToArray(item.value)) &&
+                                  SlitStringToArray(item.value).map(
+                                    (optionValue, index) => (
+                                      <div key={index} className="radio-group">
+                                        <input
+                                          type="radio"
+                                          name="optionValue"
+                                          checked={
+                                            inputOrder.option === optionValue
+                                          }
+                                          value={optionValue}
+                                          onChange={(e) =>
+                                            setInputOrder({
+                                              ...inputOrder,
+                                              option: e.target.value,
+                                            })
+                                          }
+                                        />
+  
+                                        <label
+                                          style={{ fontSize: "1rem" }}
+                                          htmlFor={`option-${index}`}
+                                        >
+                                          <span>{optionValue}</span>
+                                        </label>
+                                        <br />
+                                      </div>
+                                    )
+                                  )}
+                                <hr className="text-secondary" />
+                                <div className="button-area">
+                                  {/*ปุ่มเพื่อจำนวนจาน*/}
+                                  <div className=" d-flex justify-content-end">
+                                    <div>
+                                      <button
+                                        type="button"
+                                        className="addButtomMenu"
+                                        onClick={() => {
+                                          handleAddCart(
+                                            item.menuID,
+                                            inputOrder.option,
+                                            item.unitPrice
+                                          );
+                                        }}
                                       >
-                                        <span>{optionValue}</span>
-                                      </label>
-                                      <br />
+                                        <i class="bi bi-patch-plus me-2"></i>
+                                        เพิ่มรายการ
+                                      </button>
                                     </div>
-                                  )
-                                )}
-                              <hr className="text-secondary" />
-                              <div className="button-area">
-                                {/*ปุ่มเพื่อจำนวนจาน*/}
-                                <div className=" d-flex justify-content-end">
-                                  <div>
-                                    <button
-                                      type="button"
-                                      className="addButtomMenu"
-                                      onClick={() => {
-                                        handleAddCart(
-                                          item.menuID,
-                                          inputOrder.option,
-                                          item.unitPrice
-                                        );
-                                      }}
-                                    >
-                                      <i class="bi bi-patch-plus me-2"></i>
-                                      เพิ่มรายการ
-                                    </button>
                                   </div>
                                 </div>
-                              </div>
-                            </Card.Body>
-                          </Card>
-                        ))}
+                              </Card.Body>
+                            </Card>
+                          ))
+                        )}
                        
                       </div>
                     </div>

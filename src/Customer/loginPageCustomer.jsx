@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS_file/sideNavigation.css";
 import { React, useState } from "react";
 import NavbarMain from "../Component/navBarMain";
-import {Row,Col} from 'react-bootstrap';
+import {Row,Col,Button} from 'react-bootstrap';
 import "../CSS_file/selectMenu.css";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import backgroundPicture from '../image/circle.jpg'
@@ -86,7 +86,7 @@ const CustomerLogin = () => {
                       </p>
             </div>
             <hr className="text-secondary" />
-         <button className="p-2 innerbutton" onClick={()=>toMenuPage("/Customer/menupage")}><i class="bi bi-egg-fried me-2"></i> เริ่มสั่งอาหาร</button>
+         <Button  variant="primary" className="text-warning" onClick={()=>toMenuPage("/Customer/menupage")}><i class="bi bi-egg-fried me-2"></i> เริ่มสั่งอาหาร</Button>
           </center>
         </div>
         </Col>

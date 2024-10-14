@@ -15,7 +15,7 @@ const HistoryPage=()=>{
   const [orderData, setOrderData] = useState([]);
   const [payment,setPayment] = useState([]);
 
-  const customerID = "CUS000004";
+  const customerID = "CUS000007";
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {

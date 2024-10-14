@@ -21,7 +21,7 @@ const LoginStaftPage = () => {
   };*/
   const navigate = useNavigate();
        const toPage = (staftID) => {
-         navigate("/Admin/table/"+staftID);
+         navigate("/Admin/dashboard/"+staftID);
        }
   const [inputFields, setInputFields] = useState({
     email: "",

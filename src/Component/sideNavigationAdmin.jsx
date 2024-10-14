@@ -88,6 +88,13 @@ const SideBarAdmin = ({staftID}) => {
           </center>
         </div>
         <div className=" mt-4">
+        <div className="d-flex flex-column ">
+            <a href={`/Admin/dashboard/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/dashboard/${staftID}` ? "active" : ""}`}>
+            <img src={dashboardIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+      
+              dashboard</a>
+          </div>
+          
           <div className="d-flex flex-column ">
          
             <a 
@@ -129,12 +136,7 @@ const SideBarAdmin = ({staftID}) => {
               
               บัญชีลูกค้า</a>
           </div>
-          <div className="d-flex flex-column ">
-            <a href={`/Admin/dashboard/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/dashboard/${staftID}` ? "active" : ""}`}>
-            <img src={dashboardIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-      
-              dashboard</a>
-          </div>
+          
           {/*<div className="d-flex flex-column ">
             <a href={`/Admin/report/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/report/${staftID}` ? "active" : ""}`}>
             <img src={reportIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>

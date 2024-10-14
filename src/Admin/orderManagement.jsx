@@ -127,13 +127,14 @@ const refrestPage = ()=>{
             lg={4}
             md={3}
             sm={4}
-            className="shadow-sm p-2  rounded-2 bg-white"
+            className="shadow-sm p-2  rounded-2 bg-white "
             style={{
               position: "fixed",
               height: "490px",
               right: "10px",
               top: "80px",
               overflowY: "auto",
+              
             }}
           >
             {sentID&& 

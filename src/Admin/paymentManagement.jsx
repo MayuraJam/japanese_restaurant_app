@@ -60,29 +60,41 @@ const PaymentManagementPage = () => {
   }
 
 
-  const handleCal=(inputNumber,netAmount)=>{
+  const handleCal=async(inputNumber,netAmount)=>{
     var change;
-    if(netAmount === null || typeof netAmount === 'undefined' || inputNumber === 0){
-      Swal.fire({
-        text: "ไม่มีการกรอกจำนวนเงิน",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
-    if(inputNumber<netAmount){
-      Swal.fire({
-        text: "เงินที่รับมาไม่เพียงพอต่อการชำระสินค้า",
-        icon: "error",
-        confirmButtonText: "OK",
-      });
-      return;
-    }
-    else{
-      change = inputNumber - netAmount;
-      setChangeResult(change);
-    }
+
+      if(netAmount === null || typeof netAmount === 'undefined' || inputNumber === 0){
+       await Swal.fire({
+          text: "ไม่มีการกรอกจำนวนเงิน",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+      if(Number(inputNumber)>10000){
+        await  Swal.fire({
+          text: "ชำระได้ไม่เกิน 10,000 บาท",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+      else if(Number(inputNumber) < Number(netAmount)){
+      await  Swal.fire({
+          text: "เงินที่รับมาไม่เพียงพอต่อการชำระสินค้า",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        return;
+      }
+      else{
+        change = inputNumber - netAmount;
+        setChangeResult(change);
+      }
+     
+    
   }
+  
   const handleClear = ()=>{
     setInput(0);
     setChangeResult(0);
@@ -230,10 +242,10 @@ const PaymentManagementPage = () => {
                 ระบบคำนวณเงิน 
               </p>
               <hr/>
-              <div className="d-flex flex-column justify-content-center align-items-center">
-                <div className="d-flex align-items-center mb-3" style={{gap:"20px"}}>
+              <div className="d-flex flex-column justify-content-start px-2">
+                <div className="d-flex align-items-center mb-3 " style={{gap:"20px"}}>
                 <p>รับเงิน :</p>
-                <input type="number" placeholder="กรอกจำนวนเงิน" value={input} onChange={(e)=>{setInput(e.target.value)}}/>
+                <input  type="number" placeholder="กรอกจำนวนเงิน" value={input} onChange={(e)=>{setInput(e.target.value)}} min={1} max={10000}/>
                 
                 <Button variant="primary" onClick={()=>handleCal(input,CalculateNetPrice(orderData.totalPrice,orderData.totalPrice*0.07).toFixed(0))}><i class="bi bi-calculator me-2"></i>คำนวณ</Button>
                 </div>

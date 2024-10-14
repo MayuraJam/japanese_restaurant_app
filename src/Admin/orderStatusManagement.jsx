@@ -139,12 +139,7 @@ const OrderStatusManagementPage = () => {
               <option value={item.tableID}>{item.tableID}</option>
             ))}
           </Form.Select>
-          {/*<DatePicker
-          //showIcon
-          selected={selectdate}
-          onChange={(date) => setSelectDate(selectdate)}
-        />*/}
-        {/*<input aria-label="Date and time" type="datetime-local" onChange={(date) => setSelectDate(selectdate)} selected={selectdate}/>*/}
+          
         <div className="input-group me-2">
                   <input
                     type="text"
