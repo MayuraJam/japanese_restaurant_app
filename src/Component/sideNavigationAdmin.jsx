@@ -145,7 +145,7 @@ const SideBarAdmin = ({staftID}) => {
           </div>*/}
           <hr className = "text-secondary mt-2"/>
           <div className="d-flex flex-column" >
-            <a onClick={handleLogout} style={{color:"#F9E79F",cursor:"pointer"}}>
+            <a onClick={handleLogout}  className="logout-btn">
             <img src={logoutIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ออกจากระบบ</a>
           </div>

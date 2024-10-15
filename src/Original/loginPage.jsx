@@ -15,10 +15,6 @@ import RegisterMember from "../Customer/registerMember";
 import { useParams } from 'react-router-dom';
 import Mainlogo from '../image/phapirun_logo2.jpg'
 const LoginStaftPage = () => {
-  /*const navigate = useNavigate();
-  const toPage = (path) => {
-    navigate(path);
-  };*/
   const navigate = useNavigate();
        const toPage = (staftID) => {
          navigate("/Admin/dashboard/"+staftID);

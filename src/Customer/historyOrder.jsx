@@ -2,20 +2,22 @@ import {React,useEffect,useState }from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
-import NavbarMenu from "../Component/navBarCustomer";
+import NavbarCustomer from "../Component/navBarCustomer";
 import { Nav,  Button,Card} from "react-bootstrap";
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import "../CSS_file/dataTeble.css"
 import Picture2 from "../image/restuarant.jpg";
 import axios from "axios";
 import ReviewPage from "./reviewPage";
+import { useParams } from 'react-router-dom';
 
 const HistoryPage=()=>{
+  const { customerID } = useParams();
   //มีการดึงข้อมูลจากตาราง order and payment
   const [orderData, setOrderData] = useState([]);
   const [payment,setPayment] = useState([]);
-
-  const customerID = "CUS000007";
+ 
+ // const customerID = "CUS000007";
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {
@@ -70,8 +72,8 @@ const HistoryPage=()=>{
 
   return(
     <div>
-      <SideBarCustomer />
-      <NavbarMenu />
+      <SideBarCustomer customerID={customerID}/>
+      <NavbarCustomer customerID={customerID}/>
     <div className="mainMenu">
     <p
           className="my-3 border border-dark  p-3 rounded-5 d-flex justify-content-center "

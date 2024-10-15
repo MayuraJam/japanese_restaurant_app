@@ -10,10 +10,12 @@ import axios from "axios";
 import "../CSS_file/stepperInputDesign.css";
 import Menucategory from "../Component/MenucagoryData";
 import Swal from "sweetalert2";
+import { useParams } from 'react-router-dom';
 
 const SelectMenuPage = ({ tableID }) => {
   tableID = "T008";
-  const customerID = "CUS000007";
+  const { customerID } = useParams();
+ // const customerID = "CUS000007";
   const [inputOrder, setInputOrder] = useState({
     option: "",
     tableID: "",
@@ -106,8 +108,8 @@ const SelectMenuPage = ({ tableID }) => {
 
   return (
     <div>
-      <SideBarCustomer />
-      <NavbarCustomer />
+      <SideBarCustomer customerID={customerID}/>
+      <NavbarCustomer customerID={customerID}/>
 
       <div>
         <div className="mainMenu">

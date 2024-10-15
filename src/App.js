@@ -42,13 +42,13 @@ function App() {
       {/*ฝั่งลูกค้า*/}
       <Route path="/" element={<CustomerLogin/>} />
      {/*<Route path="/mainPage" element={<MainPage/>} />*/}
-     <Route path="/Customer" element={<SideBarCustomer/>} />
-     <Route path="/Customer/menupage" element={<SelectMenuPage/>} />   
-     <Route path="/Customer/cartMenu" element={<Mycart/>} />        
-     <Route path="/Customer/order" element={<OrderPage/>} />    
-     <Route path="/Customer/payment/:orderID" element={<PaymentPage/>} />   {/*หน้า payment แบบมีรหัสลูกค้า */}  
-     <Route path="/Customer/history" element={<HistoryPage/>} />   
-     <Route path="/Customer/reviwe" element={<ReviewPage/>} />   
+     <Route path="/Customer/:customerID" element={<SideBarCustomer/>} />
+     <Route path="/Customer/menupage/:customerID" element={<SelectMenuPage/>} />   
+     <Route path="/Customer/cartMenu/:customerID" element={<Mycart/>} />        
+     <Route path="/Customer/order/:customerID" element={<OrderPage/>} />    
+     <Route path="/Customer/payment/:orderID/:customerID" element={<PaymentPage/>} />   {/*หน้า payment แบบมีรหัสลูกค้า */}  
+     <Route path="/Customer/history/:customerID" element={<HistoryPage/>} />   
+     <Route path="/Customer/reviwe/:customerID" element={<ReviewPage/>} />   
      <Route path="/Customer/loginTopoint" element={<LoginMember/>} />    
      <Route path="/Customer/FAQPage" element={<FAQModal/>} />   
      <Route path="/Customer/ThankYouPage" element={<ThankYouPage/>} />   

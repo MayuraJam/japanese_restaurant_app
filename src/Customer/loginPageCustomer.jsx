@@ -12,9 +12,48 @@ import Picture2 from '../image/restuarant.jpg'
 import Mainlogo from '../image/phapirun_logo2.jpg'
 import { useNavigate } from "react-router-dom";
 import sideBannerPicture from "../image/japanese-wave.jpg";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const CustomerLogin = () => {
-  const toMenuPage = useNavigate();
+  //const toMenuPage = useNavigate();
+  const tableID = "T008"
+  const navigate = useNavigate();
+  const toPage = (customerID) => {
+    navigate("/Customer/menupage/"+customerID);
+  }
+  const OpenTable = async ()=>{
+    try {
+      const response = await axios.put(
+        `https://localhost:7202/api/Customer/OpenTable`,
+        {
+          tableID :tableID
+        }
+      );
+    
+   var logindata = response.data;
+   if(logindata.message == "OpenTable fail"){
+    Swal.fire({
+      title: "ไม่สามารถเข้าสู่เมนูการสั่งอาหารได้",
+      text: "ลองเข้าใหม่อีกครั้ง",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
+   }else{
+     //ไปยังหน้าแรกของโปรแกรมฝั่งลูกค้า โดยมีการแนป ID ไปด้วย
+     toPage(logindata.table.customerID);
+     console.log("ID : ",logindata.table.customerID);
+     Swal.fire({
+       text: "เข้าสู่เมนูการสั่งอาหารได้สำเร็จ",
+       icon: "success",
+       confirmButtonText: "OK",
+     });
+    
+     }
+   }catch(error){
+    console.log("เกิดข้อผิดผลาดในการดึงข้อมูล", error);
+   }
+  }
   return (
     <>
       <NavbarMain />
@@ -86,7 +125,8 @@ const CustomerLogin = () => {
                       </p>
             </div>
             <hr className="text-secondary" />
-         <Button  variant="primary" className="text-warning" onClick={()=>toMenuPage("/Customer/menupage")}><i class="bi bi-egg-fried me-2"></i> เริ่มสั่งอาหาร</Button>
+         {/*<Button  variant="primary" className="text-warning" onClick={()=>toMenuPage("/Customer/menupage")}><i class="bi bi-egg-fried me-2"></i> เริ่มสั่งอาหาร</Button>*/}
+         <Button  variant="primary" className="text-warning" onClick={OpenTable}><i class="bi bi-egg-fried me-2"></i> เริ่มสั่งอาหาร</Button>
           </center>
         </div>
         </Col>

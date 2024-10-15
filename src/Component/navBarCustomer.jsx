@@ -10,14 +10,13 @@ import {
   Modal,
   Button,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import QuestionModal from "./question";
 import Swal from "sweetalert2";
 import axios from "axios";
 import NotificationModal from "./notificationStaff";
-const NavbarCustomer = () => {
+const NavbarCustomer = ({customerID}) => {
   const tableID = "T008";
 
   const [input, setInput] = useState({
@@ -186,6 +185,7 @@ const NavbarCustomer = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <QuestionModal />
+                    
                     <NavDropdown
                       title="ขอความช่วยเหลือ"
                       id="basic-nav-dropdown"
@@ -257,7 +257,7 @@ const NavbarCustomer = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <button className="btn btn-outline-warning">
-                      โต๊ะที่ : {tableID}
+                      โต๊ะที่ : {tableID} 
                     </button>
                   </Nav>
                 </Navbar.Collapse>

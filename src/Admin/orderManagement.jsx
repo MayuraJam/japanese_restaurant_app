@@ -8,6 +8,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import OrderConfirmCard from "../Component/orderDetailConfirm";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import ShowMenuStock from "../Component/showMenuStock";
 const OrderManagementPage = () => {
   const [orderData,setOrderData] = useState([]);
   const [sentID,setSentID] = useState(null);
@@ -63,7 +64,11 @@ const refrestPage = ()=>{
             style={{ minHeight: "440px" }}
           >
             <div className="d-flex justify-content-between  mb-3">
-              <Button variant="outline-dark" onClick={refrestPage}><i class="bi bi-arrow-clockwise"></i></Button>
+              <div className="d-flex">
+              <Button variant="outline-dark me-3" onClick={refrestPage}><i class="bi bi-arrow-clockwise"></i></Button>
+              <ShowMenuStock/>
+              </div>
+
               <div
                 className="search-container-box shadow-sm  "
                 style={{ width: 300 }}

@@ -10,9 +10,11 @@ import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/dataTeble.css"
 import NavbarCustomer from "../Component/navBarCustomer";
 import { useNavigate } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 const Mycart = () => {
-  const customerID = "CUS000007";
+  const { customerID } = useParams();
+
+  //const customerID = "CUS000007";
   const tableID = "T008";
   const nevigate = useNavigate();
   const ToPage = (path) => {
@@ -132,7 +134,7 @@ const Mycart = () => {
         icon: "success",
         confirmButtonText: "OK",
       });
-      ToPage("/Customer/order");
+      ToPage("/Customer/order/"+customerID);
     }catch(error){
       console.log(error);
     }
@@ -140,8 +142,8 @@ const Mycart = () => {
 
   return (
     <>
-      <SideBarCustomer />
-      <NavbarCustomer />
+       <SideBarCustomer customerID={customerID}/>
+       <NavbarCustomer customerID={customerID}/>
       <div className="mainMenu ">
         <div
           className="shadow-sm p-3 rounded-3 bg-white mt-3"

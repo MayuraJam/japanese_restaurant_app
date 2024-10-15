@@ -209,7 +209,7 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
+                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
                     <option value="กำลังปรุง">กำลังปรุง</option>
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                     {/*<option value="กำลังเสริฟ">กำลังเสริฟ</option>
@@ -261,7 +261,7 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
+                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
                    {/*} <option value="เสริฟแล้ว">เสริฟแล้ว</option>*/}

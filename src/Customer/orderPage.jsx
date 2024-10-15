@@ -2,21 +2,25 @@ import { React, useEffect, useState } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
-import NavbarMenu from "../Component/navBarCustomer";
+import NavbarCustomer from "../Component/navBarCustomer";
 import "../CSS_file/dataTeble.css";
 import { Card, Button } from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const OrderConfirmPage = () => {
+  const { customerID } = useParams();
+
   const navigate = useNavigate();
   const toPage = (orderID) => {
-    navigate("/Customer/payment/" + orderID);
+    navigate("/Customer/payment/" + orderID+"/"+customerID);
   };
   const tableID = "T008";
-  const customerID = "CUS000007";
+
+ // const customerID = "CUS000007";
   const vat = 0.07;
   const [orderData, setOrderData] = useState([]);
 
@@ -76,6 +80,7 @@ const OrderConfirmPage = () => {
   };
 
   const handleCancelOrder = async (orderID) => {
+    console.log("order inside",orderID)
     if (!orderID) return;
     Swal.fire({
       title: "คุณต้องการยกเลิกรายการสั่งนี้ทั้งหมดใช่หรือไม่",
@@ -90,8 +95,9 @@ const OrderConfirmPage = () => {
           const response = await axios.put(
             `https://localhost:7202/api/Customer/CancleOrder/${orderID}`
           );
-          console.log("response :", response.data.orders);
-          setOrderData(response.data.orders);
+          console.log("response :", response.data.message);
+          //setOrderData(response.data.orders);
+          fetchingFulldata(customerID);
         } catch (error) {
           console.log("ไม่สามารถดึงข้อมูลได้");
         }
@@ -184,14 +190,14 @@ const OrderConfirmPage = () => {
         title: "อาหารยังมาเสริฟไม่ครบ จึงไม่สามารถทำการชำระเงินได้",
       });
     } else {
-      toPage(orderID);
+      toPage(orderID,customerID);
     }
   };
 
   return (
     <div>
-      <SideBarCustomer />
-      <NavbarMenu />
+       <SideBarCustomer customerID={customerID}/>
+       <NavbarCustomer customerID={customerID}/>
       <div className="mainMenu">
         <p
           className="my-3 border border-dark  p-3 rounded-5 d-flex justify-content-center"
@@ -323,7 +329,9 @@ const OrderConfirmPage = () => {
                       </p>
                     )}
                   </div>
-                  <Card border="light" style={{ width: "25rem" }}>
+                  <Card border="light" style={{ width: "25rem" }} 
+                  
+                  >
                     <Card.Header>รายละเอียด</Card.Header>
                     <Card.Body>
                       {/*<Card.Title>ราคารวม</Card.Title>*/}

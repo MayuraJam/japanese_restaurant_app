@@ -10,7 +10,7 @@
     overflow-x: hidden;
     
 }
-.sidenav a {
+.sidenav a,.logout-btn{
     padding: 6px 8px 6px 16px;
     text-decoration: none;
     font-size: 1rem;
@@ -18,9 +18,10 @@
     display: block;
   }
   
-  .sidenav a:hover{
+  .sidenav a:hover,.logout-btn:hover{
     color: #1A5276;
     background-color: white;
+    cursor: pointer;
   }
 
   @media screen and (max-height: 450px) {

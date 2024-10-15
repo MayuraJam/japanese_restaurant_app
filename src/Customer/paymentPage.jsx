@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import SideBarCustomer from "../Component/sideNavigationCustomer";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
-import NavbarMenu from "../Component/navBarCustomer";
+import NavbarCustomer from "../Component/navBarCustomer";
 import {
   Row,
   Col,
@@ -28,9 +28,9 @@ import { useParams } from "react-router-dom";
 import Receipt from "../Component/billPaper.jsx";
 
 const PaymentPage = () => {
-  const { orderID } = useParams();
+  const { orderID ,customerID} = useParams();
   const vat = 0.07;
-  const customerID = "CUS000007";
+  //const customerID = "CUS000007";
   const tableID = "T008";
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
@@ -93,7 +93,8 @@ const PaymentPage = () => {
         {
           title: "ต้องการชำระรายการด้วยเงินสด",
           message: `ต้องการชำระเงินสด order : ${orderID}`,
-          tableID: "T001",
+          tableID: tableID,
+          sentBy : "ลูกค้า",
         }
       );
       console.log("response :", response.data.notiItem);
@@ -108,8 +109,8 @@ const PaymentPage = () => {
   };
   return (
     <div>
-      <SideBarCustomer />
-      <NavbarMenu />
+      <SideBarCustomer customerID={customerID}/>
+      <NavbarCustomer customerID={customerID}/>
       <div className="mainMenu">
         <p className="my-3 p-2 fs-3">การชำระเงิน</p>
         <div className="d-flex flex-row">
