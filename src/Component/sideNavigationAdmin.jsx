@@ -8,8 +8,7 @@ import cashIcon from '../image/icon/wallet.png';
 import tableIcon from '../image/icon/chair.png';
 import logoutIcon from '../image/icon/logout.png';
 import addIcon from '../image/icon/add.png';
-import reportIcon from '../image/icon/report.png';
-import faqIcon from '../image/icon/question.png';
+import customer from '../image/icon/user.png';
 import Swal from "sweetalert2";
 import Mainlogo from '../image/phapirun_logo2.jpg'
 import dashboardIcon from '../image/icon/dashboard (1).png'
@@ -132,7 +131,7 @@ const SideBarAdmin = ({staftID}) => {
           </div>
           <div className="d-flex flex-column ">
             <a href={`/Admin/memberManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/memberManagement/${staftID}` ? "active" : ""}`}>
-            <img src={addIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+            <img src={customer} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               บัญชีลูกค้า</a>
           </div>

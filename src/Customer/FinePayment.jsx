@@ -22,11 +22,12 @@ import ReviewPage from "./reviewPage";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Receipt from "../Component/billPaper.jsx";
+import { color } from "chart.js/helpers";
 
-const PaymentPage = () => {
+const FinePaymentPage = () => {
   const { orderID ,customerID} = useParams();
   const vat = 0.07;
-  //const customerID = "CUS000007";
+  
   const tableID = "T008";
   const [optionPay, setOptionPay] = useState("");
   const [loginOpen, setloginOpen] = useState(false);
@@ -80,7 +81,11 @@ const PaymentPage = () => {
 
     return net;
   };
+  const CalculateSemiPrice = (totalPrice, taxPrice) => {
+    var semi = (totalPrice + taxPrice)/2;
 
+    return semi;
+  };
   const sentMassage = async (orderID) => {
     if(!orderID) return;
     try {
@@ -108,7 +113,7 @@ const PaymentPage = () => {
       <SideBarCustomer customerID={customerID}/>
       <NavbarCustomer customerID={customerID}/>
       <div className="mainMenu">
-        <p className="my-3 p-2 fs-3">การชำระเงิน</p>
+        <p className="my-3 p-2 fs-3">การชำระค่าปรับ</p>
         <div className="d-flex flex-row">
           <p style={{ fontSize: "1rem", marginRight: "150px" }}>
             รหัสการสั่งอาหาร : {orderData.orderID}
@@ -141,53 +146,7 @@ const PaymentPage = () => {
             className="shadow-sm rounded-2 me-3 p-3 bg-white"
             style={{ minHeight: "440px" }}
           >
-            {orderData.paymentStatus === "ชำระเงินสำเร็จ"?(
-              <>
-                <table className="table table-striped ">
-              <thead>
-                <tr>
-                  <th>ภาพเมนู</th>
-                  <th>ชื่อเมนู</th>
-                  <th>จำนวน</th>
-                  <th>ให้คะแนน</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderData.orderDetailList?.map((itemList) => (
-                  <tr>
-                    <th>
-                      <img
-                        src={itemList.imageSrc}
-                        alt="ภาพเมนูอาหาร"
-                        className="img-fluid border border-dark rounded-2 "
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                        }}
-                      />
-                    </th>
-                    <th>
-                      <div className="d-flex flex-column">
-                        <p style={{ fontSize: "0.9rem" }}>
-                          {itemList.menuName}
-                        </p>
-                        <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                          {itemList.optionValue}
-                        </p>
-                      </div>
-                    </th>
-                    <th>{itemList.quantity} ชิ้น</th>
-                    <th>
-                    <ReviewPage orderID={orderData.orderID} menuName={itemList.menuName} image={itemList.imageSrc} menuID={itemList.menuID}  customerID={orderData.customerID} />
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-              </>
-            ):(
-              <>
+           
                 <table className="table table-striped ">
               <thead>
                 <tr>
@@ -228,8 +187,8 @@ const PaymentPage = () => {
                 ))}
               </tbody>
             </table>
-              </>
-            )}
+            
+          
             <Card border="secondary" style={{ width: "35rem" }}>
               <Card.Header style={{ fontSize: "1rem" }}>รายละเอียด</Card.Header>
               <Card.Body>
@@ -258,13 +217,25 @@ const PaymentPage = () => {
                   <hr variant="secondary" />
                   <div className="d-flex flex-row justify-content-between">
                     <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
-                      ราคาสุทธิ
+                      ราคาสุทธิ 
                     </p>
                     <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
                       {CalculateNetPrice(
                         orderData.totalPrice,
                         orderData.totalPrice * vat
                       ).toFixed(0)}{" "}
+                      บาท
+                    </p>
+                  </div>
+                  <div className="d-flex flex-row justify-content-between" style={{color:"red"}}>
+                    <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                      ค่าปรับ ทำการชำระค่าอาหารครึ่งหนึ่งของราคาสุทธิ
+                    </p>
+                    <p style={{ fontSize: "1rem", fontWeight: "bold" }}>
+                      {(CalculateSemiPrice(
+                        orderData.totalPrice,
+                        orderData.totalPrice * vat
+                      ))}{" "}
                       บาท
                     </p>
                   </div>
@@ -306,26 +277,7 @@ const PaymentPage = () => {
                 />
                 <p style={{ fontSize: "1rem" }}>QR code</p>
               </Button>
-              <Button
-                className={`rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
-                  ${optionPay === "Money" ? "active" : " "}`}
-                variant="outline-warning"
-                style={{ height: "100px" }}
-                onClick={() => handleClick("Money")}
-                disabled={orderData.paymentStatus === "ชำระเงินสำเร็จ"}
-              >
-                <img
-                  src={money}
-                  alt="money payment"
-                  className="img-fluid"
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "cover",
-                  }}
-                />
-                <p style={{ fontSize: "1rem" }}>เงินสด</p>
-              </Button>
+              
               <Button
                 className={`rounded-3 d-flex flex-column justify-content-center align-items-center pt-3 mx-3 px-2 text-dark
                   ${optionPay === "Point" ? "active" : " "}`}
@@ -363,7 +315,7 @@ const PaymentPage = () => {
                     totalAmount={orderData.totalPrice}
                     totalTax={CalculateTax(orderData.totalPrice)}
                     orderID={orderData.orderID}
-                    netTotalAmount={CalculateNetPrice(
+                    netTotalAmount={CalculateSemiPrice(
                       orderData.totalPrice,
                       orderData.totalPrice * vat
                     ).toFixed(0)}
@@ -380,7 +332,7 @@ const PaymentPage = () => {
                       totalAmount={orderData.totalPrice}
                       totalTax={CalculateTax(orderData.totalPrice)}
                       orderID={orderData.orderID}
-                      netTotalAmount={CalculateNetPrice(
+                      netTotalAmount={CalculateSemiPrice(
                         orderData.totalPrice,
                         orderData.totalPrice * vat
                       ).toFixed(0)}
@@ -391,33 +343,7 @@ const PaymentPage = () => {
                   )}
                 </div>
               )}
-              {optionPay === "Money" && (
-                <>
-                  <div className="d-flex justify-content-center">
-                    <Card
-                      variant="Light"
-                      bg={"Light".toLowerCase()}
-                      key="Light"
-                      text={
-                        "Light".toLowerCase() === "light" ? "dark" : "white"
-                      }
-                      style={{ width: "18rem" }}
-                      className="mb-2"
-                    >
-                      <Card.Header>การชำระเงิน ด้วยเงินสด</Card.Header>
-                      <Card.Body>
-                        <Card.Text style={{ fontSize: "0.9rem" }}>
-                          ทำการชำระเงินสด เพื่อทำการเรียกพนักงาน
-                          ให้ทำการชำระเงิน
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </div>
-                  <div className="d-flex justify-content-end">
-                    <Button onClick={()=>sentMassage(orderData.orderID)}>กดปุ่มเรียกพนักงาน</Button>
-                  </div>
-                </>
-              )}
+              
             </div>
             <hr variant="secondary" />
            <div className="d-flex justify-content-end">
@@ -429,4 +355,4 @@ const PaymentPage = () => {
     </div>
   );
 };
-export default PaymentPage;
+export default FinePaymentPage;

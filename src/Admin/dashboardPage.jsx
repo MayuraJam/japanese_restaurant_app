@@ -44,21 +44,20 @@ const DashBoardPage = () => {
   const fetchingOrderdata = async () => {
     try {
       const response = await axios.post(
-        `https://localhost:7202/api/Admin/GetOrder`,{
-          orderID : ""
+        `https://localhost:7202/api/Admin/GetOrder`,
+        {
+          orderID: "",
         }
       );
-    console.log("orderData",response.data.orders);
-    setOrderData(response.data.orders);
-     
+      console.log("orderData", response.data.orders);
+      setOrderData(response.data.orders);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
   };
   useEffect(() => {
     fetchingOrderdata();
-    fetchingFulldata ();
-   
+    fetchingFulldata();
   }, []);
 
   const filterOrderData = (orderStatus) => {
@@ -75,12 +74,25 @@ const DashBoardPage = () => {
       : 0;
   };
 
-  const month_name =(datetime)=>{
-    const date = new Date(datetime)
-    const  mlist = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม" ];
-     return mlist[date.getMonth()];
-  }
- 
+  const month_name = (datetime) => {
+    const date = new Date(datetime);
+    const mlist = [
+      "มกราคม",
+      "กุมภาพันธ์",
+      "มีนาคม",
+      "เมษายน",
+      "พฤษภาคม",
+      "มิถุนายน",
+      "กรกฏาคม",
+      "สิงหาคม",
+      "กันยายน",
+      "ตุลาคม",
+      "พฤศจิกายน",
+      "ธันวาคม",
+    ];
+    return mlist[date.getMonth()];
+  };
+
   return (
     <>
       <SideBarAdmin staftID={staftID} />
@@ -110,8 +122,7 @@ const DashBoardPage = () => {
                 style={{
                   width: "220px",
                   height: "110px",
-                  border:"1px solid #EB5B00",
-
+                  border: "1px solid #EB5B00",
                 }}
                 className=" shadow-sm rounded-3 p-3 bg-white"
               >
@@ -127,7 +138,14 @@ const DashBoardPage = () => {
                     >
                       ยอดขาย
                     </p>
-                    <p style={{ fontSize: "1.5rem" }}>{revenueData.reduce((totalAmount, currentItem) => totalAmount + currentItem.netAmount, 0)} บาท</p>
+                    <p style={{ fontSize: "1.5rem" }}>
+                      {revenueData.reduce(
+                        (totalAmount, currentItem) =>
+                          totalAmount + currentItem.netAmount,
+                        0
+                      )}{" "}
+                      บาท
+                    </p>
                   </div>
                 </div>
               </div>
@@ -135,8 +153,7 @@ const DashBoardPage = () => {
                 style={{
                   width: "220px",
                   height: "110px",
-                  border:"1px solid #EB5B00",
-
+                  border: "1px solid #EB5B00",
                 }}
                 className=" shadow-sm rounded-3 p-3 bg-white"
               >
@@ -152,7 +169,9 @@ const DashBoardPage = () => {
                     >
                       จำนวนรายการสั่ง
                     </p>
-                    <p style={{ fontSize: "1.5rem" }}>{orderData.length} รายการ</p>
+                    <p style={{ fontSize: "1.5rem" }}>
+                      {orderData.length} รายการ
+                    </p>
                   </div>
                 </div>
               </div>
@@ -160,8 +179,7 @@ const DashBoardPage = () => {
                 style={{
                   width: "220px",
                   height: "110px",
-                  border:"1px solid #EB5B00",
-
+                  border: "1px solid #EB5B00",
                 }}
                 className="  shadow-sm rounded-3 p-3 bg-white"
               >
@@ -178,7 +196,14 @@ const DashBoardPage = () => {
                     >
                       รายได้
                     </p>
-                    <p style={{ fontSize: "1.5rem" }}>{revenueData.reduce((totalAmount, currentItem) => totalAmount + currentItem.netAmount, 0)} บาท</p>
+                    <p style={{ fontSize: "1.5rem" }}>
+                      {revenueData.reduce(
+                        (totalAmount, currentItem) =>
+                          totalAmount + currentItem.netAmount,
+                        0
+                      )}{" "}
+                      บาท
+                    </p>
                   </div>
                 </div>
               </div>
@@ -186,8 +211,7 @@ const DashBoardPage = () => {
                 style={{
                   width: "220px",
                   height: "110px",
-                  border:"1px solid #EB5B00",
-                  
+                  border: "1px solid #EB5B00",
                 }}
                 className=" shadow-sm rounded-3 p-3 bg-white"
               >
@@ -203,45 +227,52 @@ const DashBoardPage = () => {
                     >
                       จำนวนโต๊ะที่มีลูกค้าใช้บริการ
                     </p>
-                      <p style={{ fontSize: "1.5rem" }}>
-                        {filtertebleData()}/{customerData.length} โต๊ะ
-                      </p>
-                   
+                    <p style={{ fontSize: "1.5rem" }}>
+                      {filtertebleData()}/{customerData.length} โต๊ะ
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <hr/>
+            <hr />
             <Row
               className="mt-5 d-flex justify-content-center align-items-center"
               style={{ gap: "20px" }}
             >
-              <Col xs={6}
-              // style={{ maxHeight: "250px" }}
-               >
+              <Col
+                xs={6}
+                // style={{ maxHeight: "250px" }}
+              >
                 {/*<div
                   className=" bg-white shadow-sm rounded-3 p-3 mb-3"
                   style={{ height: "250px" }}
                 >
                   <p>กราฟแสดงแนวโน้มยอดขายรายเดือน:</p>
                 </div>*/}
-               {/*} <SaleChart/>*/}
-               {/*} <div
+                {/*} <SaleChart/>*/}
+                {/*} <div
                   className=" bg-white shadow-sm rounded-3  p-3 mt-2"
                   style={{ height: "250px" }}
                 >
                   <p>กราฟ ช่วงของการสั่ง order</p>
                 </div>*/}
-                <OrderRangeChart/>
+                <div
+                  className="bg-white shadow-sm rounded-3 p-3 mt-2"
+                  style={{ height: "300px" }}
+                >
+                  <p>กราฟแสดงแนวโน้มยอดขายรายเดือน:</p>
+                </div>
+                <OrderRangeChart />
               </Col>
-              <Col xs={5} 
-              //style={{ maxHeight: "450px" }}
+              <Col
+                xs={5}
+                //style={{ maxHeight: "450px" }}
               >
                 <BestMenuCard />
 
                 <Card
                   className=" bg-white shadow-sm rounded-3 "
-                  style={{ height: "230px" ,border:"1px solid #EB5B00"}}
+                  style={{ height: "230px", border: "1px solid #EB5B00" }}
                 >
                   <Card.Header className="d-flex  align-items-center justify-content-between">
                     <p>สถานะของรายการ</p>

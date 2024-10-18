@@ -28,6 +28,7 @@ import ReportPage from './Admin/reportPage.jsx';
 import DashBoardPage from './Admin/dashboardPage.jsx';
 import ThankYouPage from './Customer/thankYouPage.jsx';
 import MemberManagementPage from './Admin/memberManagement.jsx';
+import FinePaymentPage from './Customer/FinePayment.jsx';
 function App() {
   return (
     <Router>
@@ -47,6 +48,7 @@ function App() {
      <Route path="/Customer/cartMenu/:customerID" element={<Mycart/>} />        
      <Route path="/Customer/order/:customerID" element={<OrderPage/>} />    
      <Route path="/Customer/payment/:orderID/:customerID" element={<PaymentPage/>} />   {/*หน้า payment แบบมีรหัสลูกค้า */}  
+     <Route path="/Customer/finepayment/:orderID/:customerID" element={<FinePaymentPage/>} />   
      <Route path="/Customer/history/:customerID" element={<HistoryPage/>} />   
      <Route path="/Customer/reviwe/:customerID" element={<ReviewPage/>} />   
      <Route path="/Customer/loginTopoint" element={<LoginMember/>} />    

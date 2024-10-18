@@ -124,7 +124,7 @@ fetchingFulldata(orderID);
            <div className="d-flex flex-row justify-content-between">
              <div className="d-flex flex-row" style={{ lineHeight: "10px" }}>
                <p style={{ fontSize: "0.8rem" }} className="me-2">
-                 การอนุมัติรายการสั่ง :
+                 การตรวจสอบรายการสั่ง :
                </p>
                {orderData.confirmOrder ==="อนุญาติเรียบร้อย"?(
                <p

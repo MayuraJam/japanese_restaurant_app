@@ -93,7 +93,7 @@ const refrestPage = ()=>{
             </div>
             {orderData?.length === 0?(
               <div className=" d-flex justify-content-center mt-4">
-               <p className="text-secondary">ไม่พบรายการที่ต้องทำการอนุมัติ</p>
+               <p className="text-secondary">ไม่พบรายการที่ต้องทำการตรวจสอบ</p>
               </div>
             ):(
             <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(12rem,17rem)",gap:"10px"}} >

@@ -96,7 +96,7 @@ const SideBarCustomer = ({customerID}) => {
           <div className="d-flex flex-column mb-2">
             <a href={`/Customer/menupage/${customerID}`} className={`d-flex align-items-center ${location.pathname === `/Customer/menupage/${customerID}` ? "active" : ""}`}>
             <img src={riceIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
-              เมนูอาหาร {customerID}
+              เมนูอาหาร
             </a>
           </div>
            <div className="d-flex flex-column mb-2">
@@ -110,11 +110,6 @@ const SideBarCustomer = ({customerID}) => {
               ดิดตามรายการสั่ง</a>
           </div>
           <div className="d-flex flex-column mb-2">
-         {/*} {!orderID&&(
-            <a href="/Customer/payment" className={`d-flex align-items-center ${location.pathname === "/Customer/payment" ? "active" : ""}`}>
-            <img src={cashIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/> 
-              ชำระเงิน</a>
-          )}*/}
           {orderID && (
         <a 
           href={`/Customer/payment/${orderID}/${customerID}`} 
@@ -127,21 +122,33 @@ const SideBarCustomer = ({customerID}) => {
           ชำระเงิน
         </a>
       )}
-       
           </div>
           <div className="d-flex flex-column mb-2">
+          {orderID && (
+        <a 
+          href={`/Customer/finepayment/${orderID}/${customerID}`} 
+          className={`d-flex align-items-center ${location.pathname.includes(`/Customer/finepayment/${orderID}/${customerID}`) ? "active" : ""}`}
+        >
+          <img 
+            src={cashIcon} 
+            style={{width:'20px', height:'20px', backgroundSize:'cover', marginRight:'10px'}}
+          /> 
+          ชำระค่าปรับ
+        </a>
+      )}
+          </div>
+         {/*} <div className="d-flex flex-column mb-2">
             <a href={`/Customer/history/${customerID}`}  className={`d-flex align-items-center ${location.pathname === `/Customer/history/${customerID}` ? "active" : ""}`}>
             <img src={historyIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               
               ประวัติการสั่ง</a>
-          </div>
+          </div>*/}
           <hr className = "text-warning mt-2"/>
 
           <div className="d-flex flex-column">
             <a  
             className="logout-btn"
             onClick={handleLogout} 
-           // href="/Customer/ThankYouPage"
             >
             <img src={logoutIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
               ออกจากระบบ</a>

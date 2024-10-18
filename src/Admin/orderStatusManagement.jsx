@@ -37,12 +37,43 @@ const OrderStatusManagementPage = () => {
   useEffect(() => {
     fetchingFulldata();
   }, []);
-  
+
+  // สร้างวันที่ปัจจุบัน
+const today = new Date().toISOString().split('T')[0];
+
   const cookStatus = orderData
-    ? orderData.filter((item) => item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search))
+    ? orderData.filter((item) => {
+       const orderDate = new Date(item.orderDate).toISOString().split('T')[0];
+       return(
+        item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search) && orderDate === today
+       );
+    })
+    //item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search))
     : [];
-  console.log("cookStatus :", cookStatus.length);
-  const cookedStatus = orderData
+    const cookedStatus = orderData
+    ? orderData.filter((item) =>{
+      const orderDate = new Date(item.orderDate).toISOString().split('T')[0];
+      return(
+        item.orderDetailStatus === "ปรุงสำเร็จ" && item.orderID.includes(search) && orderDate === today
+       );
+    }):[];
+  
+    const serveStatus = orderData
+    ? orderData.filter((item) => {
+      const orderDate = new Date(item.orderDate).toISOString().split('T')[0];
+      return(
+        item.orderDetailStatus === "กำลังเสริฟ" && item.orderID.includes(search) && orderDate === today
+       );
+    }):[];
+
+    const finalStatus = orderData
+    ? orderData.filter((item) =>{
+      const orderDate = new Date(item.orderDate).toISOString().split('T')[0];
+      return(
+        item.orderDetailStatus === "เสริฟแล้ว" && item.orderID.includes(search) && orderDate === today
+       );
+    }):[];
+  /*const cookedStatus = orderData
     ? orderData.filter((item) => item.orderDetailStatus === "ปรุงสำเร็จ" && item.orderID.includes(search))
     : [];
   console.log("CookedStatus :", cookedStatus.length);
@@ -53,7 +84,7 @@ const OrderStatusManagementPage = () => {
   const finalStatus = orderData
     ? orderData.filter((item) => item.orderDetailStatus === "เสริฟแล้ว" && item.orderID.includes(search))
     : [];
-  console.log("Final status :", finalStatus.length);
+  console.log("Final status :", finalStatus.length);*/
 
   const fetchingTabledata = async () => {
     try {
@@ -209,12 +240,12 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
+                 {/*} <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
                     <option value="กำลังปรุง">กำลังปรุง</option>
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
-                    {/*<option value="กำลังเสริฟ">กำลังเสริฟ</option>
-                    <option value="เสริฟแล้ว">เสริฟแล้ว</option>*/}
-                  </Form.Select>
+                  </Form.Select>*/}
+                  <Button variant="outline-primary" onClick={()=>handleSelect("ปรุงสำเร็จ",item.orderID,item.menuID)}>เปลี่ยน</Button>
+
                 </div>
               ))}
             </Card.Body>
@@ -261,11 +292,12 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
+                  {/*<Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)} >
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
-                   {/*} <option value="เสริฟแล้ว">เสริฟแล้ว</option>*/}
-                  </Form.Select>
+                  </Form.Select>*/}
+                  <Button variant="outline-primary" onClick={()=>handleSelect("กำลังเสริฟ",item.orderID,item.menuID)}>เปลี่ยน</Button>
+
                 </div>
               ))}
             </Card.Body>
@@ -313,10 +345,11 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
+                  {/*<Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
                     <option value="เสริฟแล้ว">เสริฟแล้ว</option>
-                  </Form.Select>
+                  </Form.Select>*/}
+                  <Button variant="outline-primary" onClick={()=>handleSelect("เสริฟแล้ว",item.orderID,item.menuID)}>เปลี่ยน</Button>
                 </div>
               ))}
             </Card.Body>
@@ -364,9 +397,9 @@ const OrderStatusManagementPage = () => {
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
-                  <Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
+                  {/*<Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
                     <option value="เสริฟแล้ว">เสริฟแล้ว</option>
-                  </Form.Select>
+                  </Form.Select>*/}
                 </div>
               ))}
             </Card.Body>

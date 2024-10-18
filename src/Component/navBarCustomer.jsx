@@ -16,9 +16,11 @@ import QuestionModal from "./question";
 import Swal from "sweetalert2";
 import axios from "axios";
 import NotificationModal from "./notificationStaff";
-const NavbarCustomer = ({customerID}) => {
-  const tableID = "T008";
+import { useParams } from 'react-router-dom';
 
+const NavbarCustomer = () => {
+  const tableID = "T008";
+  const { customerID } = useParams();
   const [input, setInput] = useState({
     orderID: "",
     menuName: "",
@@ -26,6 +28,8 @@ const NavbarCustomer = ({customerID}) => {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [order,setOrder] = useState([]);
+  const [order2,setOrder2] = useState([]);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -42,6 +46,7 @@ const NavbarCustomer = ({customerID}) => {
   };
   //การส่งข้อความขอความช่วยเหลือ
   const sentMassage = async (massage, orderID, menuName) => {
+    console.log("orderID menuName",orderID,menuName);
     if (!massage) return;
 
     if (!orderID && !menuName) {
@@ -143,6 +148,7 @@ const NavbarCustomer = ({customerID}) => {
       orderID: "",
       menuName: "",
     });
+    
     setErrors({});
     setSubmitting(false);
   };
@@ -172,6 +178,30 @@ const NavbarCustomer = ({customerID}) => {
     }
   } 
 
+  const getOrderID = async()=>{
+    console.log("customerID",customerID)
+    try {
+      const response = await axios.get(
+        `https://localhost:7202/api/Customer/GetOrder/${customerID}`
+      );
+      if(response.data.message === "ไม่พบรายการสั่งของโต๊ะนี้"){
+        Swal.fire({
+          text: "ไม่พบรายการสั่งของโต๊ะนี้",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+        console.log("ไม่มีข้อมูล");
+        return;
+      }
+      setOrder2(response.data.orders);
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้",error);
+    }
+  }
+
+  useEffect(() => {
+    getOrderID();
+  }, [customerID]);
   return (
     <div>
       <Container
@@ -185,7 +215,7 @@ const NavbarCustomer = ({customerID}) => {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="me-50">
                     <QuestionModal />
-                    
+                   
                     <NavDropdown
                       title="ขอความช่วยเหลือ"
                       id="basic-nav-dropdown"
@@ -269,6 +299,7 @@ const NavbarCustomer = ({customerID}) => {
       {/*กรอกเลข orderID และชื่ออาหาร */}
       <Modal
         show={show}
+        onHide={handleClose}
       >
         <Modal.Header closeButton>
           <Modal.Title>อาหารที่สั่งไว้ยังไม่มา</Modal.Title>
@@ -276,7 +307,7 @@ const NavbarCustomer = ({customerID}) => {
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Control
+             {/*} <Form.Control
                 type="text"
                 placeholder="กรอกหมายเลข orderID"
                 autoFocus
@@ -287,7 +318,12 @@ const NavbarCustomer = ({customerID}) => {
                 onChange={handleChange}
                 required
                 onKeyDown={(enter)=>handleEnter(input.orderID,enter)}
-              />
+              />*/}
+              <Form.Select  name = "orderID" className="me-4" onChange={handleChange} onKeyDown={(enter)=>handleEnter(input.orderID,enter)} value={input.orderID}>
+            {order2?.map((item)=>(
+              <option value={item.orderID}>{item.orderID}</option>
+            ))}
+             </Form.Select>
             </Form.Group>
             {errors.orderID && (
               <div
@@ -297,16 +333,8 @@ const NavbarCustomer = ({customerID}) => {
                 {errors.orderID}
               </div>
             )}
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-             {/*} <Form.Control
-                type="text"
-                placeholder="กรอกชื่ออาหาร"
-                autoFocus
-                name="menuName"
-                value={input.menuName}
-                onChange={handleChange}
-              />*/}
-              <Form.Select  name = "menuName" className="me-4" onChange={handleChange}>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+              <Form.Select  name = "menuName" className="me-4" onChange={handleChange} value={input.menuName}>
             {order?.map((item)=>(
               <option value={item.menuName}>{item.menuName}</option>
             ))}

@@ -18,6 +18,10 @@ const OrderConfirmPage = () => {
   const toPage = (orderID) => {
     navigate("/Customer/payment/" + orderID+"/"+customerID);
   };
+
+  const toFinePage = (orderID) => {
+    navigate("/Customer/finepayment/" + orderID+"/"+customerID);
+  };
   const tableID = "T008";
 
  // const customerID = "CUS000007";
@@ -98,6 +102,7 @@ const OrderConfirmPage = () => {
           console.log("response :", response.data.message);
           //setOrderData(response.data.orders);
           fetchingFulldata(customerID);
+          toFinePage(orderID,customerID);
         } catch (error) {
           console.log("ไม่สามารถดึงข้อมูลได้");
         }
@@ -121,7 +126,7 @@ const OrderConfirmPage = () => {
           </p>
         </>
       );
-    } else if (orderStatus === "กำลังรอการอนุมัติ") {
+    } else if (orderStatus === "รายการกำลังทำการจัดเตรียมวัตถุดิบ") {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
@@ -193,6 +198,8 @@ const OrderConfirmPage = () => {
       toPage(orderID,customerID);
     }
   };
+
+
 
   return (
     <div>
@@ -376,10 +383,20 @@ const OrderConfirmPage = () => {
                 <div className="d-flex justify-content-end">
                   <Button
                     variant="outline-danger"
-                    className={`${
+                   /* className={`${
                       item.confirmOrder !== "ยังไม่อนุมัติ" ||
                       item.orderDetailList.orderDetailStatus ===
-                        "กำลังรอการอนุมัติ"
+                        "รายการกำลังทำการจัดเตรียมวัตถุดิบ"
+                        ? "disabled"
+                        : ""
+                    } me-3`}*/
+                    className={`${
+                      item.orderStatus === "ดำเนินรายการสำเร็จ" || 
+                      item.orderDetailList.orderDetailStatus === 
+                        "เสริฟแล้ว" 
+                      || item.orderStatus === 
+                      "รายการถูกยกเลิก" 
+                      
                         ? "disabled"
                         : ""
                     } me-3`}
