@@ -1,9 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-// index.js หรือ App.js
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {React,useState} from "react";
-import Test from './page/TestPage.jsx' 
 import SelectMenuPage from './Customer/selectMenuPage.jsx'
 import MainPage from './Customer/mainPage.jsx'
 import SideBarCustomer from './Component/sideNavigationCustomer.jsx';
@@ -29,6 +27,8 @@ import DashBoardPage from './Admin/dashboardPage.jsx';
 import ThankYouPage from './Customer/thankYouPage.jsx';
 import MemberManagementPage from './Admin/memberManagement.jsx';
 import FinePaymentPage from './Customer/FinePayment.jsx';
+import OrderIncomePage from './Admin/orderIncome.jsx';
+import ShowReportDoc from './Component/showPDFfile.jsx';
 function App() {
   return (
     <Router>
@@ -41,7 +41,7 @@ function App() {
     <Routes>
       {/*<Route path="/" element={<Test/>} />*/}
       {/*ฝั่งลูกค้า*/}
-      <Route path="/" element={<CustomerLogin/>} />
+     <Route path="/" element={<CustomerLogin/>} />
      {/*<Route path="/mainPage" element={<MainPage/>} />*/}
      <Route path="/Customer/:customerID" element={<SideBarCustomer/>} />
      <Route path="/Customer/menupage/:customerID" element={<SelectMenuPage/>} />   
@@ -59,16 +59,18 @@ function App() {
         {/*ฝั่งพนักงาน*/}
      <Route path="/Admin/table/:staftID" element={<TablePage/>} />   {/*staftID ตัวอย่าง : STAFT00001 */}
      <Route path="/Admin/menu/:staftID" element={<AddMenuPage/>} />   
-     <Route path="/Admin/orderManagement/:staftID" element={<OrderManagementPage/>} />   
+     <Route path="/Admin/orderManagement/:staftID" element={<OrderManagementPage/>} /> 
+     <Route path="/Admin/orderIncome/:staftID" element={<OrderIncomePage/>} />  {/*ทดลอง*/} 
      <Route path="/Admin/orderStatusManagement/:staftID" element={<OrderStatusManagementPage/>} />   
      <Route path="/Admin/paymentManagement/:staftID" element={<PaymentManagementPage/>} />   
      <Route path="/LoginStaftPage" element={<LoginStaftPage/>} /> 
      <Route path="/Admin/report/:staftID" element={<ReportPage/>} />   
      <Route path="/Admin/dashboard/:staftID" element={<DashBoardPage />} />   
      <Route path="/Admin/memberManagement/:staftID" element={<MemberManagementPage/>}/>
+     <Route path="/Admin/ShowPDFReport" element={<ShowReportDoc/>}/>
 
          {/*เป็นหน้าไว้สำหรับการสะสมแต้ม*/}
-        <Route path="/AuthenModalPage" element={<AuthenModel/>} />  
+     <Route path="/AuthenModalPage" element={<AuthenModel/>} />  
         
      </Routes>
     </Router>

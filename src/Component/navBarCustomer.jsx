@@ -184,15 +184,6 @@ const NavbarCustomer = () => {
       const response = await axios.get(
         `https://localhost:7202/api/Customer/GetOrder/${customerID}`
       );
-      if(response.data.message === "ไม่พบรายการสั่งของโต๊ะนี้"){
-        Swal.fire({
-          text: "ไม่พบรายการสั่งของโต๊ะนี้",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
-        console.log("ไม่มีข้อมูล");
-        return;
-      }
       setOrder2(response.data.orders);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้",error);
@@ -202,6 +193,8 @@ const NavbarCustomer = () => {
   useEffect(() => {
     getOrderID();
   }, [customerID]);
+
+  
   return (
     <div>
       <Container

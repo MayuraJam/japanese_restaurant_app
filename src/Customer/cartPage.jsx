@@ -11,6 +11,7 @@ import "../CSS_file/dataTeble.css"
 import NavbarCustomer from "../Component/navBarCustomer";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import NoOrder from '../image/no order.jpg';
 const Mycart = () => {
   const { customerID } = useParams();
 
@@ -154,6 +155,17 @@ const Mycart = () => {
               <p>ตารางรายการสั่ง</p>
               <hr variant="secondary" />
               <center>
+                <img
+                src={NoOrder}
+                alt="ภาพประกอบ"
+                className="img-fluid mb-3 "
+                style={{
+                  width: "250px",
+                  //width:"100%",
+                  height: "280px",
+                  backgroundColor: "#ffff",
+                }}
+                />
                 <p>ไม่พบรายการสั่ง</p>
               </center>
             </div>

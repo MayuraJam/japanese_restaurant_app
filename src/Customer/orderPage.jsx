@@ -10,12 +10,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import NoOrder from '../image/no order.jpg';
 
 const OrderConfirmPage = () => {
   const { customerID } = useParams();
 
   const navigate = useNavigate();
-  const toPage = (orderID) => {
+
+  const toPage = (orderID,orderStatus) => {
     navigate("/Customer/payment/" + orderID+"/"+customerID);
   };
 
@@ -102,7 +104,27 @@ const OrderConfirmPage = () => {
           console.log("response :", response.data.message);
           //setOrderData(response.data.orders);
           fetchingFulldata(customerID);
-          toFinePage(orderID,customerID);
+          //toFinePage(orderID,customerID);
+          try {
+            const response = await axios.post(
+              `https://localhost:7202/api/Customer/AddNotification`,
+              {
+                title: "ยกเลิกรายการสั่ง",
+                message: `หมายเลข order ที่ทำการยกเลิกคือ : "${orderID}"`,
+                tableID: tableID,
+                sentBy : "ลูกค้า",
+              }
+            );
+            console.log("response :", response.data.notiItem);
+            Swal.fire({
+              text: "ระบบจะทำการเรียกพนักงานซักครู่",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          } catch (error) {
+            console.log("ไม่สามารถดึงข้อมูลได้", error);
+          }
+          toPage(orderID,customerID);
         } catch (error) {
           console.log("ไม่สามารถดึงข้อมูลได้");
         }
@@ -120,7 +142,7 @@ const OrderConfirmPage = () => {
         <>
           <p
             style={{ fontSize: "0.9rem" }}
-            className="bg-white text-dark p-2 border rounded-3 d-flex justify-content-center"
+            className="bg-white text-dark p-2 border rounded-5 d-flex justify-content-center"
           >
             รายการไม่มีสถานะ
           </p>
@@ -129,17 +151,17 @@ const OrderConfirmPage = () => {
     } else if (orderStatus === "รายการกำลังทำการจัดเตรียมวัตถุดิบ") {
       return (
         <p
-          style={{ fontSize: "0.9rem" }}
-          className="bg-secondary text-white p-2 border rounded-3 d-flex justify-content-center"
+          style={{ fontSize: "0.8rem" }}
+          className="bg-secondary text-white p-2 border rounded-5 d-flex justify-content-center"
         >
-          {orderStatus}
+          {orderStatus}...
         </p>
       );
     } else if (orderStatus === "กำลังปรุง") {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-warning p-2 border rounded-3 d-flex justify-content-center"
+          className="bg-warning p-2 border rounded-5 d-flex justify-content-center"
         >
           {orderStatus}
         </p>
@@ -148,7 +170,7 @@ const OrderConfirmPage = () => {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-info p-2 border rounded-3 d-flex justify-content-center"
+          className="bg-info p-2 border rounded-5 d-flex justify-content-center"
         >
           {orderStatus}
         </p>
@@ -157,7 +179,7 @@ const OrderConfirmPage = () => {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-success p-2 border rounded-3 d-flex justify-content-center text-white"
+          className="bg-success p-2 border rounded-5 d-flex justify-content-center text-white"
         >
           {orderStatus}
         </p>
@@ -168,8 +190,8 @@ const OrderConfirmPage = () => {
     ) {
       return (
         <p
-          style={{ fontSize: "0.6rem" }}
-          className="bg-danger text-warning p-2 border rounded-3 d-flex justify-content-center"
+          style={{ fontSize: "0.8rem" }}
+          className="bg-danger text-white p-2 border rounded-5 d-flex justify-content-center"
         >
           {orderStatus}
         </p>
@@ -178,7 +200,7 @@ const OrderConfirmPage = () => {
       return (
         <p
           style={{ fontSize: "0.9rem" }}
-          className="bg-primary p-2 border rounded-3 d-flex justify-content-center text-white"
+          className="bg-primary p-2 border rounded-5 d-flex justify-content-center text-white"
         >
           {orderStatus}
         </p>
@@ -221,7 +243,20 @@ const OrderConfirmPage = () => {
             className="p-3 rounded-3 bg-white mb-4 d-flex justify-content-center align-items-center shadow-sm"
             style={{ height: "425px", border: "1px solid #EB5B00" }}
           >
+            <center>
+            <img
+                src={NoOrder}
+                alt="ภาพประกอบ"
+                className="img-fluid mb-3 "
+                style={{
+                  width: "250px",
+                  //width:"100%",
+                  height: "280px",
+                  backgroundColor: "#ffff",
+                }}
+              />
             <p style={{ textAlign: "center" }}>ไม่พบรายการสั่ง</p>
+            </center>
           </div>
         ) : (
           orderData?.map((item) => (
@@ -250,26 +285,36 @@ const OrderConfirmPage = () => {
                   </div>
 
                   <div className="d-flex flex-column align-items-center">
+                    { item.orderStatus === "ดำเนินรายการสำเร็จ" && (
                     <p
-                      style={{ fontSize: "0.8rem", color: "gray" }}
-                      className="me-3"
+                      style={{ fontSize: "0.8rem" }}
+                      className="me-3 text-success"
                     >
-                      สถานะของรายการ : {item.orderStatus}
+                      <i class="bi bi-check-circle me-2"></i>สถานะของรายการ : {item.orderStatus}
                     </p>
-                    <p style={{ fontSize: "0.8rem", color: "gray" }}>
-                      สถานะการยืนยันรายการ : {item.confirmOrder}
+                    )
+                    }
+                     { item.orderStatus === "รายการถูกยกเลิก" && (
+                    <p
+                      style={{ fontSize: "0.8rem" }}
+                      className="me-3 text-danger"
+                    >
+                      <i class="bi bi-x-circle me-2"></i>สถานะของรายการ : {item.orderStatus}
                     </p>
+                    )
+                    }
+                    
                   </div>
                 </div>
                 <hr variant="secondary" />
                 <table className="table table-striped">
                   <thead>
                     <tr>
-                      <th>ภาพเมนู</th>
-                      <th>ชื่อเมนู</th>
-                      <th>จำนวน</th>
-                      <th>ราคา</th>
-                      <th>สถานะ</th>
+                      <th style={{ width: "10%" }}>ภาพเมนู</th>
+                      <th style={{ width: "10%" }}>ชื่อเมนู</th>
+                      <th style={{ width: "10%" }}>จำนวน</th>
+                      <th style={{ width: "10%" }}>ราคา</th>
+                      <th style={{ width: "10%" }}>สถานะ</th>
                     </tr>
                   </thead>
                   <tbody>

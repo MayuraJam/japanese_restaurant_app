@@ -8,6 +8,7 @@ import NavbarAdmin from "../Component/NavBarAdmin";
 //import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Menucategory from "../Component/MenucagoryData";
 
 import {
   Button,
@@ -16,7 +17,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import simpleImage from "../image/food.jpg";
 const ManageMenu = ({onSentDataToEdit}) => {
   const [menuData, setMenuData] = useState([]);
+  const [originalmenuData, setOriginalMenuData] = useState([]);
   const [dataForEdit,setDataForEdit] = useState(null);
+  const [menuSelect, setMenuSelect] = useState("all");
 
   const [search,setSearch] = useState("");
   //ดึงข้อมูลเมนูทั้งหมด
@@ -27,8 +30,8 @@ const ManageMenu = ({onSentDataToEdit}) => {
           menuName : search
         }
       );
-      console.log("response :", response.data.menuList);
       setMenuData(response.data.menuList);
+      setOriginalMenuData(response.data.menuList);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
@@ -72,12 +75,49 @@ const ManageMenu = ({onSentDataToEdit}) => {
         return `${day}/${month}/${year}`;
       };
   
+      const filterItem = (categoryName) => {
+        if (categoryName === "all") {
+          // แสดงเมนูทั้งหมดเมื่อเลือก "all"
+          setMenuSelect("all")
+          setMenuData(originalmenuData);
+        } else {
+          // กรองข้อมูลตาม categoryName
+          const newItem = originalmenuData.filter(
+            (newval) => newval.categoryName.trim() === categoryName.trim()
+          );
+          setMenuSelect(categoryName);
+          setMenuData(newItem);
+        }
+      };
+
+      const handleChanghSelect=(e)=>{
+           const value = e.target.value;
+           //setMenuSelect(value);
+           filterItem(value);
+      }
+
+      const StockRank = (stockNum) =>{
+         if(stockNum>=80){
+          return {backgroundColor:'#E7FBE6'}
+         }else if(stockNum <= 79 && stockNum >= 30){
+          return {backgroundColor:'#FCDC94'}
+         }else if(stockNum<=29) {
+           return {backgroundColor:'#FF8A8A',color:"white"}
+         }
+      }
   return (
     <div>
       <div className="border border-dark rounded p-3 mt-5" style={{height:"520px"}}>
        <div className="d-flex justify-content-between">
        <p> <i class="bi bi-table me-2"></i> ตารางแสดงรายการเมนูอาหาร</p>
-       <div
+       <div className="d-flex flex-row">
+        <select class="form-select form-select-sm me-3" onChange={handleChanghSelect} value={menuSelect}>
+          <option selected value="all">ประเภทของเมนูทั้งหมด</option>
+          {Menucategory.map((item)=>(
+            <option value={item.categoryName} key={item.categoryID}>{item.categoryName}</option>
+          ))}
+        </select>
+        <div
                 className="search-container-box  "
                 style={{ width: 300 }}
               >
@@ -85,7 +125,7 @@ const ManageMenu = ({onSentDataToEdit}) => {
                   <input
                     type="text"
                     id="search"
-                    placeholder="ค้นหารายการสั่ง..."
+                    placeholder="ค้นหาเมนู..."
                     name="search"
                     className="form-control "
                      value={search}
@@ -97,7 +137,8 @@ const ManageMenu = ({onSentDataToEdit}) => {
                     </span>
                   </div>
                 </div>
-              </div>
+        </div>
+       </div>
        </div>
        <div className="table-wrapper">
       <table
@@ -138,7 +179,7 @@ const ManageMenu = ({onSentDataToEdit}) => {
               <th>{item.menuName}</th>
               <th>{item.categoryName}</th>
               <th>{item.unitPrice} ฿</th>
-              <th>{item.stockQuantity}</th>
+              <th style={StockRank(item.stockQuantity)}>{item.stockQuantity}</th>
               <th>{getCurrentDate(item.createDate)}</th>
               <th>
               <Button variant="warning" className="me-2 text-dark" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>

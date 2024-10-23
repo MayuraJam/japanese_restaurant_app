@@ -26,16 +26,37 @@ const MemberManagementPage = () => {
   ];
   //สุ่มเปล่ยนสีพื้นหลัง
   const [memberData, setMemberData] = useState([]);
+  const [menuSelect, setMenuSelect] = useState("all");
+  const [fullData,setFullData] = useState([]);
   //const [showUsePoint,setUsePoint] = useState(0);
   //const [showGetPoint,setGetPoint] = useState(0);
 
+  const handleChanghSelect=(e)=>{
+    const value = e.target.value;
+    setMenuSelect(value);
+    if (value !== "all") {
+      const [minValue, maxValue] = value.split('-').map(Number);
+      console.log("ช่วงที่เลือก:", minValue, "ถึง", maxValue);
+      const filterData = fullData.filter((newitem) => {
+        return newitem.totalPoint >= minValue && newitem.totalPoint <= maxValue;
+      });
+    console.log("filterData",filterData);
+    setMenuSelect(value);
+     setMemberData(filterData);
+    } else if (value === "all") {
+      console.log("เลือกทั้งหมด");
+      setMenuSelect("all");
+      setMemberData(fullData);
+    }
+}
   const fetchingTabledata = async () => {
     try {
       const response = await axios.get(
         `https://localhost:7202/api/Auth/GetMember/${"ลูกค้า"}`
       );
-      console.log("response :", response.data.customerList);
+      console.log(response.data.customerList)
       setMemberData(response.data.customerList);
+      setFullData(response.data.customerList);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้ :", error);
     }
@@ -73,6 +94,7 @@ const MemberManagementPage = () => {
         const ranColor =  colorCode[(Math.floor(Math.random()*colorCode.length))];
         return ranColor;
       }
+     
   return (
     <div>
       <SideBarAdmin staftID={staftID} />
@@ -84,6 +106,20 @@ const MemberManagementPage = () => {
         >
           บัญชีลูกค้า
         </p>
+        <div className="d-flex flex-row justify-content-end ms-auto" style={{width:"200px"}}>
+        <select class="form-select form-select-sm me-3" onChange={handleChanghSelect} value={menuSelect}>
+          <option selected value="all">ระดับคะแนนสะสมรวม</option>
+          <option value="0-29">0-29</option>
+          <option value="30-69">30-69</option>
+          <option value="70-109">70-109</option>
+          <option value="110-149">110-149</option>
+          <option value="150-189">150-189</option>
+          <option value="190-229">190-229</option>
+          <option value="230-269">230-269</option>
+          <option value="270-309">270-309</option>
+          <option value="310-320">310-320</option>
+        </select>
+        </div>
         <div className="container p-4">
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
             {memberData.map((item) => (
@@ -177,88 +213,7 @@ const MemberManagementPage = () => {
               </div>
             ))}
 
-            <div
-              className="col  rounded-3 p-2 bg-white me-2"
-              style={{
-                maxWidth: "230px",
-                height: "100%",
-                border: "1px solid #EB5B00",
-              }}
-            >
-              <div className="d-flex" style={{ gap: "20px" }}>
-                <div
-                  style={{ width: "60px", height: "60px" }}
-                  className="border border-dark rounded-5 d-flex align-items-center justify-content-center"
-                >
-                  <p
-                    className="mb-0"
-                    style={{ fontSize: "1.5rem", fontWeight: "bold" }}
-                  >
-                    4
-                  </p>
-                </div>
-                <div className="p-1">
-                  <p
-                    style={{
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                      lineHeight: "1rem",
-                    }}
-                  >
-                    ชื่อ-นามสกุล
-                  </p>
-                  <p style={{ fontSize: "0.8rem", lineHeight: "0.8rem" }}>
-                    @อีเมล :
-                  </p>
-                  <p style={{ fontSize: "0.8rem", lineHeight: "0.8rem" }}>
-                    เบอร์โทรศัพท์ :
-                  </p>
-                 
-                </div>
-              </div>
-              <div
-                className="d-flex flex-row justify-content-center p-1 rounded-3"
-                style={{
-                  gap: "10px",
-                  backgroundColor: "#1A5276",
-                  color: "#F9E79F",
-                }}
-              >
-                <div className="d-flex flex-column justify-content-center align-items-center ">
-                  <p style={{ fontSize: "0.8rem", lineHeight: "0.6rem" }}>
-                    แต้มรวม
-                  </p>
-                  <p
-                    style={{ fontSize: "1rem", lineHeight: "0.6rem" }}
-                    className="mb-2"
-                  >
-                    100
-                  </p>
-                </div>
-                <div className="d-flex flex-column justify-content-center align-items-center">
-                  <p style={{ fontSize: "0.8rem", lineHeight: "0.6rem" }}>
-                    ได้แต้ม
-                  </p>
-                  <p
-                    style={{ fontSize: "1rem", lineHeight: "0.6rem" }}
-                    className="mb-2"
-                  >
-                    60
-                  </p>
-                </div>
-                <div className="d-flex flex-column justify-content-center align-items-center ">
-                  <p style={{ fontSize: "0.8rem", lineHeight: "0.6rem" }}>
-                    ใช้แต้ม
-                  </p>
-                  <p
-                    style={{ fontSize: "1rem", lineHeight: "0.6rem" }}
-                    className="mb-2"
-                  >
-                    40
-                  </p>
-                </div>
-              </div>
-            </div>
+            
           </div>
         </div>
       </div>

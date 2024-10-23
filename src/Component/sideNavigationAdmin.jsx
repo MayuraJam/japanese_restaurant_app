@@ -111,6 +111,14 @@ const SideBarAdmin = ({staftID}) => {
               รายการสั่ง
               </a>
           </div>
+
+         {/*} <div className="d-flex flex-column">
+            <a href={`/Admin/orderIncome/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/orderIncome/${staftID}`? "active" : ""}`}>
+            <img src={orderlistIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
+              
+              รายการสั่ง
+              </a>
+          </div>*/}
           <div className="d-flex flex-column">
             <a href={`/Admin/orderStatusManagement/${staftID}`} className={`d-flex align-items-center ${location.pathname === `/Admin/orderStatusManagement/${staftID}` ? "active" : ""}`}>
             <img src={orderTimeIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>

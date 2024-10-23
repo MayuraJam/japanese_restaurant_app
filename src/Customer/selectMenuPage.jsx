@@ -200,7 +200,7 @@ const SelectMenuPage = ({ tableID }) => {
                         style={{
                           display: "grid",
                           gridTemplateColumns:
-                            "repeat(auto-fill, minmax(16rem, 1fr))",
+                            "repeat(auto-fill, minmax(18rem, 1fr))",
                           gap: "10px",
                           marginLeft: "10px",
                         }}
@@ -215,7 +215,7 @@ const SelectMenuPage = ({ tableID }) => {
                           menuData.map((item) => (
                             <Card
                               style={{
-                                width: "16rem",
+                                width: "18rem",
                                 minHeight: "20rem",
                                 cursor: "pointer",
                                 transition: "border-color 0.3s",
@@ -248,7 +248,7 @@ const SelectMenuPage = ({ tableID }) => {
                                 variant="top"
                                 src={item.imageSrc}
                                 style={{
-                                  width: "16rem",
+                                  width: "18rem",
                                   height: "1ุ30px",
                                   backgroundSize: "cover",
                                 }}
@@ -272,10 +272,18 @@ const SelectMenuPage = ({ tableID }) => {
                                   <i class="bi bi-star-half"></i> {(item.rating).toFixed(2)}
                                   </p>
                                 </div>
-                                <hr className="text-secondary" />
-                                <p style={{ fontSize: "1rem" }}>
-                                  {item.optionName}
-                                </p>
+                                 {item.optionName === null?(
+                                   <>
+                                     
+                                  </>
+                                 ):(
+                                  <>
+                                   <hr className="text-secondary" />
+                                   <p style={{ fontSize: "1rem" }}>
+                                     <i class="bi bi-x-diamond me-2"></i>{item.optionName}
+                                   </p>
+                                  </>
+                                 )}
                                 {SlitStringToArray(item.value) &&
                                   Array.isArray(SlitStringToArray(item.value)) &&
                                   SlitStringToArray(item.value).map(

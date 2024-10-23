@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, Alert, Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button, Modal } from "react-bootstrap";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
@@ -10,32 +10,31 @@ import axios from "axios";
 import BestMenuCard from "../Component/BestMenuCard";
 import OrderRangeChart from "../Component/OrderRangeChart";
 import SaleChart from "../Component/saleChart";
+import MenuStatusCard from "../Component/menuStatusCard";
+import { PDFViewer } from "@react-pdf/renderer";
+import ReportDoc from "../Component/reportDoc";
 
 const DashBoardPage = () => {
   const { staftID } = useParams();
-  const [selectdate, setSelectDate] = useState(new Date());
-  const [orderDetailData, setOrderDetailData] = useState([]);
   const [revenueData, setRevenueData] = useState([]);
   const [orderData, setOrderData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
 
+  const [filterdate, setFilterDate] = useState(new Date());
+  const [selectMonth, setSelectMonth] = useState(new Date());
+
   //ดึงข้อมูล order ทั้งหมด
   const fetchingFulldata = async () => {
     try {
-      const response = await axios.get(
-        `https://localhost:7202/api/Admin/GetOrderStatusCount`
-      );
       const response2 = await axios.get(
         `https://localhost:7202/api/Admin/GetTable`
       );
       const response3 = await axios.get(
         `https://localhost:7202/api/Admin/GetRevenue`
       );
-      const statusLenght = response.data.orderList;
-      console.log("response order :", statusLenght);
-      setOrderDetailData(statusLenght);
       setCustomerData(response2.data.tableList);
       setRevenueData(response3.data.revenueList);
+      console.log("revenueData", response3.data.revenueList);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
@@ -60,39 +59,61 @@ const DashBoardPage = () => {
     fetchingFulldata();
   }, []);
 
-  const filterOrderData = (orderStatus) => {
-    console.log(orderStatus);
-    return orderDetailData
-      ? orderDetailData.filter((item) => item.orderDetailStatus === orderStatus)
-          .length
-      : 0;
-  };
-
   const filtertebleData = () => {
     return customerData
       ? customerData.filter((item) => item.tableStatus === "มีลูกค้า").length
       : 0;
   };
+   //กำหนดหลักโดยจุด
+   function seperateNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
+  /*useEffect(() => {
 
-  const month_name = (datetime) => {
-    const date = new Date(datetime);
-    const mlist = [
-      "มกราคม",
-      "กุมภาพันธ์",
-      "มีนาคม",
-      "เมษายน",
-      "พฤษภาคม",
-      "มิถุนายน",
-      "กรกฏาคม",
-      "สิงหาคม",
-      "กันยายน",
-      "ตุลาคม",
-      "พฤศจิกายน",
-      "ธันวาคม",
-    ];
-    return mlist[date.getMonth()];
+     const orderfilter = orderData?.filter((itemOrder)=>{
+      const orderDate = new Date(itemOrder.orderDate);
+      const orderMY = `${orderDate.getFullYear()}-${(orderDate.getMonth() + 1).toString().padStart(2, '0')}`; 
+      return orderMY === selectMonth;
+     })
+     const revenuefilter = revenueData?.filter((item)=>{
+      const revenueDate = new Date(item.orderDate);
+      const revenueMY = `${revenueDate.getFullYear()}-${(revenueDate.getMonth() + 1).toString().padStart(2, '0')}`; 
+      return revenueMY === selectMonth;
+    })
+     
+    setOrderData(orderfilter);
+    setRevenueData(revenuefilter);
+    console.log("orderData "+orderfilter+" revenueData "+revenuefilter);
+  },[selectMonth,orderData,revenueData])*/
+
+  const openInNewTab = (nextPageUrl) => {
+    const newWindow = window.open();
+    newWindow.location.href = nextPageUrl;
   };
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
 
+  const [printPDF, setPrintPDF] = useState(false);
+  const printReport = async () => {
+    setShow(true);
+    setPrintPDF(true);
+    {
+      /*const nextPage = await new Promise((item)=>{
+      const link = (
+       <PDFDownloadLink document={<ReportDoc/>} fileName = "SaleReport.pdf"> 
+         {({nextPage,url}) =>{
+           if(nextPage){
+             item(nextPage);
+           }
+           return null;
+         }}
+       </PDFDownloadLink>
+      );
+    });
+    const nextPageURL = URL.createObjectURL(nextPage);
+    openInNewTab(nextPageURL);*/
+    }
+  };
   return (
     <>
       <SideBarAdmin staftID={staftID} />
@@ -104,7 +125,37 @@ const DashBoardPage = () => {
         >
           dashboard
         </p>
+        <div className="d-flex justify-content-end">
+          {/*<input type="month" style={{fontSize:"0.8rem"}} 
+               value={selectMonth} 
+               onChange={(e)=>setSelectMonth(e.target.value)}
+               />*/}
+          <Button variant="primary" onClick={printReport}>
+            ปริ้นรายงาน
+          </Button>
+        </div>
 
+        {printPDF && (
+          <Modal show={show} centered size="lg">
+            <Modal.Header
+              style={{ backgroundColor: "#4A4947", color: "#FDF2E9" }}
+            >
+              <Modal.Title>
+                <i class="bi bi-stars me-2"></i> รายงาน
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body style={{ backgroundColor: "#FDF2E9" }}>
+              <PDFViewer style={{ width: "100%", height: "100vh" }}>
+                <ReportDoc />
+              </PDFViewer>
+            </Modal.Body>
+            <Modal.Footer style={{ backgroundColor: "#4A4947" }}>
+              <Button variant="primary" onClick={handleClose}>
+                ปิอการแสดงรายงาน
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div
             style={{
@@ -139,11 +190,11 @@ const DashBoardPage = () => {
                       ยอดขาย
                     </p>
                     <p style={{ fontSize: "1.5rem" }}>
-                      {revenueData.reduce(
+                      {seperateNumber(revenueData.reduce(
                         (totalAmount, currentItem) =>
                           totalAmount + currentItem.netAmount,
                         0
-                      )}{" "}
+                      ))}{" "}
                       บาท
                     </p>
                   </div>
@@ -197,11 +248,11 @@ const DashBoardPage = () => {
                       รายได้
                     </p>
                     <p style={{ fontSize: "1.5rem" }}>
-                      {revenueData.reduce(
+                    {seperateNumber(revenueData.reduce(
                         (totalAmount, currentItem) =>
                           totalAmount + currentItem.netAmount,
                         0
-                      )}{" "}
+                      ))}{" "}
                       บาท
                     </p>
                   </div>
@@ -243,142 +294,22 @@ const DashBoardPage = () => {
                 xs={6}
                 // style={{ maxHeight: "250px" }}
               >
-                {/*<div
-                  className=" bg-white shadow-sm rounded-3 p-3 mb-3"
-                  style={{ height: "250px" }}
-                >
-                  <p>กราฟแสดงแนวโน้มยอดขายรายเดือน:</p>
-                </div>*/}
-                {/*} <SaleChart/>*/}
-                {/*} <div
-                  className=" bg-white shadow-sm rounded-3  p-3 mt-2"
-                  style={{ height: "250px" }}
-                >
-                  <p>กราฟ ช่วงของการสั่ง order</p>
-                </div>*/}
-                <div
-                  className="bg-white shadow-sm rounded-3 p-3 mt-2"
-                  style={{ height: "300px" }}
-                >
-                  <p>กราฟแสดงแนวโน้มยอดขายรายเดือน:</p>
-                </div>
-                <OrderRangeChart />
+                <input
+                  type="month"
+                  style={{ fontSize: "0.8rem" }}
+                  value={selectMonth}
+                  onChange={(e) => setSelectMonth(e.target.value)}
+                />
+                <SaleChart selectMonth={selectMonth} />
+                <OrderRangeChart selectMonth={selectMonth} />
               </Col>
+
               <Col
                 xs={5}
                 //style={{ maxHeight: "450px" }}
               >
                 <BestMenuCard />
-
-                <Card
-                  className=" bg-white shadow-sm rounded-3 "
-                  style={{ height: "230px", border: "1px solid #EB5B00" }}
-                >
-                  <Card.Header className="d-flex  align-items-center justify-content-between">
-                    <p>สถานะของรายการ</p>
-                  </Card.Header>
-                  <Card.Text
-                    className="p-3 d-flex  align-items-center justify-content-center"
-                    style={{ gap: "10px" }}
-                  >
-                    <div
-                      className="rounded-3 p-1 shadow-sm"
-                      style={{
-                        width: "80px",
-                        height: "120px",
-                        borderTop: "6px solid #FF9100",
-                        backgroundColor: "#F5E8DD",
-                      }}
-                    >
-                      <div className="p-3 d-flex flex-column align-items-between justify-content-center">
-                        <p style={{ fontSize: "2rem", textAlign: "center" }}>
-                          {filterOrderData("กำลังปรุง")}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "0.6rem",
-                            color: "gray",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          กำลังปรุง
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="rounded-3 p-1 shadow-sm"
-                      style={{
-                        width: "80px",
-                        height: "120px",
-                        borderTop: "6px solid #FCCD2A",
-                        backgroundColor: "#F6F193",
-                      }}
-                    >
-                      <div className="p-3 d-flex flex-column align-items-between justify-content-center">
-                        <p style={{ fontSize: "2rem", textAlign: "center" }}>
-                          {filterOrderData("ปรุงสำเร็จ")}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "0.5rem",
-                            color: "gray",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          ปรุงสำเร็จ
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="rounded-3 p-1 shadow-sm"
-                      style={{
-                        width: "80px",
-                        height: "120px",
-                        borderTop: "6px solid #7CF5FF",
-                        backgroundColor: "#E3F4F4",
-                      }}
-                    >
-                      <div className="p-3 d-flex flex-column align-items-between justify-content-center">
-                        <p style={{ fontSize: "2rem", textAlign: "center" }}>
-                          {filterOrderData("กำลังเสริฟ")}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "0.5rem",
-                            color: "gray",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          กำลังเสริฟ
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="rounded-3 p-1 shadow-sm"
-                      style={{
-                        width: "80px",
-                        height: "120px",
-                        borderTop: "6px solid #77E4C8",
-                        backgroundColor: "#DDFFBB",
-                      }}
-                    >
-                      <div className="p-3 d-flex flex-column align-items-between justify-content-center">
-                        <p style={{ fontSize: "2rem", textAlign: "center" }}>
-                          {filterOrderData("เสริฟแล้ว")}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "0.6rem",
-                            color: "gray",
-                            fontWeight: "bold",
-                          }}
-                        >
-                          เสริฟแล้ว
-                        </p>
-                      </div>
-                    </div>
-                  </Card.Text>
-                </Card>
+                <MenuStatusCard />
               </Col>
             </Row>
           </div>

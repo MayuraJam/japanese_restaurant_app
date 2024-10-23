@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { Button, Modal, Alert, Row, Col, Card } from "react-bootstrap";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -8,14 +7,15 @@ import { Chart as chartjs, registerables } from "chart.js/auto";
 import axios from "axios";
 chartjs.register(...registerables);
 
-const OrderRangeChart = () => {
+const OrderRangeChart = ({selectMonth}) => {
   const [filterData, setFilterData] = useState([]);
-  const [selectMonth, setSelectMonth] = useState("");
+  //const [selectMonth, setSelectMonth] = useState("");
   const [orderData, setOrderData] = useState([]);
   
-
+  
   useEffect(() => {
     if (!selectMonth) return;
+    console.log("monthSelect",selectMonth);
 
     const month = new Date(selectMonth).getMonth() ;
     const year = new Date(selectMonth).getFullYear() ;
@@ -74,12 +74,12 @@ const OrderRangeChart = () => {
   }, []);
   return(
     <>
-    <input type="month" style={{fontSize:"0.8rem"}} value={selectMonth} onChange={(e)=>setSelectMonth(e.target.value)}/>
+   {/* <input type="month" style={{fontSize:"0.8rem"}} value={selectMonth} onChange={(e)=>setSelectMonth(e.target.value)}/>*/}
     <div
     className=" bg-white shadow-sm rounded-3  p-3 mt-2"
     style={{ height: "300px" }}
   >
-    <p>กราฟ ช่วงของการสั่ง order</p>
+    <p>กราฟปริมาณการสั่ง order รายวัน</p>
     <Bar data={charData} />
   </div>
     </>

@@ -6,6 +6,9 @@ import "../CSS_file/PaymentOption.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {QRCode,QRCodeCanvas,QRCodeSVG} from 'qrcode.react';
+const generatePayload = require('promptpay-qr');
+
 const PaymentByQR = ({
   tableID,
   totalAmount,
@@ -13,7 +16,8 @@ const PaymentByQR = ({
   orderID,
   netTotalAmount,
   paymentStatus,
-  customerID 
+  customerID,
+  qrCodePayload
 }) => {
   console.log("Data",tableID,
     totalAmount,
@@ -22,6 +26,9 @@ const PaymentByQR = ({
     netTotalAmount,
     paymentStatus,
     customerID)
+
+    //generate QR code payment
+  
 
   const handleConfirmPay = async (
     tableID,
@@ -55,6 +62,7 @@ const PaymentByQR = ({
         }
       );
       console.log("response :", response.data.payItem);
+      toPage();
       Swal.fire({
         title: "ชำระเงินสำเร็จ",
         html: `
@@ -71,22 +79,41 @@ const PaymentByQR = ({
         icon: "success",
         confirmButtonText: "ไปที่หน้า ติดตามรายการสั่ง",
       });
-      //toPage();
-
+      
+ 
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้",error);
     }
   };
   const navigate = useNavigate();
   const toPage = () => {
-    navigate("/Customer/order");
+    navigate("/Customer/payment/"+orderID+"/"+customerID);
   };
+
+ /* const fetchingFulldata = async (orderID) => {
+    try {
+      const response = await axios.get(
+        `https://localhost:7202/api/Admin/GetOrderByID/${orderID}`
+      );
+      if(response.data.orderItem === ""){
+        console.log("ไม่มีข้อมูล");
+        return;
+      }
+      console.log("response :", response.data.orderItem);
+      
+    } catch (error) {
+      console.log("ไม่สามารถดึงข้อมูลได้",error);
+    }
+  };
+  useEffect(() => {
+    fetchingFulldata(orderID);
+  }, [orderID]);*/
+
   return (
     <>
       <center>
-        <img
+        {/*<img
           src={QRpic}
-          //alt={user.firstName}
           className="img-fluid border border-dark  rounded-2 mb-3"
           style={{
             width: "240px",
@@ -95,7 +122,16 @@ const PaymentByQR = ({
             objectFit: "cover",
             alt: "MenuImage",
           }}
-        />
+        />*/}
+         <QRCodeCanvas value={qrCodePayload} 
+          className="img-fluid  mb-3"
+          style={{
+            width: "200px",
+            //width:"100%",
+            height: "200px",
+            //objectFit: "cover",
+            alt: "MenuImage",
+          }}/>
         <p>ยอดการชำระ : {netTotalAmount} บาท</p>
         <div className="d-flex justify-content-center mt-3">
           <Button

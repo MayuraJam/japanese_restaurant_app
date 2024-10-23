@@ -37,7 +37,7 @@ const PaymentByPoint = ({
     setErrors(error);
     return isValid;
   };
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputFields({
@@ -158,10 +158,15 @@ const PaymentByPoint = ({
         icon: "success",
         confirmButtonText: "ไปที่หน้า ติดตามรายการสั่ง",
       });
-      //toPage();
+    toPage();
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้", error);
     }
+  };
+
+  const navigate = useNavigate();
+  const toPage = () => {
+    navigate("/Customer/payment/"+orderID+"/"+customerID);
   };
   return (
     <div className="container">

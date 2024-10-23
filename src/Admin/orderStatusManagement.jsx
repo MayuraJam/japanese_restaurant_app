@@ -244,8 +244,11 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="กำลังปรุง">กำลังปรุง</option>
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                   </Form.Select>*/}
+                  <div className="d-flex justify-content-between">
+                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
                   <Button variant="outline-primary" onClick={()=>handleSelect("ปรุงสำเร็จ",item.orderID,item.menuID)}>เปลี่ยน</Button>
-
+                  </div>
+                  
                 </div>
               ))}
             </Card.Body>
@@ -296,8 +299,10 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
                   </Form.Select>*/}
-                  <Button variant="outline-primary" onClick={()=>handleSelect("กำลังเสริฟ",item.orderID,item.menuID)}>เปลี่ยน</Button>
-
+                  <div className="d-flex justify-content-between">
+                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
+                  <Button variant="outline-primary" onClick={()=>handleSelect("กำลังเสริฟ",item.orderID,item.menuID)}>เปลี่ยน</Button>  
+                  </div>
                 </div>
               ))}
             </Card.Body>
@@ -349,7 +354,10 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
                     <option value="เสริฟแล้ว">เสริฟแล้ว</option>
                   </Form.Select>*/}
+                   <div className="d-flex justify-content-between">
+                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
                   <Button variant="outline-primary" onClick={()=>handleSelect("เสริฟแล้ว",item.orderID,item.menuID)}>เปลี่ยน</Button>
+                   </div>
                 </div>
               ))}
             </Card.Body>

@@ -24,8 +24,8 @@ import { useParams } from "react-router-dom";
 import Receipt from "../Component/billPaper.jsx";
 import { color } from "chart.js/helpers";
 
-const FinePaymentPage = () => {
-  const { orderID ,customerID} = useParams();
+const FinePaymentPage = ({orderID ,customerID}) => {
+  //const { orderID ,customerID} = useParams();
   const vat = 0.07;
   
   const tableID = "T008";
@@ -110,8 +110,8 @@ const FinePaymentPage = () => {
   };
   return (
     <div>
-      <SideBarCustomer customerID={customerID}/>
-      <NavbarCustomer customerID={customerID}/>
+      {/*<SideBarCustomer customerID={customerID}/>
+      <NavbarCustomer customerID={customerID}/>*/}
       <div className="mainMenu">
         <p className="my-3 p-2 fs-3">การชำระค่าปรับ</p>
         <div className="d-flex flex-row">

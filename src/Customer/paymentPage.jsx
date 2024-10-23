@@ -22,6 +22,9 @@ import ReviewPage from "./reviewPage";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Receipt from "../Component/billPaper.jsx";
+import FinePaymentPage from "./FinePayment.jsx";
+import {QRCode,QRCodeCanvas,QRCodeSVG} from 'qrcode.react';
+const generatePayload = require('promptpay-qr');
 
 const PaymentPage = () => {
   const { orderID ,customerID} = useParams();
@@ -32,6 +35,9 @@ const PaymentPage = () => {
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);
   const [orderData, setOrderData] = useState([]);
+  const [phoneNum,setPhoneNum] = useState('090-984-5033');
+  const [amount,setAmount] = useState(1.00);
+  const [qrCode1,setqrCode] = useState("sample");
 
   const openModal = (modalName) => {
     if (modalName === "login") {
@@ -50,9 +56,30 @@ const PaymentPage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  function handleAmount(){
+    setAmount(parseFloat(CalculateNetPrice(
+      orderData.totalPrice,
+      orderData.totalPrice * vat
+    )));   
+}
 
   const handleClick = (value) => {
+    const calTotalAmont = parseFloat(CalculateNetPrice(
+      orderData.totalPrice,
+      orderData.totalPrice * vat
+    ).toFixed(0));
+
+    setAmount(calTotalAmont);
+    /*setAmount(parseFloat(CalculateNetPrice(
+      orderData.totalPrice,
+      orderData.totalPrice * vat
+    ).toFixed(0)));*/
+
+    console.log("netAmont",calTotalAmont)
     setOptionPay(value);
+     if(value==="QR"){
+      setqrCode(generatePayload(phoneNum,{amount:calTotalAmont}));
+     }
   };
 
   const fetchingFulldata = async (orderID) => {
@@ -107,6 +134,11 @@ const PaymentPage = () => {
     <div>
       <SideBarCustomer customerID={customerID}/>
       <NavbarCustomer customerID={customerID}/>
+      {orderData.orderStatus === "รายการถูกยกเลิก"?(
+        <>
+         <FinePaymentPage orderID={orderData.orderID}  customerID={customerID}/>
+        </>
+      ):(
       <div className="mainMenu">
         <p className="my-3 p-2 fs-3">การชำระเงิน</p>
         <div className="d-flex flex-row">
@@ -369,6 +401,8 @@ const PaymentPage = () => {
                     ).toFixed(0)}
                     paymentStatus={orderData.paymentStatus}
                     customerID = {orderData.customerID}
+                    
+                    
                   />
                 </div>
               )}
@@ -386,6 +420,7 @@ const PaymentPage = () => {
                       ).toFixed(0)}
                       paymentStatus={orderData.paymentStatus}
                       customerID  = {orderData.customerID}
+                      qrCodePayload = {qrCode1}
                     />
 
                   )}
@@ -426,6 +461,7 @@ const PaymentPage = () => {
           </Col>
         </Row>
       </div>
+      )}
     </div>
   );
 };

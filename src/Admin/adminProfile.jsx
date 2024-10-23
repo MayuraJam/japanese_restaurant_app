@@ -5,7 +5,6 @@ import Picture2 from "../image/isakaya.jpg";
 import ProfilePicture from "../image/Green-tea.jpg";
 import axios from "axios";
 import Swal from "sweetalert2";
-//import "../Component/flipCard.css";
 
 function AdminProfileModal({staftID}) {
   const [show, setShow] = useState(false);

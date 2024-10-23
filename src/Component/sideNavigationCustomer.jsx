@@ -123,7 +123,8 @@ const SideBarCustomer = ({customerID}) => {
         </a>
       )}
           </div>
-          <div className="d-flex flex-column mb-2">
+
+         {/*} <div className="d-flex flex-column mb-2">
           {orderID && (
         <a 
           href={`/Customer/finepayment/${orderID}/${customerID}`} 
@@ -136,7 +137,8 @@ const SideBarCustomer = ({customerID}) => {
           ชำระค่าปรับ
         </a>
       )}
-          </div>
+          </div>*/}
+
          {/*} <div className="d-flex flex-column mb-2">
             <a href={`/Customer/history/${customerID}`}  className={`d-flex align-items-center ${location.pathname === `/Customer/history/${customerID}` ? "active" : ""}`}>
             <img src={historyIcon} style={{width:'20px',height:'20px',backgroundSize:'cover',marginRight:'10px'}}/>
