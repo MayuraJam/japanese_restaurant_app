@@ -50,10 +50,10 @@ const OrderRangeChart = ({selectMonth}) => {
         ],
     };
     
-  console.log("filterData to graph",filterData);
+  /*console.log("filterData to graph",filterData);
   console.log("OrderData",orderData);
   console.log("orderdate num",filterData?.map((item) => item.totalOrder));
-  console.log("orderdate day",filterData?.map((item) => item.orderDate));
+  console.log("orderdate day",filterData?.map((item) => item.orderDate));*/
   
   const fetchingOrderdata = async () => {
     try {
@@ -62,7 +62,6 @@ const OrderRangeChart = ({selectMonth}) => {
           orderID : ""
         }
       );
-    console.log("orderData2",response.data.orders);
     setOrderData(response.data.orders);
      
     } catch (error) {
@@ -77,7 +76,7 @@ const OrderRangeChart = ({selectMonth}) => {
    {/* <input type="month" style={{fontSize:"0.8rem"}} value={selectMonth} onChange={(e)=>setSelectMonth(e.target.value)}/>*/}
     <div
     className=" bg-white shadow-sm rounded-3  p-3 mt-2"
-    style={{ height: "300px" }}
+    style={{ height: "300px" , border: "1px solid #EB5B00" }}
   >
     <p>กราฟปริมาณการสั่ง order รายวัน</p>
     <Bar data={charData} />

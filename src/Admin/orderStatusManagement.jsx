@@ -47,7 +47,7 @@ const today = new Date().toISOString().split('T')[0];
        return(
         item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search) && orderDate === today
        );
-    })
+    }).sort((a, b) => b.q - a.q) // เรียงจากมากไปน้อย
     //item.orderDetailStatus === "กำลังปรุง" && item.orderID.includes(search))
     : [];
     const cookedStatus = orderData
@@ -56,7 +56,8 @@ const today = new Date().toISOString().split('T')[0];
       return(
         item.orderDetailStatus === "ปรุงสำเร็จ" && item.orderID.includes(search) && orderDate === today
        );
-    }):[];
+    }).sort((a, b) => b.q - a.q) // เรียงจากมากไปน้อย
+    :[];
   
     const serveStatus = orderData
     ? orderData.filter((item) => {
@@ -64,7 +65,8 @@ const today = new Date().toISOString().split('T')[0];
       return(
         item.orderDetailStatus === "กำลังเสริฟ" && item.orderID.includes(search) && orderDate === today
        );
-    }):[];
+    }).sort((a, b) => b.q - a.q) // เรียงจากมากไปน้อย
+    :[];
 
     const finalStatus = orderData
     ? orderData.filter((item) =>{
@@ -72,7 +74,8 @@ const today = new Date().toISOString().split('T')[0];
       return(
         item.orderDetailStatus === "เสริฟแล้ว" && item.orderID.includes(search) && orderDate === today
        );
-    }):[];
+    }).sort((a, b) => b.q - a.q) // เรียงจากมากไปน้อย
+    :[];
   /*const cookedStatus = orderData
     ? orderData.filter((item) => item.orderDetailStatus === "ปรุงสำเร็จ" && item.orderID.includes(search))
     : [];
@@ -245,7 +248,7 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="ปรุงสำเร็จ">ปรุงสำเร็จ</option>
                   </Form.Select>*/}
                   <div className="d-flex justify-content-between">
-                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
+                  <p style={{fontSize:"0.9rem",backgroundColor:"#1A5276",color:"#F9E79F"}} className="rounded-5 p-1 px-2">คิวที่ : {item.q}</p>
                   <Button variant="outline-primary" onClick={()=>handleSelect("ปรุงสำเร็จ",item.orderID,item.menuID)}>เปลี่ยน</Button>
                   </div>
                   
@@ -300,7 +303,8 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="กำลังเสริฟ">กำลังเสริฟ</option>
                   </Form.Select>*/}
                   <div className="d-flex justify-content-between">
-                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
+                  <p style={{fontSize:"0.9rem",backgroundColor:"#1A5276",color:"#F9E79F"}} className="rounded-5 p-1 px-2">คิวที่ : {item.q}</p>
+                  
                   <Button variant="outline-primary" onClick={()=>handleSelect("กำลังเสริฟ",item.orderID,item.menuID)}>เปลี่ยน</Button>  
                   </div>
                 </div>
@@ -355,7 +359,8 @@ const today = new Date().toISOString().split('T')[0];
                     <option value="เสริฟแล้ว">เสริฟแล้ว</option>
                   </Form.Select>*/}
                    <div className="d-flex justify-content-between">
-                  <Button variant="outline-danger" onClick={()=>handleSelect("ทิ้ง",item.orderID,item.menuID)}>ทิ้ง</Button>
+                   <p style={{fontSize:"0.9rem",backgroundColor:"#1A5276",color:"#F9E79F"}} className="rounded-5 p-1 px-2">คิวที่ : {item.q}</p>
+                 
                   <Button variant="outline-primary" onClick={()=>handleSelect("เสริฟแล้ว",item.orderID,item.menuID)}>เปลี่ยน</Button>
                    </div>
                 </div>
@@ -405,6 +410,9 @@ const today = new Date().toISOString().split('T')[0];
                     เวลาที่สั่ง : {dateOrder(item.orderDate)} (
                     {timeOrder(item.orderDate)} น.)
                   </p>
+                  <div className="d-flex justify-content-end">
+                  <p style={{fontSize:"0.9rem",backgroundColor:"#1A5276",color:"#F9E79F"}} className="rounded-5 p-1 px-2">คิวที่ : {item.q}</p>
+                  </div>
                   {/*<Form.Select defaultValue={item.orderDetailStatus} onChange={(e)=>handleSelect(e.target.value,item.orderID,item.menuID)}>
                     <option value="เสริฟแล้ว">เสริฟแล้ว</option>
                   </Form.Select>*/}

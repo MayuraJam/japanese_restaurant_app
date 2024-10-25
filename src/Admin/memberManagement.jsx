@@ -75,21 +75,6 @@ const MemberManagementPage = () => {
   const usePoint = usePointSum();
   console.log("use Point",usePoint);
 
-  {/*item.pointlList?.filter((condition)=>condition.description==="ใช้แต้มในการชำระสินค้า").reduce((total, currentItem)=>total + currentItem.currentPoint,0)*/};
-  {/*item.orderDetailList.reduce(
-    (totalQuant, currentItem) =>
-      totalQuant + currentItem.quantity,
-    0
-  )*/}
-  //setUsePoint(usePointSum);
-
-    /*const getDateFormate=(datetime)=>{
-      const day = datetime.getDate();
-      const month = datetime.getMonth();
-      const year = datetime.getFullYear();
-      return `${day}/${month}/${year}`;
-    }*/
-
       const genRandomBgColor=()=>{
         const ranColor =  colorCode[(Math.floor(Math.random()*colorCode.length))];
         return ranColor;
@@ -212,8 +197,6 @@ const MemberManagementPage = () => {
                 </div>
               </div>
             ))}
-
-            
           </div>
         </div>
       </div>

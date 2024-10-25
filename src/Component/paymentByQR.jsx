@@ -62,7 +62,8 @@ const PaymentByQR = ({
         }
       );
       console.log("response :", response.data.payItem);
-      toPage();
+      
+      toPage(orderID,customerID);
       Swal.fire({
         title: "ชำระเงินสำเร็จ",
         html: `
@@ -86,7 +87,7 @@ const PaymentByQR = ({
     }
   };
   const navigate = useNavigate();
-  const toPage = () => {
+  const toPage = (orderID,customerID) => {
     navigate("/Customer/payment/"+orderID+"/"+customerID);
   };
 

@@ -121,7 +121,7 @@ const MenuStatusCard = () => {
             }}
           >
             <div className="p-3 d-flex flex-column align-items-between justify-content-center">
-              <p style={{ fontSize: "2rem", textAlign: "center" }}>
+              <p style={{ fontSize: "1.5rem", textAlign: "center" }}>
                 {filterOrderData("เสริฟแล้ว")}
               </p>
               <p

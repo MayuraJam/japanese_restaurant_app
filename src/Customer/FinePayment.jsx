@@ -17,12 +17,10 @@ import PaymentByQR from "../Component/paymentByQR.jsx";
 import PaymentByPoint from "../Component/paymentByPoint.jsx";
 import qrCode from "../image/icon/qr.png";
 import point from "../image/icon/coin.png";
-import money from "../image/icon/money.png";
-import ReviewPage from "./reviewPage";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import Receipt from "../Component/billPaper.jsx";
-import { color } from "chart.js/helpers";
+import {QRCode,QRCodeCanvas,QRCodeSVG} from 'qrcode.react';
+const generatePayload = require('promptpay-qr');
 
 const FinePaymentPage = ({orderID ,customerID}) => {
   //const { orderID ,customerID} = useParams();
@@ -33,6 +31,9 @@ const FinePaymentPage = ({orderID ,customerID}) => {
   const [loginOpen, setloginOpen] = useState(false);
   const [registerOpen, setregisterOpen] = useState(false);
   const [orderData, setOrderData] = useState([]);
+  const [phoneNum,setPhoneNum] = useState('090-984-5033');
+  const [amount,setAmount] = useState(1.00);
+  const [qrCode1,setqrCode] = useState("sample");
 
   const openModal = (modalName) => {
     if (modalName === "login") {
@@ -53,7 +54,17 @@ const FinePaymentPage = ({orderID ,customerID}) => {
 
 
   const handleClick = (value) => {
+    const calTotalAmont = parseFloat(CalculateSemiPrice(
+      orderData.totalPrice,
+      orderData.totalPrice * vat
+    ).toFixed(0));
+
+    setAmount(calTotalAmont);
+
     setOptionPay(value);
+    if(value==="QR"){
+      setqrCode(generatePayload(phoneNum,{amount:calTotalAmont}));
+     }
   };
 
   const fetchingFulldata = async (orderID) => {
@@ -338,6 +349,7 @@ const FinePaymentPage = ({orderID ,customerID}) => {
                       ).toFixed(0)}
                       paymentStatus={orderData.paymentStatus}
                       customerID  = {orderData.customerID}
+                      qrCodePayload = {qrCode1}
                     />
 
                   )}

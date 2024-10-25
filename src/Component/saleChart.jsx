@@ -13,7 +13,6 @@ const SaleChart = ({selectMonth}) => {
       const response = await axios.get(
         `https://localhost:7202/api/Admin/GetRevenue`
       );
-    console.log("RevenueData",response.data.revenueList);
     setRevenueData(response.data.revenueList);
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
@@ -59,7 +58,7 @@ const SaleChart = ({selectMonth}) => {
 
   return (
     <div className="mb-3">
-      <div className="bg-white shadow-sm rounded-3 p-3 mt-2" style={{ height: "300px" }}>
+      <div className="bg-white shadow-sm rounded-3 p-3 mt-2" style={{ height: "300px" , border: "1px solid #EB5B00" }}>
         <p>กราฟแสดงแนวโน้มยอดขาย:</p>
         <Bar 
           data={chartData}  

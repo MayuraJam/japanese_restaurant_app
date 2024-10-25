@@ -19,7 +19,8 @@ const DashBoardPage = () => {
   const [revenueData, setRevenueData] = useState([]);
   const [orderData, setOrderData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
-
+  const [originalOrderData,setOriginalOrderdata] = useState([]);
+  const [originalRevenueData,setOriginalRevenuedata] = useState([]);
   const [filterdate, setFilterDate] = useState(new Date());
   const [selectMonth, setSelectMonth] = useState(new Date());
 
@@ -34,7 +35,9 @@ const DashBoardPage = () => {
       );
       setCustomerData(response2.data.tableList);
       setRevenueData(response3.data.revenueList);
-      console.log("revenueData", response3.data.revenueList);
+      console.log("revenue",response3.data.revenueList);
+      setOriginalRevenuedata(response3.data.revenueList)
+      
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
@@ -48,8 +51,9 @@ const DashBoardPage = () => {
           orderID: "",
         }
       );
-      console.log("orderData", response.data.orders);
+     
       setOrderData(response.data.orders);
+      setOriginalOrderdata(response.data.orders)
     } catch (error) {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
@@ -68,23 +72,31 @@ const DashBoardPage = () => {
    function seperateNumber (num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
-  /*useEffect(() => {
+  
+  useEffect(() => {
+    filterDataByMonth(selectMonth);
+  },[selectMonth])
 
-     const orderfilter = orderData?.filter((itemOrder)=>{
-      const orderDate = new Date(itemOrder.orderDate);
-      const orderMY = `${orderDate.getFullYear()}-${(orderDate.getMonth() + 1).toString().padStart(2, '0')}`; 
-      return orderMY === selectMonth;
-     })
-     const revenuefilter = revenueData?.filter((item)=>{
-      const revenueDate = new Date(item.orderDate);
-      const revenueMY = `${revenueDate.getFullYear()}-${(revenueDate.getMonth() + 1).toString().padStart(2, '0')}`; 
-      return revenueMY === selectMonth;
+  const filterDataByMonth = (selectMonth)=>{
+    if(!selectMonth){
+      setOrderData(originalOrderData);
+      setRevenueData(originalRevenueData);
+    }else{ 
+    const orderFilter = originalOrderData?.filter((order)=>{
+      const orderDate = new Date(order.orderDate);
+      const orderMY = `${orderDate.getFullYear()}-${(orderDate.getMonth()+1).toString().padStart(2, '0')}`;
+     return selectMonth ? orderMY === selectMonth : true;
     })
-     
-    setOrderData(orderfilter);
-    setRevenueData(revenuefilter);
-    console.log("orderData "+orderfilter+" revenueData "+revenuefilter);
-  },[selectMonth,orderData,revenueData])*/
+    const revenueFilter = originalRevenueData?.filter((revenue)=>{
+      const revenueDate = new Date(revenue.createDate);
+      const revenueMY = `${revenueDate.getFullYear()}-${(revenueDate.getMonth()+1).toString().padStart(2, '0')}`;
+     return selectMonth ? revenueMY === selectMonth : true;
+    })
+
+    setOrderData(orderFilter);
+    setRevenueData(revenueFilter);
+   }
+  }
 
   const openInNewTab = (nextPageUrl) => {
     const newWindow = window.open();
@@ -126,16 +138,17 @@ const DashBoardPage = () => {
           dashboard
         </p>
         <div className="d-flex justify-content-end">
-          {/*<input type="month" style={{fontSize:"0.8rem"}} 
+          <label style={{ fontSize: "0.8rem", color: "gray" }} className="me-2">เลือกดูตามเดือน</label>
+          <input type="month" style={{fontSize:"0.8rem"}} 
                value={selectMonth} 
                onChange={(e)=>setSelectMonth(e.target.value)}
-               />*/}
-          <Button variant="primary" onClick={printReport}>
+               />
+       {/*<Button variant="primary" onClick={printReport}>
             ปริ้นรายงาน
-          </Button>
+          </Button>*/}
         </div>
 
-        {printPDF && (
+        {/*printPDF && (
           <Modal show={show} centered size="lg">
             <Modal.Header
               style={{ backgroundColor: "#4A4947", color: "#FDF2E9" }}
@@ -156,6 +169,8 @@ const DashBoardPage = () => {
             </Modal.Footer>
           </Modal>
         )}
+
+        */}
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div
             style={{
@@ -258,6 +273,7 @@ const DashBoardPage = () => {
                   </div>
                 </div>
               </div>
+              <div style={{width:"1px",height:"20px",backgroundColor:"#EB5B00"}} className="mx-1"></div>
               <div
                 style={{
                   width: "220px",
@@ -294,12 +310,12 @@ const DashBoardPage = () => {
                 xs={6}
                 // style={{ maxHeight: "250px" }}
               >
-                <input
+                {/*<input
                   type="month"
                   style={{ fontSize: "0.8rem" }}
                   value={selectMonth}
                   onChange={(e) => setSelectMonth(e.target.value)}
-                />
+                />*/}
                 <SaleChart selectMonth={selectMonth} />
                 <OrderRangeChart selectMonth={selectMonth} />
               </Col>
