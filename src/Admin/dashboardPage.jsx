@@ -11,8 +11,6 @@ import BestMenuCard from "../Component/BestMenuCard";
 import OrderRangeChart from "../Component/OrderRangeChart";
 import SaleChart from "../Component/saleChart";
 import MenuStatusCard from "../Component/menuStatusCard";
-import { PDFViewer } from "@react-pdf/renderer";
-import ReportDoc from "../Component/reportDoc";
 
 const DashBoardPage = () => {
   const { staftID } = useParams();
@@ -105,27 +103,7 @@ const DashBoardPage = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
-  const [printPDF, setPrintPDF] = useState(false);
-  const printReport = async () => {
-    setShow(true);
-    setPrintPDF(true);
-    {
-      /*const nextPage = await new Promise((item)=>{
-      const link = (
-       <PDFDownloadLink document={<ReportDoc/>} fileName = "SaleReport.pdf"> 
-         {({nextPage,url}) =>{
-           if(nextPage){
-             item(nextPage);
-           }
-           return null;
-         }}
-       </PDFDownloadLink>
-      );
-    });
-    const nextPageURL = URL.createObjectURL(nextPage);
-    openInNewTab(nextPageURL);*/
-    }
-  };
+  
   return (
     <>
       <SideBarAdmin staftID={staftID} />
@@ -143,34 +121,10 @@ const DashBoardPage = () => {
                value={selectMonth} 
                onChange={(e)=>setSelectMonth(e.target.value)}
                />
-       {/*<Button variant="primary" onClick={printReport}>
-            ปริ้นรายงาน
-          </Button>*/}
+     
         </div>
 
-        {/*printPDF && (
-          <Modal show={show} centered size="lg">
-            <Modal.Header
-              style={{ backgroundColor: "#4A4947", color: "#FDF2E9" }}
-            >
-              <Modal.Title>
-                <i class="bi bi-stars me-2"></i> รายงาน
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body style={{ backgroundColor: "#FDF2E9" }}>
-              <PDFViewer style={{ width: "100%", height: "100vh" }}>
-                <ReportDoc />
-              </PDFViewer>
-            </Modal.Body>
-            <Modal.Footer style={{ backgroundColor: "#4A4947" }}>
-              <Button variant="primary" onClick={handleClose}>
-                ปิอการแสดงรายงาน
-              </Button>
-            </Modal.Footer>
-          </Modal>
-        )}
-
-        */}
+      
         <div className="d-flex flex-column justify-content-center align-items-center">
           <div
             style={{

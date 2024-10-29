@@ -127,9 +127,9 @@ const PaymentByQR = ({
          <QRCodeCanvas value={qrCodePayload} 
           className="img-fluid  mb-3"
           style={{
-            width: "200px",
+            width: "160px",
             //width:"100%",
-            height: "200px",
+            height: "160px",
             //objectFit: "cover",
             alt: "MenuImage",
           }}/>

@@ -4,8 +4,6 @@ import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
 import "../CSS_file/dataTeble.css";
 import NavbarAdmin from "../Component/NavBarAdmin";
-//import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Tab, Tabs, Button, Spinner, Form } from "react-bootstrap";
@@ -248,6 +246,7 @@ const AddmenuCard = ({ selectData }) => {
         imagefile: selectData.imageName,
         photoSrc: selectData.imageSrc,
         quantity: 0,
+        stockQuantity2 : selectData.stockQuantity
       });
       setDescription(selectData.menuDescription);
       console.log("Type of stockQuantity",typeof selectData.stockQuantity);
@@ -401,7 +400,7 @@ const AddmenuCard = ({ selectData }) => {
                   onChange={handleChangeSizeBox}
                 ></Form.Control>
               </Form.Group>*/}
-              <div className="d-flex flex-row">
+              <div className="d-flex flex-row align-items-center">
                 <Form.Group className="mb-2 me-3">
                   <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                     ราคา :
@@ -449,6 +448,14 @@ const AddmenuCard = ({ selectData }) => {
                     </div>
                   )}
                 </Form.Group>
+                {formvalue.id &&(
+                  <div className="d-flex flex-column">
+                  <p style={{fontSize:"0.6rem"}}>ปริมานในตอนนี้</p>
+                  <p>
+                    {formvalue.stockQuantity2}
+                  </p>
+                  </div>
+                )}
               </div>
               {/*<Form.Group>
                   <Form.Label>เวลาที่ใช้ในการประกอบอาหาร : </Form.Label>

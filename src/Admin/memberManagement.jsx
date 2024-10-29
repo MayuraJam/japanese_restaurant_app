@@ -106,12 +106,12 @@ const MemberManagementPage = () => {
         </select>
         </div>
         <div className="container p-4">
-          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4">
+          <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 d-flex">
             {memberData.map((item) => (
               <div
                 className="col  rounded-3 p-2 bg-white me-2 mb-2"
                 style={{
-                  maxWidth: "280px",
+                  maxWidth: "240px",
                   height: "100%",
                   border: "1px solid #EB5B00",
                 }}

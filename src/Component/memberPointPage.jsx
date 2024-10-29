@@ -74,10 +74,10 @@ const MemberPointComponent = ({ memberdata }) => {
             border: "2px solid #F9E79F",
           }}
         >
-          <i class="bi bi-stars me-2"></i>แต้มทั้งหมด:{"  "}
-          <span style={{fontSize:"1rem"}}>
+          <i class="bi bi-stars me-2"></i>แต้มทั้งหมด:&nbsp;
+          <span style={{fontSize:"1rem"}}> 
          <strong>{memberdata[0]?.totalPoint}</strong>
-          </span>
+          </span>&nbsp;คะแนน
         </div>
       </div>
       <Row
