@@ -22,6 +22,7 @@ const CustomerLogin = () => {
   const toPage = (customerID) => {
     navigate("/Customer/menupage/"+customerID);
   }
+  //การกดปุ่มเปืดโต๊ะเข้าใช้งานระบบ
   const OpenTable = async ()=>{
     try {
       const response = await axios.put(

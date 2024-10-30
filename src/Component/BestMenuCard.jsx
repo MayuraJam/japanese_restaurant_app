@@ -12,6 +12,7 @@ const BestMenuCard = ()=>{
     const [selectnumber, setSelectNumber] = useState(5);
     const [menuData, setMenuData] = useState([]);
 
+    //ดึงข้อมูลเมนูทั้งหมด
     const fetchingMenudata = async (number) => {
         try {
           const response = await axios.post(
@@ -30,6 +31,7 @@ const BestMenuCard = ()=>{
         fetchingMenudata(selectnumber);
       }, []);
     
+      //การเลือกช่วงเพื่อดูความนิยมของลูกค้า
       const handleSelectNumberTop = (value) => {
         console.log("number :",value)
         setSelectNumber(value);

@@ -25,6 +25,7 @@ const Mycart = () => {
   const [total, setTotal] = useState(0);
   const [quantity,setQuantity] = useState(1);
   
+  //การลบสินค้าในตะกร้า
   const handleDeleteCart = async (cartID) => {
     const result = await Swal.fire({
       title: "คุณต้องการลบรายการหรือไม่",
@@ -52,6 +53,7 @@ const Mycart = () => {
     }
   };
 
+  //การดึงข้อมูลในตะกร้า
   const fetchingdata = async () => { //ติดในตรงนี้ที่ต้องคิดค่าผลรวม*จำนวน
     try {
       const response = await axios.post(
@@ -77,6 +79,7 @@ const Mycart = () => {
     fetchingdata();
   }, []);
 
+  //การเพิ่มจำนวน
   const handleIncrease = (cartID) => {
     //setQuantity(quantity +1 >5? 5 : quantity+1)
     setCartList((prevCartList) =>
@@ -91,6 +94,7 @@ const Mycart = () => {
     );
   };
 
+  //การลดจำนวน
   const handleDecrease = (cartID) => {
     //setQuantity(quantity -1 <1? 1 : quantity-1);
     setCartList((prevCartList) =>
@@ -104,6 +108,8 @@ const Mycart = () => {
       )
     );
   };
+
+  //การเปลี่ยนแปลงข้อมูลใน cart
   const handleEditCart=async (cartID,quantity,unitprice)=>{
     if(!cartID || !quantity || !unitprice) return;
     try {
@@ -123,6 +129,7 @@ const Mycart = () => {
   }
   //filter
 
+  //การยืนยันคำสั่งซื้อ
   const handleCheckOut = async(totalPriceInput)=>{
     try{
       const response = await axios.post("https://localhost:7202/api/Customer/AddOrder",{

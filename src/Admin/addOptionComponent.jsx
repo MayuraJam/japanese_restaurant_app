@@ -17,6 +17,7 @@ const AddOptionComponent = () => {
     optionValue: "",
   });
   const [newOption, setNewOption] = useState("");
+
   //ตัวอย่างข้อมูล option
   const optionList = [
     {
@@ -45,10 +46,6 @@ const AddOptionComponent = () => {
   };
   const handleAdd = () => {
     if (newOption.trim() === "") return;
-    /*const newItem = {
-      id:uuidv4(),
-      objItem:newOption,
-    };*/
     setOptionInput((prevState) => ({
       ...prevState,
       optionLists: [...prevState.optionLists, newOption],
@@ -80,6 +77,7 @@ const AddOptionComponent = () => {
     }
   };
 
+//การตรวจสอบ input
   const validateValues = () => {
     let isValid = true;
     const error = {};
@@ -94,7 +92,8 @@ const AddOptionComponent = () => {
     setError(error);
     return isValid;
   };
-
+ 
+  //การกด submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateValues()) {
@@ -126,6 +125,8 @@ const AddOptionComponent = () => {
       });
     }
   };
+
+  //การล้างคำตอบ
   const handleCLear = ()=>{
     setOptionInput({
       optionName: "",
@@ -134,6 +135,7 @@ const AddOptionComponent = () => {
     });
     setNewOption("");
   }
+  
   return (
     <Form onSubmit={handleSubmit}>
     <div className="d-flex flex-row ">

@@ -16,7 +16,7 @@ const PaymentManagementPage = () => {
   const [input,setInput] = useState(0.00);
   const [changeResult,setChangeResult] = useState(0.00);
 
-  
+  //การดึงขอมูล order ด้วยการ enter
   const handleEnter=async(orderID,event)=>{
     if(event.key === "Enter"){
       try {
@@ -43,6 +43,8 @@ const PaymentManagementPage = () => {
       return "ไม่มีการ enter"
     }
   } 
+
+  //การรีเฟรชหน้า
   const refrestPage = async(orderID)=>{
     try {
       const response = await axios.get(
@@ -59,7 +61,7 @@ const PaymentManagementPage = () => {
     }
   }
 
-
+ //การคำนวนค่าทางคณิตศาสตร์
   const handleCal=async(inputNumber,netAmount)=>{
     var change;
 
@@ -95,13 +97,14 @@ const PaymentManagementPage = () => {
     
   }
   
+  //การล้างข้อมูล
   const handleClear = ()=>{
     setInput(0);
     setChangeResult(0);
   }
 
  
-
+//การบันทึกข้อมูล
   const handleSave = async(orderID)=>{
     const netTotalAmount = CalculateNetPrice(orderData.totalPrice,orderData.totalPrice*0.07).toFixed(0);
     const totalTax = CalculateTax(orderData.totalPrice);
@@ -179,17 +182,19 @@ const PaymentManagementPage = () => {
     }
   }
 
-   //การคำนวน
+   //การคำนวนภาษี
    const CalculateTax = (totalPrice)=>{
     var tax = (totalPrice*0.07).toFixed(0);
     return tax;
  }
-
+//การคำนวนรายจ่ายสุทธิ
  const CalculateNetPrice = (totalPrice,taxPrice)=>{
    var net = totalPrice + taxPrice;
   
    return net;
 }
+
+
   return (
     <div>
       <SideBarAdmin staftID={staftID} />

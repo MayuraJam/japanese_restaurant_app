@@ -38,6 +38,7 @@ const PaymentPage = () => {
   const [phoneNum,setPhoneNum] = useState('090-984-5033');
   const [amount,setAmount] = useState(1.00);
   const [qrCode1,setqrCode] = useState("sample");
+  
 
   const openModal = (modalName) => {
     if (modalName === "login") {
@@ -56,13 +57,14 @@ const PaymentPage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  //การคำนวนราคาสุทธิ
   function handleAmount(){
     setAmount(parseFloat(CalculateNetPrice(
       orderData.totalPrice,
       orderData.totalPrice * vat
     )));   
 }
-
+//การคลิกเลือกช่อทางการชำระเงิน
   const handleClick = (value) => {
     const calTotalAmont = parseFloat(CalculateNetPrice(
       orderData.totalPrice,
@@ -82,6 +84,7 @@ const PaymentPage = () => {
      }
   };
 
+  //ดึงข้อมูลรายการสั่งทั้งหมด
   const fetchingFulldata = async (orderID) => {
     try {
       const response = await axios.get(
@@ -97,17 +100,20 @@ const PaymentPage = () => {
     fetchingFulldata(orderID);
   }, [orderID]);
 
+  //คำนวนภาษี
   const CalculateTax = (totalPrice) => {
     var tax = (totalPrice * vat).toFixed(0);
     return tax;
   };
 
+  //คำนวนราคาสุทธิ
   const CalculateNetPrice = (totalPrice, taxPrice) => {
     var net = totalPrice + taxPrice;
 
     return net;
   };
 
+  //ส่งข้อความแจ้งเตือน
   const sentMassage = async (orderID) => {
     if(!orderID) return;
     try {
@@ -130,6 +136,9 @@ const PaymentPage = () => {
       console.log("ไม่สามารถดึงข้อมูลได้", error);
     }
   };
+
+  
+
   return (
     <div>
       <SideBarCustomer customerID={customerID}/>
@@ -145,6 +154,8 @@ const PaymentPage = () => {
           <p style={{ fontSize: "1rem", marginRight: "150px" }}>
             รหัสการสั่งอาหาร : {orderData.orderID}
           </p>
+          <div className="d-flex flex-row">
+          
           {orderData.paymentStatus === "ยังไม่ได้ชำระ" && (
             <p
               style={{ fontSize: "1rem" }}
@@ -156,11 +167,13 @@ const PaymentPage = () => {
           {orderData.paymentStatus === "ชำระเงินสำเร็จ" && (
             <p
               style={{ fontSize: "1rem" }}
-              className="border border-success rounded-3 p-2 text-success bg-white shadow-sm"
+              className="border border-success rounded-3 p-2 text-success bg-white shadow-sm "
             >
               สถานะการชำระเงิน : {orderData.paymentStatus}
             </p>
           )}
+          
+          </div>
         </div>
         <Row
           className=" d-flex justify-content-start"
@@ -456,7 +469,8 @@ const PaymentPage = () => {
             </div>
             <hr variant="secondary" />
            <div className="d-flex justify-content-end">
-             {orderData.orderID&&(<Receipt orderID={orderData.orderID}/>)}
+             {/*orderData.orderID&&(<Receipt orderID={orderData.orderID}/>)*/}
+              {orderID&&(<Receipt orderID={orderID}/>)}
            </div>
           </Col>
         </Row>

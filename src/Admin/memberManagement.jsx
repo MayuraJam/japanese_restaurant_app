@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 const MemberManagementPage = () => {
   const { staftID } = useParams();
+
+  //เก็บสีไว้
   const colorCode = [
     "#FFE3E3",
     "#E4E0E1",
@@ -24,13 +26,13 @@ const MemberManagementPage = () => {
     "#B5CFB7",
     "#91DDCF",
   ];
-  //สุ่มเปล่ยนสีพื้นหลัง
   const [memberData, setMemberData] = useState([]);
   const [menuSelect, setMenuSelect] = useState("all");
   const [fullData,setFullData] = useState([]);
   //const [showUsePoint,setUsePoint] = useState(0);
   //const [showGetPoint,setGetPoint] = useState(0);
 
+  // การกรองด้วยช่วงตัวเลข มากสุกไปน้อยสุด
   const handleChanghSelect=(e)=>{
     const value = e.target.value;
     setMenuSelect(value);
@@ -49,7 +51,9 @@ const MemberManagementPage = () => {
       setMemberData(fullData);
     }
 }
-  const fetchingTabledata = async () => {
+
+//การดึงข้อมูลลูกค้า
+  const fetchingMemberdata = async () => {
     try {
       const response = await axios.get(
         `https://localhost:7202/api/Auth/GetMember/${"ลูกค้า"}`
@@ -62,9 +66,10 @@ const MemberManagementPage = () => {
     }
   };
   useEffect(() => {
-    fetchingTabledata();
+    fetchingMemberdata();
   }, []);
 
+  //การคำนวณแต้มรวม
   const usePointSum = ()=>{
     const usePoint = memberData.pointlList?.filter((item) => item.description === "ใช้แต้มในการชำระสินค้า")
     .reduce((total, currentItem) => {
@@ -74,7 +79,8 @@ const MemberManagementPage = () => {
   }
   const usePoint = usePointSum();
   console.log("use Point",usePoint);
-
+  
+  //การสุ่มสีพื้นหลัง
       const genRandomBgColor=()=>{
         const ranColor =  colorCode[(Math.floor(Math.random()*colorCode.length))];
         return ranColor;

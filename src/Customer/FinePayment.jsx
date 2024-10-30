@@ -82,43 +82,26 @@ const FinePaymentPage = ({orderID ,customerID}) => {
     fetchingFulldata(orderID);
   }, [orderID]);
 
+   //คำนวนภาษี
   const CalculateTax = (totalPrice) => {
     var tax = (totalPrice * vat).toFixed(0);
     return tax;
   };
 
+  //คำนวนราคาสุทธิ
   const CalculateNetPrice = (totalPrice, taxPrice) => {
     var net = totalPrice + taxPrice;
 
     return net;
   };
+
+  //คำนวนครึ่งราคาสุทธิ
   const CalculateSemiPrice = (totalPrice, taxPrice) => {
     var semi = (totalPrice + taxPrice)/2;
 
     return semi;
   };
-  const sentMassage = async (orderID) => {
-    if(!orderID) return;
-    try {
-      const response = await axios.post(
-        `https://localhost:7202/api/Customer/AddNotification`,
-        {
-          title: "ต้องการชำระรายการด้วยเงินสด",
-          message: `ต้องการชำระเงินสด order : ${orderID}`,
-          tableID: tableID,
-          sentBy : "ลูกค้า",
-        }
-      );
-      console.log("response :", response.data.notiItem);
-      Swal.fire({
-        text: "ระบบจะทำการเรียกพนักงานซักครู่",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
-    } catch (error) {
-      console.log("ไม่สามารถดึงข้อมูลได้", error);
-    }
-  };
+  
   return (
     <div>
       {/*<SideBarCustomer customerID={customerID}/>

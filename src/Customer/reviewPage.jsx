@@ -43,7 +43,8 @@ const ReviewPage = ({
       console.log("ไม่สามารถส่งขอมูลได้ เนื่องจาก", error);
     }
   };
-
+  
+  //ดึงข้อมูลรายการสั่งทั้งหมด
   const fetchingFulldata = async (orderID) => {
     if (!orderID) return;
     try {

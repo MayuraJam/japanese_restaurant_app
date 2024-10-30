@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect ,forwardRef,useImperativeHandle} from "react";
 import SideBarAdmin from "../Component/sideNavigationAdmin";
 import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
@@ -13,7 +13,7 @@ import ManageMenu from "./manageMenuPage";
 import AddOptionComponent from "./addOptionComponent";
 import Menucategory from "../Component/MenucagoryData";
 
-const AddmenuCard = ({ selectData }) => {
+const AddmenuCard = forwardRef(({ selectData },ref) => {
   const [key, setKey] = useState("เพิ่มเมนู");
   const photoUploadRef = useRef();
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,7 @@ const AddmenuCard = ({ selectData }) => {
   const [menuDescription, setDescription] = useState("");
   const [option, setOption] = useState([]);
 
+  //การแสดงข้อมูลตัว้ลือกพิเศษ
   const getOptionData = async () => {
     try {
       const response = await axios.get(
@@ -50,6 +51,7 @@ const AddmenuCard = ({ selectData }) => {
     getOptionData();
   }, []);
 
+  //การอัปโหลดภาพถ่าย
   const uploadImage = (e) => {
     if (e.target.files && e.target.files[0]) {
       let imageFiles = e.target.files[0];
@@ -70,6 +72,8 @@ const AddmenuCard = ({ selectData }) => {
       });
     }
   };
+
+  //การเปลี่ยนภาพ
   function handleChangePhoto(e) {
     e.preventDefault();
     photoUploadRef.current.click();
@@ -82,12 +86,15 @@ const AddmenuCard = ({ selectData }) => {
       [name]: value,
     });
   };
+
+  //การเปลี่ยนขนาดกล่อง
   const handleChangeSizeBox = (e) => {
     setDescription(e.target.value);
     e.target.style.height = "auto";
     e.target.style.height = e.target.scrollHeight + "px";
   };
 
+  //กรตรวจสอบ input
   const validateValues = () => {
     let isValid = true;
     const error = {};
@@ -134,6 +141,7 @@ const AddmenuCard = ({ selectData }) => {
     return isValid;
   };
 
+  //การกด submit
   const handleSubmit = async (e) => {
     e.preventDefault();
    const quantityValue = parseInt(formvalue.quantity, 10);
@@ -206,6 +214,7 @@ const AddmenuCard = ({ selectData }) => {
       }
     }
   };
+  //เมื่อกด submit เสร็จ
   const finishSubmit = () => {
     console.log(formvalue);
   };
@@ -215,7 +224,8 @@ const AddmenuCard = ({ selectData }) => {
       finishSubmit();
     }
   }, [errors]);
-  //time
+
+  //การล้างคำตอบ
   const handleClear = () => {
     setformValue({
       id: "",
@@ -265,8 +275,18 @@ const AddmenuCard = ({ selectData }) => {
       setDescription("");
     }
   }, [selectData]);
+  
+ //function การอ้างอิง component เพื่อล็อคเป้าหมายว่า เมื่อ scall แล้วจะมาที่ component นี้
+  useImperativeHandle(ref, () => ({
+    scrollToElement() {
+      document.getElementById("addmenu-card").scrollIntoView({ behavior: "smooth" });
+    }
+  }))
+
   return (
-    <>
+    <div id="addmenu-card">
+      <h3 className="my-3">การจัดการเมนูและเครื่องดื่ม</h3>
+      <div className=" d-flex flex-row justify-content-center mt-3">
       <div
         className="shadow-sm rounded-4 me-3"
         style={{
@@ -457,18 +477,6 @@ const AddmenuCard = ({ selectData }) => {
                   </div>
                 )}
               </div>
-              {/*<Form.Group>
-                  <Form.Label>เวลาที่ใช้ในการประกอบอาหาร : </Form.Label>
-                  <DatePicker
-                    selected={formvalue.timeCooking}
-                    onChange={(date) => setformValue(date)}
-                    showTimeSelect
-                    showTimeSelectOnly
-                    timeIntervals={1} // Time interval in minutes
-                    timeCaption="Time"
-                    dateFormat="HH:mm:ss" // Format for hours, minutes, and seconds
-                  />
-                </Form.Group>*/}
               <Form.Group className="mb-4">
                 <Form.Label style={{ fontSize: "0.8rem", color: "gray" }}>
                   ทางเลือกเพิ่มเติม :
@@ -510,7 +518,9 @@ const AddmenuCard = ({ selectData }) => {
           </Tab>
         </Tabs>
       </div>
-    </>
+      </div>
+    </div>
   );
-};
+ }
+);
 export default AddmenuCard;

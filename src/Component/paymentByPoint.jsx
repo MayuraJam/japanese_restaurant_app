@@ -27,6 +27,8 @@ const PaymentByPoint = ({
   const [submitting, setSubmitting] = useState(false);
   const [isLogin, setLogin] = useState(false);
   const [pointData, setPointData] = useState([]);
+
+  //การตรวจสอบ input
   const validateValues = () => {
     let isValid = true;
     const error = {};
@@ -38,6 +40,7 @@ const PaymentByPoint = ({
     return isValid;
   };
   
+    //การเปลี่ยน input
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputFields({
@@ -45,6 +48,8 @@ const PaymentByPoint = ({
       [name]: value,
     });
   };
+
+  //การกดยืนยัน
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateValues()) {
@@ -108,6 +113,7 @@ const PaymentByPoint = ({
   }, [errors]);
   //const isInputValid = Object.keys(errors).length===0;
 
+  //การล้างข้อมูล
   const handleClear = () => {
     setInputFields({
       email: "",
@@ -117,6 +123,7 @@ const PaymentByPoint = ({
     setSubmitting(false);
   };
 
+  //การยืนยันการชำระเงิน
   const handleConfirmPay = async (
     tableID,
     totalAmount,
@@ -164,6 +171,7 @@ const PaymentByPoint = ({
     }
   };
 
+  //กำหนด path เพื่อไปยังหน้ารายการสั่ง
   const navigate = useNavigate();
   const toPage = () => {
     navigate("/Customer/payment/"+orderID+"/"+customerID);

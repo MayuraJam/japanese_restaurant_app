@@ -32,27 +32,6 @@ const FAQModal = () => {
           <div className="d-flex justify-content-end mb-3">
             <div className="search-container-box" style={{ width: 300 }}></div>
           </div>
-          {/*QuestionItem.map((item)=>(
-          <Accordion defaultActiveKey="0" className="mb-2 shadow-sm" key={item.questionID} style={{borderLeft:"5px solid #EB5B00"}}>
-            <Accordion.Item eventKey="1">
-              <Accordion.Header >{item.questionMassage} </Accordion.Header>
-              <Accordion.Body>
-                <p
-                  style={{ fontSize: "0.8rem", textAlign: "center",backgroundColor:"#F1F3C2" }}
-                  className="rounded-3 p-2"
-                >
-                 <strong>{item.questionType}</strong>
-                </p>
-                <u>
-                คำตอบ
-                </u> <br/> 
-                <p style={{fontSize:"0.8rem",textIndent: "30px",color:"blue"}}>
-                {item.answer}
-                </p>
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
-          ))*/}
           <section>
             <div className="container">
               <div className="accordion">

@@ -10,6 +10,7 @@ const OrderConfirmCard = ({orderID,staftID})=>{
 
   const [orderData,setOrderData] = useState([]);
 
+  //การดึงข้อมูลทั้งหมด
  const fetchingFulldata = async (orderID) => {
     try {
       const response = await axios.get(
@@ -57,18 +58,18 @@ const OrderConfirmCard = ({orderID,staftID})=>{
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   }
-  //การคำนวน
+  //การคำนวนภาษี
   const CalculateTax = (totalPrice)=>{
     var tax = (totalPrice*0.07).toFixed(0);
     return tax;
  }
-
+ //การคำนวนรายจ่ายสุทธิ
  const CalculateNetPrice = (totalPrice,taxPrice)=>{
    var net = totalPrice + taxPrice;
   
    return net;
 }
-
+//การอนุมัติรายการ
 const ConfirmOrder = async(confirmMassage,orderID)=>{
   console.log("confirmMassage :"+confirmMassage + "orderID :"+orderID);
   try {

@@ -22,7 +22,7 @@ const DashBoardPage = () => {
   const [filterdate, setFilterDate] = useState(new Date());
   const [selectMonth, setSelectMonth] = useState(new Date());
 
-  //ดึงข้อมูล order ทั้งหมด
+  //ดึงข้อมูล โต๊ะและรายได้ ทั้งหมด
   const fetchingFulldata = async () => {
     try {
       const response2 = await axios.get(
@@ -40,7 +40,7 @@ const DashBoardPage = () => {
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
   };
-
+  //ดึงข้อมูล order
   const fetchingOrderdata = async () => {
     try {
       const response = await axios.post(
@@ -61,6 +61,7 @@ const DashBoardPage = () => {
     fetchingFulldata();
   }, []);
 
+  //การกรองตารางข้อมูล
   const filtertebleData = () => {
     return customerData
       ? customerData.filter((item) => item.tableStatus === "มีลูกค้า").length
@@ -75,6 +76,7 @@ const DashBoardPage = () => {
     filterDataByMonth(selectMonth);
   },[selectMonth])
 
+    //การกรองข้อมูลด้วยเดือน
   const filterDataByMonth = (selectMonth)=>{
     if(!selectMonth){
       setOrderData(originalOrderData);
@@ -95,7 +97,8 @@ const DashBoardPage = () => {
     setRevenueData(revenueFilter);
    }
   }
-
+ 
+  //การปิดแท็บใหม่
   const openInNewTab = (nextPageUrl) => {
     const newWindow = window.open();
     newWindow.location.href = nextPageUrl;
@@ -264,12 +267,7 @@ const DashBoardPage = () => {
                 xs={6}
                 // style={{ maxHeight: "250px" }}
               >
-                {/*<input
-                  type="month"
-                  style={{ fontSize: "0.8rem" }}
-                  value={selectMonth}
-                  onChange={(e) => setSelectMonth(e.target.value)}
-                />*/}
+                
                 <SaleChart selectMonth={selectMonth} />
                 <OrderRangeChart selectMonth={selectMonth} />
               </Col>

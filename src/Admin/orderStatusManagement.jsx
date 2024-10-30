@@ -41,6 +41,7 @@ const OrderStatusManagementPage = () => {
   // สร้างวันที่ปัจจุบัน
 const today = new Date().toISOString().split('T')[0];
 
+//สถานะของเมนูและเครืองดื่มในระยะต่างๆ
   const cookStatus = orderData
     ? orderData.filter((item) => {
        const orderDate = new Date(item.orderDate).toISOString().split('T')[0];
@@ -89,6 +90,7 @@ const today = new Date().toISOString().split('T')[0];
     : [];
   console.log("Final status :", finalStatus.length);*/
 
+  //การดึงข้อมูลโต๊ะ
   const fetchingTabledata = async () => {
     try {
       const response = await axios.get(
@@ -103,8 +105,10 @@ const today = new Date().toISOString().split('T')[0];
   useEffect(() => {
     fetchingTabledata();
   }, []);
-  //วันและเวลา
 
+
+  //วันและเวลา
+  // แปลงเป็นเวลา
   const timeOrder = (datetime) => {
     if (datetime) {
       const myArray = datetime.split("T");
@@ -116,6 +120,8 @@ const today = new Date().toISOString().split('T')[0];
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
+
+  // แปลงเป็นวันที่
   const dateOrder = (datetime) => {
     if (datetime) {
       const date = new Date(datetime);
@@ -128,7 +134,7 @@ const today = new Date().toISOString().split('T')[0];
     }
   };
 
-  //ปุ่ม dropdown
+  //ปุ่ม dropdown เลือกตัวเลือก
   const handleSelect = async(orderStatus,orderID,menuID)=>{
     try {
       const response = await axios.put(
@@ -144,6 +150,7 @@ const today = new Date().toISOString().split('T')[0];
       console.log("ไม่สามารถดึงข้อมูลได้");
     }
   }
+  
   //ปุ่ม filter โต๊ะ
   const filterTable = (tableID)=>{
     if(tableID === "all"){

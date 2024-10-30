@@ -73,6 +73,7 @@ const SelectMenuPage = ({ tableID }) => {
     return arrayTXT;
   };
 
+  //การเพิ่มรายการลงตะกร้า
   const handleAddCart = async (menuIDSelect, optionValue, unitPrice) => {
     console.log("Add option value: ", optionValue, typeof optionValue);
     try {
@@ -98,6 +99,7 @@ const SelectMenuPage = ({ tableID }) => {
     }
   };
 
+  //การล้างคำตอบ
   const clearmenuData = () => {
     setInputOrder({
       option: "",

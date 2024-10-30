@@ -4,24 +4,21 @@ import "../CSS_file/sideNavigation.css";
 import "../CSS_file/selectMenu.css";
 import "../CSS_file/dataTeble.css"
 import NavbarAdmin from "../Component/NavBarAdmin";
-//import DatePicker from "react-datepicker";
-//import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Menucategory from "../Component/MenucagoryData";
-
-import {
-  Button,
-} from "react-bootstrap";
+import { Button,} from "react-bootstrap";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import simpleImage from "../image/food.jpg";
+
 const ManageMenu = ({onSentDataToEdit}) => {
   const [menuData, setMenuData] = useState([]);
   const [originalmenuData, setOriginalMenuData] = useState([]);
   const [dataForEdit,setDataForEdit] = useState(null);
   const [menuSelect, setMenuSelect] = useState("all");
-
   const [search,setSearch] = useState("");
+  
+
   //ดึงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
     try {
@@ -40,6 +37,7 @@ const ManageMenu = ({onSentDataToEdit}) => {
     fetchingFulldata();
   }, [search]);
 
+  //การลบรายการ
   const handleDeleteItem= async(menuID)=>{
     const result = await Swal.fire({
         title: "คุณต้องการลบรายการหรือไม่",
@@ -67,6 +65,7 @@ const ManageMenu = ({onSentDataToEdit}) => {
         }
       };
 
+      //formate date
       const getCurrentDate = (datetimeString) => {
         const date = new Date(datetimeString);
         const year = date.getFullYear();
@@ -74,7 +73,8 @@ const ManageMenu = ({onSentDataToEdit}) => {
         const day = String(date.getDate()).padStart(2, "0");
         return `${day}/${month}/${year}`;
       };
-  
+    
+      //การกรอง
       const filterItem = (categoryName) => {
         if (categoryName === "all") {
           // แสดงเมนูทั้งหมดเมื่อเลือก "all"
@@ -89,13 +89,14 @@ const ManageMenu = ({onSentDataToEdit}) => {
           setMenuData(newItem);
         }
       };
-
+       
+      //การเปลี่ยนค่า
       const handleChanghSelect=(e)=>{
            const value = e.target.value;
-           //setMenuSelect(value);
            filterItem(value);
       }
 
+      //สีบอกระดับของในคลัง
       const StockRank = (stockNum) =>{
          if(stockNum>=80){
           return {backgroundColor:'#E7FBE6'}
@@ -105,6 +106,9 @@ const ManageMenu = ({onSentDataToEdit}) => {
            return {backgroundColor:'#FF8A8A',color:"white"}
          }
       }
+
+
+
   return (
     <div>
       <div className="border border-dark rounded p-3 mt-5" style={{height:"520px"}}>
@@ -182,7 +186,7 @@ const ManageMenu = ({onSentDataToEdit}) => {
               <th style={StockRank(item.stockQuantity)}>{item.stockQuantity}</th>
               <th>{getCurrentDate(item.createDate)}</th>
               <th>
-              <Button variant="warning" className="me-2 text-dark" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>
+              <Button variant="warning" className="me-2 text-dark" onClick={()=>{onSentDataToEdit(item)}}>แก้ไข</Button>            
               <Button variant="danger" onClick={()=>handleDeleteItem(item.menuID)}>ลบ</Button>
               </th>
             </tr>

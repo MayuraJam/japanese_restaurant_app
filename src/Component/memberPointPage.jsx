@@ -5,6 +5,7 @@ import axios from "axios";
 const MemberPointComponent = ({ memberdata }) => {
   console.log("memberDAta", memberdata);
 
+  //การแปลงวันที่และเวลา
   const timeOrder = (datetime) => {
     if (datetime) {
       const myArray = datetime.split("T");
@@ -30,6 +31,8 @@ const MemberPointComponent = ({ memberdata }) => {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
+
+  //แปลงเป็นวันที่ไทย
   const ThaidateOrder = (datetime) => {
     if (datetime) {
       const formattedDate = new Date(datetime);

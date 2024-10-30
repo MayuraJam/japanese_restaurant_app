@@ -46,6 +46,8 @@ function RegisterMember({ isOpen }) {
       jobTypeName: "ชั่วคราว",
     },
   ];
+
+  //การตรวจสอบ input
   const validateValues = () => {
     let isValid = true;
     let emailForm = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
@@ -114,6 +116,7 @@ function RegisterMember({ isOpen }) {
     }));
   };
 
+  //การยืนยันคำตอบ
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateValues()) {

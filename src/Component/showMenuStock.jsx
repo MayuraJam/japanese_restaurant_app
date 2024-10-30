@@ -10,6 +10,7 @@ const ShowMenuStock = () => {
   const [search, setSearch] = useState("");
   const [menuData, setMenuData] = useState([]);
 
+  //แสดงข้อมูลเมนูทั้งหมด
   const fetchingFulldata = async () => {
     try {
       const response = await axios.post(

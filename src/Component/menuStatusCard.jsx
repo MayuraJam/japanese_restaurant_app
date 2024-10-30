@@ -3,6 +3,8 @@ import axios from "axios";
 import { Card } from "react-bootstrap";
 const MenuStatusCard = () => {
   const [orderDetailData, setOrderDetailData] = useState([]);
+
+  //ดึงข้อมูลทั้งหมดที่เป็น order
   const fetchingdata = async () => {
     try {
       const response = await axios.get(
@@ -19,6 +21,7 @@ const MenuStatusCard = () => {
     fetchingdata();
   }, []);
 
+    //การกรองข้อมูลที่แยกตามสถานะ order
   const filterOrderData = (orderStatus) => {
     console.log(orderStatus);
     return orderDetailData

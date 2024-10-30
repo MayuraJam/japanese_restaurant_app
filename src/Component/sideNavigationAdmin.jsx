@@ -16,6 +16,7 @@ import { useNavigate,useLocation,useParams} from "react-router-dom";
 import axios from "axios";
 
 const SideBarAdmin = ({staftID}) => {
+  
   //นำไอดีพนักงานมาพักไว้ที่นี้ แล้วทำการแจกจ่ายไปในแต่ละปุ่ม
   const navigate = useNavigate();
   const toPage=(path) =>{
@@ -23,6 +24,7 @@ const SideBarAdmin = ({staftID}) => {
   } 
   const location = useLocation();
 
+  //ออกจากระบบ
   const handleLogout=()=>{
     console.log("staftID",staftID)
     const swalWithBootstrapButtons = Swal.mixin({

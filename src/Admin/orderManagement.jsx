@@ -15,6 +15,8 @@ const OrderManagementPage = () => {
   const [sentData,setSentData] = useState([]);
    const { staftID } = useParams();
   const [search,setSearch] = useState("");
+
+
 //ดึงข้อมูล order ทั้งหมด
 const fetchingFulldata = async () => {
   try {
@@ -34,9 +36,11 @@ useEffect(() => {
   fetchingFulldata();
 }, [search]);
 
+
 const handleClick=async(orderID)=>{
    setSentID(orderID);
 } 
+
 const refrestPage = ()=>{
   fetchingFulldata();
 }

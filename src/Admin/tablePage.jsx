@@ -11,6 +11,7 @@ const TablePage = () => {
   const { staftID } = useParams();
  const [tableData,setTableData] = useState([]);
 
+ //ดึงข้อมูลโต๊ะทั้งหมด
   const fetchingTabledata = async () => {
     try {
       const response = await axios.get(
@@ -26,12 +27,13 @@ const TablePage = () => {
     fetchingTabledata();
   }, []);
 
+  //แสดงข้อมูลเฉพาะโต๊ะที่ว่าง
   const freeTable = 
     tableData.filter(
       (item)=> item.tableStatus === "ว่าง"
     );
   
-
+ //แสดงข้อมูลเฉพาะโต๊ะที่มีลูกค้า
   const reservedTable = 
     tableData.filter(
       (item)=> item.tableStatus === "มีลูกค้า"

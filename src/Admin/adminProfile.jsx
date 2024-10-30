@@ -25,9 +25,8 @@ function AdminProfileModal({staftID}) {
   });
   const [firstName, setFirstName] = useState("");
 
-  // ตัวอย่าง staftID : STAFT00001
- //var staftID = "STAFT00003";
-  //ดึงข้อมูลพนักงานทั้งหมด
+
+  //การดึงข้อมูลทั้งหมดของพนักงาน
   const fetchingFulldata = async () => {
     try {
       const response = await axios.get(
@@ -47,6 +46,7 @@ function AdminProfileModal({staftID}) {
     fetchingFulldata();
   }, []);
 
+  //ประเภทงานของพนักงาน
   const TypeJob = [
     {
       jobTID: 1,
@@ -57,11 +57,14 @@ function AdminProfileModal({staftID}) {
       jobTypeName: "ชั่วคราว",
     },
   ];
+
+  //การเปลี่ยนค่า input
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInputData({ ...inputData, [name]: value });
   };
 
+  //การแก้ไขข้อมูล
   const editStaftData = async () => {
     try {
       const response = await axios.put(
@@ -88,14 +91,20 @@ function AdminProfileModal({staftID}) {
       console.log("ไม่สามารถแก้ไขข้อมูลได้เนื่องจาก :", error);
     }
   };
+
+  //การสลับการเปิด modal  1 ปิด 2 เปิด
 const handleSwitchToModal2 = () => {
-    setShow(false); // Hide Modal1
-    setShowModal2(true);  // Show Modal2
+    setShow(false); 
+    setShowModal2(true);  
   };
+
+//การสลับการเปิด modal  2 ปิด 1 เปิด
   const handleSwitchToModal1 = () => {
-    setShow(true); // Hide Modal1
-    setShowModal2(false);  // Show Modal2
+    setShow(true); 
+    setShowModal2(false); 
   };
+
+
   return (
     <>
       <Button className="btn btn-outline-warning" onClick={handleShow}>

@@ -37,6 +37,7 @@ function LoginMember({isOpen,openRegister}) {
  const [errors,setErrors] = useState({});
  const [submitting,setSubmitting] = useState(false);
  
+ //การตรวจสอบ input
  const validateValues = ()=>{
    let isValid = true;
    const error = {};
@@ -55,7 +56,7 @@ function LoginMember({isOpen,openRegister}) {
     return isValid;
  };
 
-
+//เปลี่ยนค่าใน input
  const handleChange = (e)=>{
    const {name,value} = e.target;
    setInputFields({
@@ -63,6 +64,8 @@ function LoginMember({isOpen,openRegister}) {
    });
 
  };
+
+ //การกดยืนยันเข้าสู่ระบบ
  function handleSubmit(e){
     e.preventDefault();
     if(validateValues()){
@@ -89,6 +92,7 @@ function LoginMember({isOpen,openRegister}) {
  },[errors]);
  //const isInputValid = Object.keys(errors).length===0;
 
+ //ล้างคำตอบ
  const handleClear=()=>{
    setInputFields({
      email:'',

@@ -15,9 +15,10 @@ const PaymentByQR = ({
   totalTax,
   orderID,
   netTotalAmount,
-  paymentStatus,
   customerID,
-  qrCodePayload
+  qrCodePayload,
+  paymentStatus,
+
 }) => {
   console.log("Data",tableID,
     totalAmount,

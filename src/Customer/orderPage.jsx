@@ -58,7 +58,7 @@ const OrderConfirmPage = () => {
   };
 
   //วันและเวลา
-
+ //แปลงปป็นเวลา
   const timeOrder = (datetime) => {
     if (datetime) {
       const myArray = datetime.split("T");
@@ -70,6 +70,7 @@ const OrderConfirmPage = () => {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
+  //แปลงปป็นวันที่
   const dateOrder = (datetime) => {
     if (datetime) {
       const formattedDate = new Date(datetime);
@@ -85,6 +86,7 @@ const OrderConfirmPage = () => {
     }
   };
 
+  //การยกเลิก order
   const handleCancelOrder = async (orderID) => {
     console.log("order inside",orderID)
     if (!orderID) return;
@@ -136,6 +138,7 @@ const OrderConfirmPage = () => {
     });
   };
 
+  //การเปลี่ยนสีตามสถานะ
   const selectColorStatus = (orderStatus) => {
     if (!orderStatus) {
       return (
@@ -208,6 +211,7 @@ const OrderConfirmPage = () => {
     }
   };
 
+  //ไปที่หน้าชำระเงิน
   const GotoPayPage = (orderID, orderStatus) => {
     console.log("orderID :", orderID, "orderStatus : " + orderStatus);
     if (!orderID && orderStatus) return;

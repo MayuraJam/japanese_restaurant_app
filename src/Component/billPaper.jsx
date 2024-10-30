@@ -27,6 +27,11 @@ function Receipt({ orderID }) {
   const [show3, setShow3] = useState(false);
   const [show4, setShow4] = useState(false);
   
+  const [inputFields, setInputFields] = useState({
+    phone: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [submitting, setSubmitting] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -119,8 +124,7 @@ function Receipt({ orderID }) {
       });
     }
   };
-  /*const navigate = useNavigate();
-   const ToInvoicePage = navigate("/CustomerinvoicePage/"+orderID);*/
+
 
   const handleOpenToModal3 = () => {
     setShow2(false); // Hide Modal2
@@ -130,6 +134,8 @@ function Receipt({ orderID }) {
     setShow2(true); // Hide Modal3
     setShow3(false); // Show Modal2
   };
+
+
   //ดึง 2 ตารางคือ การเงินและorder
   const fetchingOrderdata = async (orderID) => {
     try {
@@ -154,6 +160,7 @@ function Receipt({ orderID }) {
     }
   }, [orderID]);
   const netTotal = orderData.totalPrice * 0.07 + orderData.totalPrice;
+
   //วันและเวลา
 
   const timeOrder = (datetime) => {
@@ -181,6 +188,8 @@ function Receipt({ orderID }) {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
+
+  //ข้อมูลบนใบเสร็จ
   const payList = [
     {
       key: 0,
@@ -217,14 +226,9 @@ function Receipt({ orderID }) {
     },
   ];
 
-  //const handleDownLoadBill = () => {};
 
-  const [inputFields, setInputFields] = useState({
-    phone: "",
-  });
-  const [errors, setErrors] = useState({});
-  const [submitting, setSubmitting] = useState(false);
 
+   //การตรวจสอบ input
   const validateValues = () => {
     let isValid = true;
     const error = {};
@@ -238,6 +242,7 @@ function Receipt({ orderID }) {
     return isValid;
   };
 
+ //การปลี่ยนค่า
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputFields({
@@ -245,6 +250,8 @@ function Receipt({ orderID }) {
       [name]: value,
     });
   };
+
+  //การกด submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("netTotal", netTotal);
@@ -300,6 +307,7 @@ function Receipt({ orderID }) {
   }, [errors]);
   //const isInputValid = Object.keys(errors).length===0;
 
+  //การล้างข้อมูล
   const handleClear = () => {
     setInputFields({
       /*email:'',
@@ -310,6 +318,7 @@ function Receipt({ orderID }) {
     setSubmitting(false);
   };
 
+  //ปุ่มออกจากระบบ
   const handleLogout = () => {
     setShow3(false);
     Swal.fire({
@@ -335,11 +344,13 @@ function Receipt({ orderID }) {
         </Dropdown.Item>
       </DropdownButton>
 
+
+        {/*ใบเสร็จ*/}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>ใบเสร็จ</Modal.Title>
         </Modal.Header>
-        {/*ใบเสร็จ*/}{" "}
+      
         {paymentData.length === 0 ? (
           <Modal.Body>
             <p>ไม่พบข้อมูลใบเสร็จ</p> {/* แสดงข้อความเมื่อไม่มีข้อมูล */}
@@ -432,6 +443,7 @@ function Receipt({ orderID }) {
           </Button>
         </Modal.Footer>
       </Modal>
+
 
       {/*หน้าระบบสมาชิก*/}
       <Modal show={show2} centered size="lg" onHide={handleClose2}>
@@ -531,7 +543,9 @@ function Receipt({ orderID }) {
           {/*เข้าสู่หน้าสะสมแต้ม*/}
         </Modal.Footer>
       </Modal>
-      {/*เนื่อหาภายในใช้เป็น component */}
+
+
+      {/*เนื่อหาภายในะบบสะสมแต้ม*/}
       <Modal show={show3} centered size="lg">
         <Modal.Header
           style={{ backgroundColor: "#4A4947", color: "#FDF2E9" }}

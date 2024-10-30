@@ -25,7 +25,7 @@ function NotificationModal({role,tableID}) {
     fetchingFulldata();
   }, []);
 
-  
+  //การอัปเดตข้อมูลการแจ้งเตือน
   const handleUpdate = async (notiID) => {
     try {
       const response = await axios.put(
@@ -65,7 +65,7 @@ function NotificationModal({role,tableID}) {
       console.error("orderDate ไม่ถูกกำหนดหรือเป็น undefined");
     }
   };
- 
+ //การกรองแจ้งเตือน
   const filterNotification = notiData?.filter((newData) => {
     if (role === "พนักงาน") {
       return newData.sentBy === role && newData.tableID === tableID;

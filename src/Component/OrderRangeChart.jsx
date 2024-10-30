@@ -9,10 +9,9 @@ chartjs.register(...registerables);
 
 const OrderRangeChart = ({selectMonth}) => {
   const [filterData, setFilterData] = useState([]);
-  //const [selectMonth, setSelectMonth] = useState("");
   const [orderData, setOrderData] = useState([]);
   
-  
+  //การแปลงเดือนใน date picker ให้อยู่ในรูปแบบวันที่ dd/mm/yyyy และส่งออกจำนวนข้อมูลที่นำไปพลอตกราฟ
   useEffect(() => {
     if (!selectMonth) return;
     console.log("monthSelect",selectMonth);
@@ -37,6 +36,7 @@ const OrderRangeChart = ({selectMonth}) => {
     console.log("Filter activated");
   }, [orderData, selectMonth]);
 
+  //ข้อมูลบนกราฟ
   const charData = {
       labels: filterData?.map((item) => item.date), //แกน x
       datasets: [
@@ -50,10 +50,7 @@ const OrderRangeChart = ({selectMonth}) => {
         ],
     };
     
-  /*console.log("filterData to graph",filterData);
-  console.log("OrderData",orderData);
-  console.log("orderdate num",filterData?.map((item) => item.totalOrder));
-  console.log("orderdate day",filterData?.map((item) => item.orderDate));*/
+
   
   const fetchingOrderdata = async () => {
     try {

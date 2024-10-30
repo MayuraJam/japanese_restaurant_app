@@ -123,6 +123,7 @@ const NavbarCustomer = () => {
       }
     }
   };
+
   //การกดส่งเรียบร้อย
   const finishSubmit = () => {
     console.log(input);
@@ -153,6 +154,7 @@ const NavbarCustomer = () => {
     setSubmitting(false);
   };
 
+  //การกด enter เพื่อดึงข้อมูล
   const handleEnter=async(orderID,event)=>{
     if(event.key === "Enter"){
       try {
@@ -178,6 +180,7 @@ const NavbarCustomer = () => {
     }
   } 
 
+  //การดึงข้อมูลที่เป็น orderID
   const getOrderID = async()=>{
     console.log("customerID",customerID)
     try {

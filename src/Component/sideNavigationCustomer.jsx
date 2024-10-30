@@ -25,6 +25,7 @@ const SideBarCustomer = ({customerID}) => {
     navigate(path);
   } 
 
+  //ออกจกระบบ
   const handleLogout=()=>{
     console.log("staftID",customerID)
     const swalWithBootstrapButtons = Swal.mixin({

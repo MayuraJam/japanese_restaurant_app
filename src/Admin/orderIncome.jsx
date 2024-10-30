@@ -16,6 +16,8 @@ const OrderIncomePage = () => {
   const [sentData,setSentData] = useState([]);
    const { staftID } = useParams();
   const [search,setSearch] = useState("");
+
+  
 //ดึงข้อมูล order ทั้งหมด
 const fetchingFulldata = async () => {
   try {
@@ -34,13 +36,16 @@ useEffect(() => {
   fetchingFulldata();
 }, [search]);
 
+//การกดปุ่มส่ง ID
 const handleClick=async(orderID)=>{
    setSentID(orderID);
 } 
+// refrestPage
 const refrestPage = ()=>{
   fetchingFulldata();
 }
 
+//การอัปเดตสถานะ order
 const updateOrderStatus = async () => {
     try {
       const response = await axios.put(`https://localhost:7202/api/Admin/CookingOrder`, {
